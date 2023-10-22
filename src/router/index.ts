@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
+    redirect: "/project",
     component: () => import("@/layouts/default/Default.vue"),
     children: [
       {
@@ -53,11 +54,19 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/edit",
+    component:()=>import ("@/layouts/edit/Default.vue")
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from) => {
+  document.title = typeof to.meta.title === "string" ? to.meta.title : "EasyAI";
 });
 
 export default router;

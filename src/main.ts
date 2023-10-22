@@ -13,6 +13,9 @@ import { createApp } from 'vue'
 // Plugins
 import { registerPlugins } from '@/plugins'
 
+//Fonts
+import "@/assets/text/text.css";
+
 const app = createApp(App)
 
 registerPlugins(app)

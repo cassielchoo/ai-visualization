@@ -2,29 +2,30 @@
   <v-app>
     <v-navigation-drawer floating v-model="drawer">
       <v-img
-        :src="isDark ? darkLogo : logo"
-        style="display: block; margin: 20px auto"
+        :src="isDark ? darkLogo : lightLogo"
+        style="display: block; margin: 1.25rem auto"
         width="200"
       ></v-img>
 
       <v-list nav>
-        <v-list-item
-          rounded="xl"
-          class="pl-10 ma-3"
-          v-for="(item, i) in items"
-          :key="i"
-          :value="item"
-          color="primary"
-          :prepend-icon="item.icon"
-          variant="plain"
-        >
-          <v-list-item-title class="text-subtitle-1">{{
-            item.title
-          }}</v-list-item-title>
-        </v-list-item>
+        <div v-for="(item, i) in items" :key="i">
+          <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
+          <v-list-item
+            class="pl-10 ma-3"
+            :value="item"
+            color="primary"
+            :prepend-icon="item.icon"
+            variant="plain"
+          >
+            <v-list-item-title style="font-size: 1rem" variant="plain">
+              {{ item.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </div>
       </v-list>
       <template v-slot:append>
         <div class="pa-5">
+          <v-divider class="mx-6 my-3"></v-divider>
           <v-btn
             block
             variant="plain"
@@ -47,12 +48,12 @@
       ></v-app-bar-nav-icon>
 
       <v-text-field
-        :loading="loading"
+        :loading="searchLoading"
         v-model="search"
         rounded
         placeholder="搜索项目"
         clearable
-        prepend-icon="mdi-magnify"
+        prepend-inner-icon="mdi-magnify"
         flat
         class="mt-6 ml-10"
         variant="solo"
@@ -66,16 +67,16 @@
       ></v-btn>
 
       <v-badge :content="notifCount" color="error">
-      <v-btn variant="text" icon="mdi-bell-outline"></v-btn>
+        <v-btn variant="text" icon="mdi-bell-outline"></v-btn>
       </v-badge>
 
       <v-list-item
+        variant="flat"
         @click="1"
-        prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
-        rounded="xl"
+        :prepend-avatar="user.avatar"
         class="mx-3"
       >
-        {{ user.fullName }}
+        {{ user.name }}
       </v-list-item>
     </v-app-bar>
 
@@ -84,13 +85,13 @@
 </template>
 
 <script lang="ts" setup>
-import DefaultView from "./View.vue";
-import { Ref, computed, ref, ComputedRef, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useDisplay, useTheme } from "vuetify";
+import DefaultView from './View.vue';
+import { Ref, computed, ref, ComputedRef, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useDisplay, useTheme } from 'vuetify';
 
-import logo from "@/assets/logo.png";
-import darkLogo from "@/assets/dark-logo.png";
+import lightLogo from '@/assets/light-logo.png';
+import darkLogo from '@/assets/dark-logo.png';
 
 const { mobile } = useDisplay();
 const theme = useTheme();
@@ -99,16 +100,12 @@ onMounted(() => {
   const Router = useRouter().options.routes[0].children;
   for (const route of Router!) {
     items.value.push({
-      title: typeof route.meta?.title === "string" ? route.meta?.title : "",
+      title: typeof route.meta?.title === 'string' ? route.meta?.title : '',
       path: route.path,
-      icon: typeof route.meta?.icon === "string" ? route.meta?.icon : "",
+      icon: typeof route.meta?.icon === 'string' ? route.meta?.icon : '',
     });
   }
 });
-
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
-}
 
 interface Item {
   title: string;
@@ -122,18 +119,25 @@ let showDrawerBtn: ComputedRef<boolean> = computed(() => {
   return mobile.value;
 });
 
-let search: Ref<string> = ref("");
-let loading: Ref<boolean> = ref(false);
+let search: Ref<string> = ref('');
+let searchLoading: Ref<boolean> = ref(false);
 
-let user = {
-  initials: "JD",
-  fullName: "John Doe",
-  email: "john.doe@doe.com",
-};
+interface User {
+  name: string;
+  avatar: string;
+}
+let user: Ref<User> = ref({
+  name: 'John Doe',
+  avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
+});
 
 let isDark: ComputedRef<boolean> = computed(
-  () => theme.global.current.value.dark
+  () => theme.global.current.value.dark,
 );
 
-let notifCount:Ref<number>=ref(99)
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
+}
+
+let notifCount: Ref<number> = ref(99);
 </script>
