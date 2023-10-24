@@ -3,61 +3,65 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
-    path: "/",
-    redirect: "/project",
-    component: () => import("@/layouts/default/Default.vue"),
+    path: '/',
+    redirect: '/project',
+    component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
-        path: "project",
-        name: "project",
+        path: 'project',
+        name: 'project',
         meta: {
-          title: "我的文件",
-          icon: "mdi-folder-outline",
+          title: '我的文件',
+          icon: 'mdi-folder-outline',
         },
-        component: () => import("@/views/Project.vue"),
+        component: () => import('@/views/Project.vue'),
       },
       {
-        path: "fav",
-        name: "fav",
+        path: 'fav',
+        name: 'fav',
         meta: {
-          title: "我的收藏",
-          icon: "mdi-star-circle",
+          title: '我的收藏',
+          icon: 'mdi-star-circle',
         },
-        component: () => import("@/views/Project.vue"),
+        component: () => import('@/views/Project.vue'),
       },
       {
-        path: "team",
-        name: "team",
+        path: 'team',
+        name: 'team',
         meta: {
-          title: "我的团队",
-          icon: "mdi-account-group-outline",
+          title: '我的团队',
+          icon: 'mdi-account-group-outline',
         },
-        component: () => import("@/views/Project.vue"),
+        component: () => import('@/views/Project.vue'),
       },
       {
-        path: "newteam",
-        name: "newteam",
+        path: 'newteam',
+        name: 'newteam',
         meta: {
-          title: "创建团队",
-          icon: "mdi-account-multiple-plus-outline",
+          title: '创建团队',
+          icon: 'mdi-account-multiple-plus-outline',
         },
-        component: () => import("@/views/Project.vue"),
+        component: () => import('@/views/Project.vue'),
       },
       {
-        path: "settings",
-        name: "settings",
+        path: 'settings',
+        name: 'settings',
         meta: {
-          title: "设置",
-          icon: "mdi-cog",
+          title: '设置',
+          icon: 'mdi-cog',
         },
-        component: () => import("@/views/Project.vue"),
+        component: () => import('@/views/Project.vue'),
       },
     ],
   },
   {
-    path: "/edit",
-    component:()=>import ("@/layouts/edit/Default.vue")
-  }
+    path: '/edit',
+    component: () => import('@/layouts/edit/Default.vue'),
+  },
+  {
+    path: '/testedit',
+    component: () => import('@/views/testEdit.vue'),
+  },
 ];
 
 const router = createRouter({
