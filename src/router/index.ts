@@ -59,8 +59,8 @@ const routes = [
     component: () => import('@/layouts/edit/Default.vue'),
   },
   {
-    path: '/testedit',
-    component: () => import('@/views/testEdit.vue'),
+    path: '/test',
+    component: () => import('@/views/test.vue'),
   },
 ];
 

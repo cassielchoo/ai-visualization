@@ -1,109 +1,150 @@
 <template>
-  <aside v-if="showToolBar" style="z-index: 99">
-    <v-card
-      :color="toolbarColor"
-      rounded="xl"
-      style="
-        z-index: 99;
-        width: 16rem;
-        overflow: auto;
-        top: 4.5rem;
-        bottom: 1.8rem;
-        left: 1.6rem;
-        position: fixed;
-      "
-      variant="flat"
-    >
-      <v-card-title class="d-flex justify-space-between">
-        <span class="mt-1">
-          <v-btn icon variant="plain">
-            <v-icon class="mb-1 mx-1" icon="mdi-menu"></v-icon>
+  <!-- 普通大小工具栏 -->
+  <transition name="narrow">
+    <aside v-if="!mini" style="z-index: 99">
+      <v-card
+        :color="toolbarColor"
+        rounded="xl"
+        class="cards"
+        style="
+          z-index: 99;
+          overflow: auto;
+          top: 4.5rem;
+          bottom: 1.8rem;
+          position: fixed;
+        "
+        variant="flat"
+      >
+        <v-card-title class="d-flex justify-space-between">
+          <span class="mt-1">
+            <v-btn icon variant="plain">
+              <v-icon class="mb-1 mx-1" icon="mdi-menu"></v-icon>
+            </v-btn>
+            工具目录
+          </span>
+          <v-btn icon variant="plain" @click="narrowTool">
+            <v-icon class="mt-1" icon="mdi-arrow-left-circle-outline"></v-icon>
           </v-btn>
-          工具目录
-        </span>
-        <v-btn icon variant="plain" @click="showToolBar = false">
-          <v-icon class="mt-1" icon="mdi-arrow-left-circle-outline"></v-icon>
+        </v-card-title>
+        <v-card-subtitle>
+          <v-text-field
+            v-model="search"
+            :clearable="true"
+            :flat="true"
+            :loading="searchLoading"
+            density="compact"
+            placeholder="搜索项目"
+            prepend-inner-icon="mdi-magnify"
+            rounded
+            variant="solo-filled"
+          ></v-text-field>
+        </v-card-subtitle>
+      </v-card>
+      <v-card
+        :color="toolbarColor"
+        rounded="xl"
+        style="
+          z-index: 99;
+          overflow: auto;
+          top: 12rem;
+          bottom: 6.5rem;
+          position: fixed;
+        "
+        class="cards"
+        variant="flat"
+      >
+        <v-list v-model:opened="open" :bg-color="toolbarColor">
+          <v-list-group
+            v-for="tool of toolbar"
+            :key="tool.value"
+            :value="tool.value"
+            class="nodes"
+          >
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                :prepend-icon="tool.icon"
+                :title="tool.title"
+                v-bind="props"
+                variant="plain"
+              ></v-list-item>
+            </template>
+
+        <div class="px-7"> 
+          <v-sheet @dragstart="onDragStart($event, tool, child)"
+              :draggable="true"
+              v-for="child in tool.children"
+              :key="child"
+              :value="child"
+              style="padding-inline-start:2rem !important;cursor: grab"
+              class="px-7 d-flex justify-center align-center my-2"
+              @click="addNode(tool, child)" height="50" rounded :color="tool.color" >
+              <span style="color:white">{{child}}</span>
+            </v-sheet>
+        </div>
+            
+          </v-list-group>
+        </v-list>
+      </v-card>
+      <v-card
+        :color="toolbarColor"
+        class="pa-3 cards"
+        rounded="xl"
+        style="z-index: 99; bottom: 1.8rem; position: fixed"
+        variant="flat"
+      >
+        <v-divider class="mx-8 my-3"></v-divider>
+        <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
+          怎么使用
         </v-btn>
-      </v-card-title>
-      <v-card-subtitle>
-        <v-text-field
-          v-model="search"
-          :clearable="true"
-          :flat="true"
-          :loading="searchLoading"
-          density="compact"
-          placeholder="搜索项目"
-          prepend-inner-icon="mdi-magnify"
-          rounded
-          variant="solo-filled"
-        ></v-text-field>
-      </v-card-subtitle>
-    </v-card>
-    <v-card
-      :color="toolbarColor"
-      rounded="xl"
-      style="
-        z-index: 99;
-        width: 16rem;
-        overflow: auto;
-        top: 12rem;
-        bottom: 6.5rem;
-        left: 1.6rem;
-        position: fixed;
-      "
-      variant="flat"
-    >
-      <v-list v-model:opened="open" :bg-color="toolbarColor">
-        <v-list-group
+      </v-card>
+    </aside>
+  </transition>
+
+  <!-- 迷你工具栏 -->
+  <transition name="expand">
+    <aside v-if="mini" style="z-index: 99">
+      <v-card
+        :color="toolbarColor"
+        rounded="xl"
+        style="
+          z-index: 99;
+          overflow: auto;
+          top: 4.5rem;
+          bottom: 1.8rem;
+          left: 1.6rem;
+          position: fixed;
+        "
+        class="d-flex align-start flex-column align-center"
+        variant="flat"
+      >
+        <v-btn icon variant="plain">
+          <v-icon icon="mdi-menu"></v-icon>
+        </v-btn>
+        <v-btn icon variant="plain" @click="expandTool()">
+          <v-icon icon="mdi-arrow-right-circle-outline"></v-icon>
+        </v-btn>
+        <v-btn icon variant="plain">
+          <v-icon icon="mdi-magnify"></v-icon>
+        </v-btn>
+
+        <v-btn
+          icon
+          variant="plain"
           v-for="tool of toolbar"
           :key="tool.value"
-          :value="tool.value"
-          class="nodes"
+          :prepend-icon="tool.icon"
+          @click="expandTool(tool.value)"
+          class="ma-2"
         >
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              :prepend-icon="tool.icon"
-              :title="tool.title"
-              class="ma-2"
-              color="primary"
-              v-bind="props"
-              variant="plain"
-            ></v-list-item>
-          </template>
+          <v-icon :icon="tool.icon"></v-icon>
+        </v-btn>
 
-          <v-list-item
-            @dragstart="onDragStart($event, tool, child)"
-            :draggable="true"
-            v-for="child in tool.children"
-            :key="child"
-            :title="child"
-            :value="child"
-            color="primary"
-            variant="plain"
-            @click="addNode(tool, child)"
-          ></v-list-item>
-        </v-list-group>
-      </v-list>
-    </v-card>
-    <v-card
-      :color="toolbarColor"
-      class="pa-3"
-      rounded="xl"
-      style="
-        z-index: 99;
-        width: 16rem;
-        bottom: 1.8rem;
-        left: 1.6rem;
-        position: fixed;
-      "
-      variant="flat"
-    >
-      <v-divider class="mx-8 my-3"></v-divider>
-      <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
-        怎么使用
-      </v-btn>
-    </v-card>
-  </aside>
+        <v-btn icon variant="plain" class="mb-1" style="margin-top: auto">
+          <v-icon>mdi-help</v-icon>
+        </v-btn>
+      </v-card>
+    </aside>
+  </transition>
 </template>
 
 <script lang="ts" setup>
@@ -111,11 +152,9 @@ import { useVueFlow } from '@vue-flow/core';
 import { computed, ComputedRef, ref, Ref } from 'vue';
 import { useTheme } from 'vuetify';
 
-const { addNodes, dimensions, nodes } = useVueFlow();
-
 const theme = useTheme();
 
-let showToolBar: Ref<boolean> = ref(true);
+let mini: Ref<boolean> = ref(false);
 
 let open: Ref<string[]> = ref([]);
 
@@ -128,7 +167,7 @@ interface Tool {
   children: string[];
 }
 
-const onDragStart=(event: DragEvent, tool: Tool, child: string)=> {
+const onDragStart = (event: DragEvent, tool: Tool, child: string) => {
   if (event.dataTransfer) {
     event.dataTransfer.setData('type', tool.type);
     event.dataTransfer.setData('color', tool.color);
@@ -138,7 +177,7 @@ const onDragStart=(event: DragEvent, tool: Tool, child: string)=> {
 
     event.dataTransfer.effectAllowed = 'move';
   }
-}
+};
 
 let toolbar: Ref<Tool[]> = ref([
   {
@@ -228,29 +267,66 @@ let toolbarColor: ComputedRef<string> = computed(() =>
   theme.global.current.value.dark ? '121212' : '#f1f3f4',
 );
 
+const { addNodes,nodes,dimensions } = useVueFlow({});
+
 const addNode = (tool: Tool, child: string) => {
   addNodes([
     {
       id: nodes.value.length.toString(),
-      type: tool.type,
+      type:tool.type,
+      position:{
+          x: dimensions.value.width / 2,
+          y: dimensions.value.height / 2,
+        },
       label: child,
-      position: {
-        x: dimensions.value.width / 2,
-        y: dimensions.value.height / 2,
-      },
-
-      style: () => {
-        let color = tool.color;
-        let backgroundColor = '#fff';
-
-        return {
-          background: backgroundColor,
-          '--vf-node-color': color,
-        };
+      class: theme.global.current.value.dark ? 'dark' : 'light',
+      style: {
+        '--vf-node-text': 'white',
+        '--vf-node-bg': tool.color,
+        '--vf-node-color': tool.color,
       },
     },
   ]);
 };
+
+const narrowTool = () => {
+  mini.value = true;
+  open.value = [];
+};
+
+const expandTool = (value?: string) => {
+  mini.value = false;
+  open.value = value ? [value] : [];
+};
 </script>
 
-<style></style>
+<style>
+.cards {
+  width: 16rem;
+  left: 1.6rem;
+}
+
+.narrow-enter-active,
+.narrow-leave-active {
+  transition: all 0.5s ease;
+}
+
+.narrow-enter-from,
+.narrow-leave-to {
+  opacity: 0;
+}
+
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.5s ease;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  opacity: 0;
+}
+
+.node{
+  border-style: solid;
+}
+</style>
