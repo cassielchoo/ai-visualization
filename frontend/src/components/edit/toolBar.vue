@@ -186,7 +186,7 @@ let toolbar: Ref<Tool[]> = ref([
     title: '数据导入',
     icon: 'mdi-file-download-outline',
     color: '#6bd2d1',
-    children: ['从数据库导入', '从csv导入', '从excel导入', '非结构化数据导入'],
+    children: ['从数据库导入', '从 csv/excel 导入', '非结构化数据导入'],
   },
   {
     value: 'preprocess',

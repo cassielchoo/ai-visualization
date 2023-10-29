@@ -69,7 +69,7 @@
 
 <script lang="ts" setup>
 import DefaultView from './View.vue';
-import menus from '@/components/menus.vue';
+import menus from '@/components/edit/menus.vue';
 import { computed, ComputedRef, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTheme } from 'vuetify';
