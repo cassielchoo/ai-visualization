@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar
-      :color="isDark ? '#1A1A1A' : '#f9f9f9'"
+      color="background"
       elevation="0"
       height="45"
     >

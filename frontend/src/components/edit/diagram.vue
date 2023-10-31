@@ -1,16 +1,28 @@
 <template>
   <div class="dndflow" @drop="onDrop">
     <VueFlow @dragover="onDragOver" fit-view-on-init>
-      <Background />
+      <Background :variant="patternVariant" :patternColor="patternColor"/>
     </VueFlow>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { VueFlow, useVueFlow } from '@vue-flow/core';
-import { nextTick, watch, ref } from 'vue';
-import { Background } from '@vue-flow/background';
+import { nextTick, watch, ref, ComputedRef, computed, Ref } from 'vue';
+import { useTheme } from 'vuetify';
+import { Background, BackgroundVariant } from '@vue-flow/background';
 import '@vue-flow/controls/dist/style.css';
+
+const theme = useTheme();
+
+let patternVariant:Ref<BackgroundVariant>=ref(BackgroundVariant.Lines)
+let patternColor: ComputedRef<string> = computed(() =>
+{
+  let color = theme.global.current.value.dark ? '#818181' : '#828282'
+  if (patternVariant.value === BackgroundVariant.Lines) color += '80'
+    return color
+  }
+);
 
 const {
   findNode,

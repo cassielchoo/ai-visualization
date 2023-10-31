@@ -32,7 +32,7 @@ export default createVuetify({
     },
   },
   theme: {
-    defaultTheme:'light',
+    defaultTheme: 'dark',
     themes: {
       light: {
         colors: {
@@ -43,17 +43,19 @@ export default createVuetify({
           success: '#4CAF50',
           warning: '#FB8C00',
           strong: '#212121',
+          background: '#f9f9f9',
         },
       },
       dark: {
         colors: {
-          primary: '#B39DDB',
+          primary: '#8e7fab',
           secondary: '#9575CD',
           accent: '#669999',
           error: '#FF5252',
           success: '#4CAF50',
           warning: '#FB8C00',
           strong: '#F5F5F5',
+          background: '#121212',
         },
       },
     },

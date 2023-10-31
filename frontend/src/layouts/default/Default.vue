@@ -1,9 +1,10 @@
 <template>
   <v-app>
-    <v-navigation-drawer floating v-model="drawer">
+    <v-navigation-drawer floating v-model="drawer" :style="'background-color:'+ drawercolor">
       <v-img
         :src="isDark ? darkLogo : lightLogo"
-        style="display: block; margin: 1.25rem auto"
+        style="display: block; margin: 1.25rem auto ;  ;"
+        
         width="200"
       ></v-img>
 
@@ -38,7 +39,7 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar
-      :color="isDark ? '#1A1A1A' : '#f9f9f9'"
+      color="background"
       elevation="0"
       height="100"
     >
@@ -55,7 +56,8 @@
         clearable
         prepend-inner-icon="mdi-magnify"
         flat
-        class="mt-6 ml-10"
+        hide-details
+        class="ml-10"
         variant="solo"
       ></v-text-field>
       <v-spacer></v-spacer>
@@ -95,6 +97,10 @@ import darkLogo from '@/assets/dark-logo.png';
 
 const { mobile } = useDisplay();
 const theme = useTheme();
+
+let drawercolor: ComputedRef<string> = computed(() =>
+  theme.current.value.dark? '#181818':'#ffffff'
+  )
 
 onMounted(() => {
   const Router = useRouter().options.routes[0].children;
