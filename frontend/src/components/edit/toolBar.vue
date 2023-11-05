@@ -47,7 +47,6 @@
             v-for="toolclass of toolbardata"
             :key="toolclass.value"
             :value="toolclass.value"
-            class="nodes"
           >
             <template v-slot:activator="{ props }">
               <v-list-item
@@ -55,6 +54,7 @@
                 :title="toolclass.title"
                 v-bind="props"
                 variant="plain"
+                tabindex="-1"
               ></v-list-item>
             </template>
 
@@ -142,35 +142,31 @@
 
 <script lang="ts" setup>
 import { useVueFlow } from '@vue-flow/core';
-import { computed, ComputedRef, ref, Ref } from 'vue';
-import { useTheme } from 'vuetify';
-import {toolbardata,Tool,ToolClass} from '@/store/toolbardata'
-
-const theme = useTheme();
+import { ref, Ref } from 'vue';
+import { toolbardata, Tool, ToolClass } from './toolbardata';
 
 let mini: Ref<boolean> = ref(false);
 
 let open: Ref<string[]> = ref([]);
 
 
-const onDragStart = (event: DragEvent, toolclass: ToolClass, tool:Tool ) => {
+const onDragStart = (event: DragEvent, toolclass: ToolClass, tool: Tool) => {
   if (event.dataTransfer) {
     event.dataTransfer.setData('type', toolclass.type);
     event.dataTransfer.setData('color', toolclass.color);
+    event.dataTransfer.setData('accentColor', toolclass.accentColor);
     event.dataTransfer.setData('name', tool.name);
-
+    event.dataTransfer.setData('data', tool.hasOptions.toString());
     event.dataTransfer.setData('application/vueflow', toolclass.type);
 
     event.dataTransfer.effectAllowed = 'move';
   }
 };
 
-
 let search: Ref<string> = ref('');
 let searchLoading: Ref<boolean> = ref(false);
 
-
-const { addNodes, nodes, dimensions } = useVueFlow({});
+const { addNodes, nodes, dimensions } = useVueFlow();
 
 const addNode = (toolclass: ToolClass, tool: Tool) => {
   addNodes([
@@ -181,8 +177,12 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
         x: dimensions.value.width / 2,
         y: dimensions.value.height / 2,
       },
+      data: {
+        color:toolclass.color,
+        accentColor:toolclass.accentColor,
+        hasOptions: tool.hasOptions.toString() === 'true',
+      },
       label: tool.name,
-      class: theme.global.current.value.dark ? 'dark' : 'light',
       style: {
         '--vf-node-text': 'white',
         '--vf-node-bg': toolclass.color,
@@ -201,6 +201,8 @@ const expandTool = (value?: string) => {
   mini.value = false;
   open.value = value ? [value] : [];
 };
+
+
 </script>
 
 <style>
@@ -233,3 +235,4 @@ const expandTool = (value?: string) => {
   border-style: solid;
 }
 </style>
+@/components/edit/toolbardata

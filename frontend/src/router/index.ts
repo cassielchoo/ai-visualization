@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/',
     redirect: '/project',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: () => import('@/layouts/stage/Default.vue'),
     children: [
       {
         path: 'project',
@@ -56,10 +56,17 @@ const routes = [
   },
   {
     path: '/edit',
+    name: 'edit',
     component: () => import('@/layouts/edit/Default.vue'),
   },
   {
+    path: '/home',
+    name: 'home',
+    component: () => import('@/layouts/home/Default.vue'),
+  },
+  {
     path: '/test',
+    name: 'test',
     component: () => import('@/views/test.vue'),
   },
 ];

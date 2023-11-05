@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
-import projectCard from '@/components/projectCard.vue';
+import ProjectCard from '@/components/ProjectCard.vue';
 
 interface Tab {
   name: string;
@@ -56,11 +56,11 @@ let tabs: Ref<Tab[]> = ref([
     value: 0,
   },
   {
-    name: '我创建的',
+    name: '我的模型',
     value: 1,
   },
   {
-    name: '我团队的',
+    name: '我的数据',
     value: 2,
   },
 ]);

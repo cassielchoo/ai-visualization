@@ -1,7 +1,7 @@
 <template>
-  <div class="dndflow" @drop="onDrop">
+  <div class="dndflow" @drop="onDrop" :oncontextmenu="onContextMenu">
     <VueFlow @dragover="onDragOver" fit-view-on-init>
-      <Background :variant="patternVariant" :patternColor="patternColor"/>
+      <Background :variant="patternVariant" :patternColor="patternColor" />
     </VueFlow>
   </div>
 </template>
@@ -11,18 +11,15 @@ import { VueFlow, useVueFlow } from '@vue-flow/core';
 import { nextTick, watch, ref, ComputedRef, computed, Ref } from 'vue';
 import { useTheme } from 'vuetify';
 import { Background, BackgroundVariant } from '@vue-flow/background';
-import '@vue-flow/controls/dist/style.css';
-
+import ContextMenu from '@imengyu/vue3-context-menu';
 const theme = useTheme();
 
-let patternVariant:Ref<BackgroundVariant>=ref(BackgroundVariant.Lines)
-let patternColor: ComputedRef<string> = computed(() =>
-{
-  let color = theme.global.current.value.dark ? '#818181' : '#828282'
-  if (patternVariant.value === BackgroundVariant.Lines) color += '80'
-    return color
-  }
-);
+let patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Dots);
+let patternColor: ComputedRef<string> = computed(() => {
+  let color = theme.global.current.value.dark ? '#818181' : '#828282';
+  if (patternVariant.value === BackgroundVariant.Lines) color += '80';
+  return color;
+});
 
 const {
   findNode,
@@ -45,6 +42,28 @@ const {
   },
 });
 
+function onContextMenu(e: MouseEvent) {
+  //prevent the browser's default menu
+  e.preventDefault();
+  //show your menu
+  ContextMenu.showContextMenu({
+    x: e.x,
+    y: e.y,
+    items: [
+      {
+        label: 'A menu item',
+        onClick: () => {
+          alert('You click a menu item');
+        },
+      },
+      {
+        label: 'A submenu',
+        children: [{ label: 'Item1' }, { label: 'Item2' }, { label: 'Item3' }],
+      },
+    ],
+  });
+}
+
 onPaneReady(({ fitView }) => {
   fitView();
 });
@@ -57,12 +76,27 @@ onDragOver.value = function (event: DragEvent) {
   }
 };
 
-onConnect((params) => addEdges(params));
+onConnect((params) => {
+  // edge连接规则
+  const handleRules = [
+    () => params.source !== params.target,
+    () =>
+      params.sourceHandle?.endsWith('bottom') &&
+      params.targetHandle?.endsWith('top'),
+  ];
+  const judger = handleRules.every((rule) => rule());
+  if (judger) {
+    addEdges([params]);
+  }
+});
 
 const onDrop = (event: DragEvent) => {
   const type = event.dataTransfer!.getData('type');
   const color = event.dataTransfer!.getData('color');
+  const accentColor = event.dataTransfer!.getData('accentColor');
   const name = event.dataTransfer!.getData('name');
+  const data = event.dataTransfer!.getData('data');
+
   const { left, top } = vueFlowRef.value!.getBoundingClientRect() ?? 0;
   const position = project({
     x: event.clientX - left,
@@ -75,16 +109,28 @@ const onDrop = (event: DragEvent) => {
       type,
       position,
       label: name,
-      style: {
-        '--vf-node-text': 'white',
-        '--vf-node-bg': color,
-        '--vf-node-color': color,
-
+      data: {
+        color,
+        accentColor,
+        hasOptions: data === 'true',
+      },
+      style: (el) => {
+        if (el.selected)
+          return {
+            '--vf-node-text': 'white',
+            '--vf-node-bg': color,
+            '--vf-node-color': color,
+            'border-color': accentColor + '!important',
+          };
+        return {
+          '--vf-node-text': 'white',
+          '--vf-node-bg': color,
+          '--vf-node-color': color,
+        };
       },
     },
   ]);
 
-  // align node position after drop, so it's centered to the mouse
   nextTick(() => {
     const node = findNode((nodes.value.length - 1).toString())!;
     const stop = watch(
