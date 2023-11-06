@@ -4,7 +4,6 @@ import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.json.JSONObject;
 import com.alibaba.fastjson2.JSON;
 import com.easyai.bean.CommonResult;
@@ -15,10 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.File;
 import java.util.Map;
-import java.util.Objects;
 
 //处理用户相关事宜
 
