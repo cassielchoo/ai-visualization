@@ -1,6 +1,8 @@
-# default
+# AI 可视化
 
-## Project setup
+## Frontend
+
+#### Project setup
 
 ```
 # yarn
@@ -16,7 +18,7 @@ pnpm install
 bun install
 ```
 
-### Compiles and hot-reloads for development
+#### Compiles and hot-reloads for development
 
 ```
 # yarn
@@ -32,7 +34,7 @@ pnpm dev
 bun run dev
 ```
 
-### Compiles and minifies for production
+#### Compiles and minifies for production
 
 ```
 # yarn
@@ -48,6 +50,6 @@ pnpm build
 bun run build
 ```
 
-### Customize configuration
+#### Customize configuration
 
 See [Configuration Reference](https://vitejs.dev/config/).

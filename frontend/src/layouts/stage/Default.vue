@@ -92,8 +92,8 @@ import { Ref, computed, ref, ComputedRef, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDisplay, useTheme } from 'vuetify';
 
-import lightLogo from '@/assets/light-logo.png';
-import darkLogo from '@/assets/dark-logo.png';
+import lightLogo from '@/assets/light_logo.png';
+import darkLogo from '@/assets/dark_logo.png';
 
 const { mobile } = useDisplay();
 const theme = useTheme();

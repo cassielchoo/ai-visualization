@@ -1,9 +1,7 @@
 <template>
-  <h3>从 csv/excel 文件导入</h3>
   <v-file-input
     density="compact"
     clearable
-    class="my-3"
     label="上传文件"
     variant="underlined"
     hide-details

@@ -16,6 +16,8 @@ import { registerPlugins } from '@/plugins'
 //Fonts
 import "@/assets/text/text.css";
 
+import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css';
+
 const app = createApp(App)
 
 registerPlugins(app)

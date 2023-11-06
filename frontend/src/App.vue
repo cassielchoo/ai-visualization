@@ -7,6 +7,10 @@
 <style>
 body {
   font-family: HarmonySANS;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 ::-webkit-scrollbar {
