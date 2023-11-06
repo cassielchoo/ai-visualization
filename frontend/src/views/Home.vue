@@ -25,12 +25,17 @@ import Statistics from '@/components/home/Statistics.vue';
   flex-direction: column;
   position: relative;
   flex: 1;
+    border-top-style: solid;
+  border-bottom-style: solid;
+  border-width: 2px;
+  border-color: #818181;
 }
 
 .statistics {
   display: flex;
-
   height: 10rem;
-  background-color: blue;
+  border-bottom-style: solid;
+  border-width: 2px;
+  border-color: #818181;
 }
 </style>

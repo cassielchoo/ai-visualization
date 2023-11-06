@@ -4,6 +4,14 @@
       <template v-slot:prepend>
         <v-img :src="isDark ? darkLogo : lightLogo" width="130" cover></v-img>
       </template>
+      <template v-slot:append>
+        <v-btn
+          variant="text"
+          :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
+          @click="toggleTheme"
+        ></v-btn>
+        <v-btn>登录</v-btn>
+      </template>
     </v-app-bar>
     <default-view />
   </v-app>
@@ -20,4 +28,8 @@ const theme = useTheme();
 let isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
 );
+
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
+}
 </script>

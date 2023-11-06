@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: '/',
-    redirect: '/project',
+    redirect: '/home',
     component: () => import('@/layouts/stage/Default.vue'),
     children: [
       {
