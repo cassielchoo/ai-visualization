@@ -11,6 +11,7 @@ export interface ToolClass {
 export interface Tool {
   name: string;
   hasOptions: boolean;
+  descr?:string;
 }
 
 export const toolbardata: ToolClass[] = [
@@ -139,38 +140,54 @@ export const toolbardata: ToolClass[] = [
       {
         name: '随机森林',
         hasOptions: true,
+        descr:
+          '一种集成学习方法，通常用于解决分类和回归问题。它基于决策树构建，并结合多个决策树的预测结果以提高模型的性能和鲁棒性。',
       },
       {
         name: 'lightGBM',
         hasOptions: false,
+        descr: '一种高效的、开源的梯度提升框架，用于解决分类和回归问题。',
       },
       {
         name: 'Xgboost',
         hasOptions: false,
+        descr:
+          '一种强大的机器学习算法，特别用于解决回归和分类问题。它是一种集成学习算法，通过组合多个决策树模型来提高预测性能。',
       },
       {
         name: 'Catboost',
         hasOptions: false,
+        descr:
+          '一种用于解决分类和回归问题的机器学习算法。它是一种梯度提升算法，专门设计用于处理具有大量类别特征（离散特征）的数据集。',
       },
       {
         name: 'K-means',
         hasOptions: true,
+        descr: '一种常见的无监督学习算法，用于数据聚类。',
       },
       {
         name: '全连接神经网络',
         hasOptions: true,
+        descr:
+          '也被称为前馈神经网络（Feedforward Neural Network）或多层感知机（Multilayer Perceptron，MLP），是深度学习领域中最基本和常见的神经网络类型之一。',
       },
       {
         name: '卷积神经网络',
         hasOptions: true,
+        descr:
+          '一种深度学习神经网络，专门设计用于处理图像和视觉数据的任务，如图像分类、目标检测、图像分割等。',
       },
       {
         name: '循环神经网络',
         hasOptions: false,
+        descr:
+          '一种用于处理序列数据的神经网络架构。它具有内部循环结构，可以维护对先前输入的记忆，并在处理序列数据时具有灵活性。',
       },
       {
         name: '图神经网络',
         hasOptions: false,
+        descr:
+          '一种用于处理图结构数据的深度学习模型。它通过学习节点之间的关系和图的拓扑结构来进行节点分类、图分类和链接预测等任务。',
       },
     ],
   },
@@ -185,30 +202,43 @@ export const toolbardata: ToolClass[] = [
       {
         name: '精准率计算',
         hasOptions: false,
+        descr:
+          '通常用于分类问题，如垃圾邮件检测、医学诊断等。精准率衡量了模型预测为正例中真正为正例的比例。',
       },
       {
         name: '召回率计算',
         hasOptions: false,
+        descr:
+          '通常用于分类问题，如垃圾邮件检测、医学诊断等。召回率衡量了模型能够正确预测正例的比例。',
       },
       {
         name: 'F1值计算',
         hasOptions: false,
+        descr:
+          '精准率和召回率的调和平均，用于综合考虑精准率和召回率。特别适用于不平衡类别的分类问题。',
       },
       {
         name: 'AUC计算',
         hasOptions: false,
+        descr: 'ROC曲线下的面积，AUC值越高，模型性能越好。',
       },
       {
         name: 'ROC计算',
         hasOptions: false,
+        descr:
+          '适用二元分类任务，用于评估模型的分类性能和不同分类阈值下的表现。',
       },
       {
         name: 'MSE计算',
         hasOptions: false,
+        descr:
+          '均方误差（Mean Squared Error，MSE）,通常用于回归问题，如房价预测、股票价格预测等。它衡量了模型的预测值与实际值之间的平方误差的均值，越小表示模型拟合得越好。',
       },
       {
         name: 'MAPE计算',
         hasOptions: false,
+        descr:
+          '平均百分比误差（Mean Absolute Percentage Error，MAPE）用于回归问题，它衡量了模型的百分比误差的均值。适用于涉及百分比预测误差的任务，如销售预测、需求预测等。',
       },
     ],
   },

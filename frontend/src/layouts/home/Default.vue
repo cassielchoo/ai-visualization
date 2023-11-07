@@ -10,7 +10,11 @@
           :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
           @click="toggleTheme"
         ></v-btn>
-        <v-btn>登录</v-btn>
+        <v-btn @click="dialog = true">登录</v-btn>
+
+        <v-dialog v-model="dialog" width="348">
+          <login-box></login-box>
+        </v-dialog>
       </template>
     </v-app-bar>
     <default-view />
@@ -21,7 +25,8 @@
 import DefaultView from './View.vue';
 import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
-import { ComputedRef, computed } from 'vue';
+import LoginBox from '@/components/LoginBox.vue';
+import { ComputedRef, computed, ref } from 'vue';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 
 const theme = useTheme();
@@ -29,6 +34,7 @@ let isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
 );
 
+let dialog = ref(false);
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }
