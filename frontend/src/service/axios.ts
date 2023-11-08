@@ -10,7 +10,6 @@ const instance = axios.create({
   params: {
     //重试次数
     retry: 2,
-
     //重试间隔(ms)
     retryDelay: 100
   },

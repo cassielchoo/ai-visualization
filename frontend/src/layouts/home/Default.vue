@@ -31,6 +31,7 @@ import RegisterBox from '@/components/RegisterBox.vue';
 import { ComputedRef, Ref, computed, ref } from 'vue';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 
+
 const theme = useTheme();
 const isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,

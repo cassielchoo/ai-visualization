@@ -1,4 +1,5 @@
 <template>
+
   <!-- 普通大小工具栏 -->
   <transition name="narrow">
     <aside v-if="!mini" style="z-index: 99">

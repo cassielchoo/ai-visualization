@@ -1,5 +1,5 @@
 <template>
-  <div class="dndflow" @drop="onDrop" :oncontextmenu="onContextMenu">
+  <div class="dndflow" @drop="onDrop" :oncontextmenu="openContextMenu">
     <VueFlow @dragover="onDragOver" fit-view-on-init>
       <Background :variant="patternVariant" :patternColor="patternColor" />
     </VueFlow>
@@ -11,7 +11,7 @@ import { VueFlow, useVueFlow } from '@vue-flow/core';
 import { nextTick, watch, ref, ComputedRef, computed, Ref } from 'vue';
 import { useTheme } from 'vuetify';
 import { Background, BackgroundVariant } from '@vue-flow/background';
-import ContextMenu from '@imengyu/vue3-context-menu';
+import { onContextMenu } from './contextMenu/context-menu';
 const theme = useTheme();
 
 const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Dots);
@@ -21,16 +21,7 @@ const patternColor: ComputedRef<string> = computed(() => {
   return color;
 });
 
-const {
-  findNode,
-  onConnect,
-  addEdges,
-  addNodes,
-  project,
-  vueFlowRef,
-  onPaneReady,
-  nodes,
-} = useVueFlow({
+const flow = useVueFlow({
   nodes: [],
   edges: [],
   maxZoom: 4,
@@ -42,26 +33,18 @@ const {
   },
 });
 
-function onContextMenu(e: MouseEvent) {
-  //prevent the browser's default menu
-  e.preventDefault();
-  //show your menu
-  ContextMenu.showContextMenu({
-    x: e.x,
-    y: e.y,
-    items: [
-      {
-        label: 'A menu item',
-        onClick: () => {
-          alert('You click a menu item');
-        },
-      },
-      {
-        label: 'A submenu',
-        children: [{ label: 'Item1' }, { label: 'Item2' }, { label: 'Item3' }],
-      },
-    ],
-  });
+const {
+  findNode,
+  onConnect,
+  addEdges,
+  addNodes,
+  project,
+  vueFlowRef,
+  onPaneReady,
+  nodes,
+} = flow;
+const openContextMenu = (e:MouseEvent) => {
+  onContextMenu(e,flow,theme.global.current.value.dark)
 }
 
 onPaneReady(({ fitView }) => {
@@ -162,3 +145,4 @@ const onDrop = (event: DragEvent) => {
   height: 100%;
 }
 </style>
+./contextMenu/context-menu
