@@ -14,8 +14,8 @@ import { Background, BackgroundVariant } from '@vue-flow/background';
 import ContextMenu from '@imengyu/vue3-context-menu';
 const theme = useTheme();
 
-let patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Dots);
-let patternColor: ComputedRef<string> = computed(() => {
+const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Dots);
+const patternColor: ComputedRef<string> = computed(() => {
   let color = theme.global.current.value.dark ? '#818181' : '#828282';
   if (patternVariant.value === BackgroundVariant.Lines) color += '80';
   return color;

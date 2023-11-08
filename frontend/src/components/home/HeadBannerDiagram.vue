@@ -27,8 +27,8 @@ import { Background, BackgroundVariant } from '@vue-flow/background';
 import { onMounted } from 'vue';
 const theme = useTheme();
 
-let patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Lines);
-let patternColor: ComputedRef<string> = computed(() =>
+const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Lines);
+const patternColor: ComputedRef<string> = computed(() =>
   theme.global.current.value.dark ? '#818181' : '#828282',
 );
 

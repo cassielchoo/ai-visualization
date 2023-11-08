@@ -50,8 +50,8 @@ import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 
 const { nodes } = useVueFlow();
 
-let selectedTab: Ref<string> = ref('');
-let selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
+const selectedTab: Ref<string> = ref('');
+const selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
   nodes.value.filter((node) => node.selected && node.data.hasOptions),
 );
 

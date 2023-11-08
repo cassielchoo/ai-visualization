@@ -48,9 +48,9 @@ interface Tab {
   value: number;
 }
 
-let selectedTab: Ref<number> = ref(0);
+const selectedTab: Ref<number> = ref(0);
 
-let tabs: Ref<Tab[]> = ref([
+const tabs: Ref<Tab[]> = ref([
   {
     name: '全部文件',
     value: 0,

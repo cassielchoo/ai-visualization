@@ -54,9 +54,9 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 
-let files: Ref<File[]> = ref([]);
-let radios: Ref<number> = ref(1);
-let slider: Ref<number> = ref(50);
+const files: Ref<File[]> = ref([]);
+const radios: Ref<number> = ref(1);
+const slider: Ref<number> = ref(50);
 </script>
 
 <style scoped></style>

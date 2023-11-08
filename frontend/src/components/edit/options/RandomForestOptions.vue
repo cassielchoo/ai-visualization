@@ -10,10 +10,10 @@
 import { Ref, ref } from 'vue';
 
 
-let num: Ref<number> = ref(100)
-let depth:Ref<number>=ref(0)
-let seed:Ref<number>=ref(1)
-let attriNum:Ref<number>=ref(0)
+const num: Ref<number> = ref(100)
+const depth:Ref<number>=ref(0)
+const seed:Ref<number>=ref(1)
+const attriNum:Ref<number>=ref(0)
 
 </script>
 

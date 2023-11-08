@@ -77,12 +77,12 @@ import { useTheme } from 'vuetify';
 const theme = useTheme();
 const router = useRouter();
 
-let projectName: Ref<string> = ref('项目1');
+const projectName: Ref<string> = ref('项目1');
 
-let cloudStatusText: Ref<string> = ref('已保存');
-let showStatusText: Ref<boolean> = ref(true);
+const cloudStatusText: Ref<string> = ref('已保存');
+const showStatusText: Ref<boolean> = ref(true);
 
-let cloudStatus = computed(() => {
+const cloudStatus = computed(() => {
   if (cloudStatusText.value === '已保存')
     return {
       icon: 'mdi-cloud-check-outline',
@@ -100,7 +100,7 @@ let cloudStatus = computed(() => {
   };
 });
 
-let goBack = () => {
+const goBack = () => {
   router.push({
     name: 'project',
   });
@@ -111,12 +111,12 @@ interface User {
   avatar: string;
 }
 
-let user: Ref<User> = ref({
+const user: Ref<User> = ref({
   name: 'John Doe',
   avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
 });
 
-let isDark: ComputedRef<boolean> = computed(
+const isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
 );
 

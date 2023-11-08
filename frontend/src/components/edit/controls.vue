@@ -20,7 +20,7 @@ import { ComputedRef, computed } from 'vue';
 
 const { setViewport, getViewport, zoomIn, zoomOut,fitView } = useVueFlow();
 
-let currentViewport: ComputedRef<ViewportTransform> = computed(() =>
+const currentViewport: ComputedRef<ViewportTransform> = computed(() =>
   getViewport(),
 );
 

@@ -98,7 +98,7 @@ import darkLogo from '@/assets/dark_logo.png';
 const { mobile } = useDisplay();
 const theme = useTheme();
 
-let drawercolor: ComputedRef<string> = computed(() =>
+const drawercolor: ComputedRef<string> = computed(() =>
   theme.current.value.dark? '#181818':'#ffffff'
   )
 
@@ -119,25 +119,25 @@ interface Item {
   icon: string;
 }
 
-let drawer: Ref<boolean> = ref(true);
-let items: Ref<Item[]> = ref([]);
-let showDrawerBtn: ComputedRef<boolean> = computed(() => {
+const drawer: Ref<boolean> = ref(true);
+const items: Ref<Item[]> = ref([]);
+const showDrawerBtn: ComputedRef<boolean> = computed(() => {
   return mobile.value;
 });
 
-let search: Ref<string> = ref('');
-let searchLoading: Ref<boolean> = ref(false);
+const search: Ref<string> = ref('');
+const searchLoading: Ref<boolean> = ref(false);
 
 interface User {
   name: string;
   avatar: string;
 }
-let user: Ref<User> = ref({
+const user: Ref<User> = ref({
   name: 'John Doe',
   avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
 });
 
-let isDark: ComputedRef<boolean> = computed(
+const isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
 );
 
@@ -145,5 +145,5 @@ function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }
 
-let notifCount: Ref<number> = ref(99);
+const notifCount: Ref<number> = ref(99);
 </script>
