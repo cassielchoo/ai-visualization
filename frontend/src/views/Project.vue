@@ -32,7 +32,7 @@
       </v-col>
     </v-row>
     <v-row class="mt-5" >
-      <v-col cols="12" sm="6" xl="3" v-for="proj of 8" :key="proj">
+      <v-col cols="12" sm="6" lg="4" xl="3" v-for="proj of 8" :key="proj">
         <project-card></project-card>
       </v-col>
     </v-row>

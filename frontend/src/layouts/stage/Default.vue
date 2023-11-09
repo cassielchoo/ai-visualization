@@ -1,14 +1,20 @@
 <template>
   <v-app>
-    <v-navigation-drawer floating v-model="drawer" :style="'background-color:'+ drawercolor">
-      <v-img
-        :src="isDark ? darkLogo : lightLogo"
-        style="display: block; margin: 1.25rem auto ;  ;"
-        
-        width="200"
-      ></v-img>
+    <v-navigation-drawer
+      floating
+      v-model="drawer"
+      :style="'background-color:' + drawercolor"
+    >
+      <template v-slot:prepend>
+        <v-img
+          :src="isDark ? darkLogo : lightLogo"
+          style="display: block; margin: 1.25rem auto; cursor: pointer"
+          width="200"
+          @click="router.push({name:'home'})"
+        ></v-img>
+      </template>
 
-      <v-list nav>
+      <v-list nav class="my-8">
         <div v-for="(item, i) in items" :key="i">
           <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
           <v-list-item
@@ -38,11 +44,7 @@
         </div>
       </template>
     </v-navigation-drawer>
-    <v-app-bar
-      color="background"
-      elevation="0"
-      height="100"
-    >
+    <v-app-bar color="background" elevation="0" height="100">
       <v-app-bar-nav-icon
         v-if="showDrawerBtn"
         @click.stop="drawer = !drawer"
@@ -95,12 +97,14 @@ import { useDisplay, useTheme } from 'vuetify';
 import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 
+const router = useRouter();
+
 const { mobile } = useDisplay();
 const theme = useTheme();
 
 const drawercolor: ComputedRef<string> = computed(() =>
-  theme.current.value.dark? '#181818':'#ffffff'
-  )
+  theme.current.value.dark ? '#181818' : '#ffffff',
+);
 
 onMounted(() => {
   const Router = useRouter().options.routes[0].children;

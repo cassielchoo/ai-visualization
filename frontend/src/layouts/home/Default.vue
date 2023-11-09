@@ -10,11 +10,20 @@
           :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
           @click="toggleTheme"
         ></v-btn>
-        <v-btn @click="dialog = true">登录</v-btn>
+        <v-btn @click="dialog = true" v-if="!store.token">登录</v-btn>
+        <v-btn :to="{name:'project'}" v-else>进入控制台</v-btn>
 
         <v-dialog v-model="dialog" width="348" persistent>
-          <login-box @to-register="dialogType='register'" v-if="dialogType==='login'" @close="dialog=false"></login-box>
-          <register-box @to-login="dialogType='login'" v-if="dialogType==='register'" @close="dialog=false"></register-box>
+          <login-box
+            @to-register="dialogType = 'register'"
+            v-if="dialogType === 'login'"
+            @close="dialog = false"
+          ></login-box>
+          <register-box
+            @to-login="dialogType = 'login'"
+            v-if="dialogType === 'register'"
+            @close="dialog = false"
+          ></register-box>
         </v-dialog>
       </template>
     </v-app-bar>
@@ -31,6 +40,9 @@ import RegisterBox from '@/components/RegisterBox.vue';
 import { ComputedRef, Ref, computed, ref } from 'vue';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 
+import { useAppStore } from '@/store/app';
+
+const store = useAppStore();
 
 const theme = useTheme();
 const isDark: ComputedRef<boolean> = computed(
@@ -38,7 +50,7 @@ const isDark: ComputedRef<boolean> = computed(
 );
 
 const dialog = ref(false);
-const dialogType:Ref<'login' | 'register'>=ref('login')
+const dialogType: Ref<'login' | 'register'> = ref('login');
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }

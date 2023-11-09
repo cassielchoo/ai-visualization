@@ -3,9 +3,9 @@ import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
 
 export const useAppStore = defineStore('app', () => {
-  const token: Ref<string> = ref('');
+  const token: Ref<string> = ref(localStorage.getItem('TOKEN') ?? '');
 
-  const userId: Ref<string> = ref('');
+  const userId: Ref<string> = ref(localStorage.getItem('USERID') ?? '');
 
   const saveLoginInfo = (t: string, id: string) => {
     token.value = t;
@@ -35,5 +35,6 @@ export const useAppStore = defineStore('app', () => {
     handleGlobalMessaging,
     message,
     showSnackBar,
+    token,
   };
 });
