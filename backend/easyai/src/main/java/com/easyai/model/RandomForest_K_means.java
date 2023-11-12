@@ -1,18 +1,33 @@
 package com.easyai.model;
 
 import org.json.JSONObject;
+import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.trees.RandomForest;
 import weka.clusterers.SimpleKMeans;
+import weka.core.Attribute;
+import weka.core.Instance;
 import weka.core.Instances;
-
+import weka.core.converters.ArffLoader;
+import weka.core.converters.ArffSaver;
+import weka.core.converters.ConverterUtils;
+import weka.gui.beans.DataSource;
+import weka.core.Instances;
+import weka.core.converters.ArffSaver;
+import weka.core.converters.CSVLoader;
+//import org.apache.poi.ss.usermodel.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class RandomForest_K_means {
     //k-means
-    public static JSONObject K_means(Instances datas,int NUmClusters){
+    public static JSONObject K_means(int NUmClusters){
+        MyDataset myDataset = new MyDataset("data\\flower.csv");
+        Instances datas = myDataset.dataset;
         JSONObject  jsonObject = new JSONObject();
         try{
             SimpleKMeans kMeans = new SimpleKMeans();
@@ -62,7 +77,10 @@ public class RandomForest_K_means {
 
 
     //randomforest
-    public static JSONObject RandomForest(MyDataset myDataset,int NumTrees,int depth,int NumSeed,int NumAttribute)  {
+    public static JSONObject RandomForest(int NumTrees,int depth,int NumSeed,int NumAttribute)  {
+        MyDataset myDataset = new MyDataset("data\\flower_labels.csv");
+        myDataset.dataset_Partitioning(0.9);
+
         JSONObject jsonObject = new JSONObject();
 
         try {
@@ -75,25 +93,30 @@ public class RandomForest_K_means {
 
             Evaluation eval = new Evaluation(myDataset.testset);
             double[] pre = eval.evaluateModel(randomForest,myDataset.testset);
+            int[] pred = new int[pre.length];
             for(int i=0;i<pre.length;i++){
-                pre[i] = Math.round(pre[i]);
-            }
-            for(double num:pre){
-//                System.out.println(num);
+                pred[i] = (int)Math.round(pre[i]);
             }
 
-            double[] org = new double[myDataset.testset.numInstances()];
+            int[] org = new int[myDataset.testset.numInstances()];
 
             for(int i=0;i<myDataset.testset.numInstances();i++){
-                org[i] = Double.parseDouble(myDataset.testset.get(i).toString().split(",")[4]);
+                org[i] = Integer.parseInt(myDataset.testset.get(i).toString().split(",")[4]);
             }
 
             Map<String,Double> pre_model = new HashMap<>();
 
 //            System.out.println(get_acc(org,pre));
 
-            pre_model.put("ACC",get_acc(org,pre));
-//            System.out.println(eval.recall(3));
+//            pre_model.put("ACC",get_acc(org,pre));
+
+            System.out.println("Matrix");
+            Matrix matrix = new Matrix(org,pred);
+            double[] all = matrix.get_all();
+            pre_model.put("precision",all[0]);
+            pre_model.put("recall",all[1]);
+            pre_model.put("f1score",all[2]);
+////            System.out.println(eval.recall(3));
             // 输出准确率
 
             System.out.println(eval.toSummaryString("",true));
@@ -145,11 +168,10 @@ public class RandomForest_K_means {
 
 
     public static void main(String[] args) {
-//        MyDataset myDataset = new MyDataset("data\\flower_labels.csv");
-//        myDataset.dataset_Partitioning(0.9);
-////        System.out.println(myDataset.testset);
-//        RandomForest(myDataset,100,0,1,0);
-        MyDataset myDataset = new MyDataset("data\\flower.csv");
-        K_means(myDataset.dataset,3);
+        RandomForest(100,0,1,0);//以上三句用于RandomForest,前两句照抄，最后一句里面的参数由前端提供。
+
+        //这两句是K-means，第一句照抄，后一句，第一个参数由第一句产生，后一个前端提供
+//        MyDataset myDataset = new MyDataset("data\\flower.csv");
+//        K_means(3);
     }
 }

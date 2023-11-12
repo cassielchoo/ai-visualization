@@ -3,11 +3,13 @@ package com.easyai.model;
 import weka.core.AttributeStats;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
+import weka.filters.unsupervised.instance.RemovePercentage;
 
 import java.io.File;
+import java.io.IOException;
 
-public class MyDataset {
-    public Instances dataset;
+class MyDataset {
+    Instances dataset;
     Instances trainset;
     Instances testset;
 
