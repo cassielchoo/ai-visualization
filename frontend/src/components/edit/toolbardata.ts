@@ -145,18 +145,18 @@ export const toolbardata: ToolClass[] = [
       },
       {
         name: 'lightGBM',
-        hasOptions: false,
+        hasOptions: true,
         descr: '一种高效的、开源的梯度提升框架，用于解决分类和回归问题。',
       },
       {
         name: 'Xgboost',
-        hasOptions: false,
+        hasOptions: true,
         descr:
           '一种强大的机器学习算法，特别用于解决回归和分类问题。它是一种集成学习算法，通过组合多个决策树模型来提高预测性能。',
       },
       {
         name: 'Catboost',
-        hasOptions: false,
+        hasOptions: true,
         descr:
           '一种用于解决分类和回归问题的机器学习算法。它是一种梯度提升算法，专门设计用于处理具有大量类别特征（离散特征）的数据集。',
       },
@@ -179,7 +179,7 @@ export const toolbardata: ToolClass[] = [
       },
       {
         name: '循环神经网络',
-        hasOptions: false,
+        hasOptions: true,
         descr:
           '一种用于处理序列数据的神经网络架构。它具有内部循环结构，可以维护对先前输入的记忆，并在处理序列数据时具有灵活性。',
       },

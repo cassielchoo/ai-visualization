@@ -19,7 +19,7 @@
   ></v-text-field>
   <v-text-field
     type="number"
-    label="隐藏层中神经元个数 Num of Hidden Nodes"
+    label="隐藏神经元个数 Num of Hidden Nodes"
     variant="underlined"
     v-model="hiddenNum"
   ></v-text-field>

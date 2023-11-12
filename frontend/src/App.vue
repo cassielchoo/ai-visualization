@@ -31,7 +31,6 @@ body {
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
-  display: none;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
