@@ -40,6 +40,7 @@ public class cModels {
             result.setMsg("Error");
             JSONObject returnJson = null;
             returnJson.put("Error", e.getMessage());
+            result.setData(returnJson);
             return JSON.toJSONString(result);
         }
         try {
@@ -281,7 +282,7 @@ public class cModels {
         }
         try {
             if (params != null) {
-                String modelType = params.get("learningRate").toString().trim();
+                String modelType = params.get("modelType").toString().trim();
                 if (modelType.equals("CNN")) {
                     String name = params.get("name").toString().trim();
                     result.setCode(200);
