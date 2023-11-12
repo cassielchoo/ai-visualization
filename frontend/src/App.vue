@@ -1,8 +1,23 @@
 <template>
   <router-view></router-view>
+  <v-snackbar v-model="store.showSnackBar" timeout="2000">
+    {{ store.message }}
+
+    <template v-slot:actions>
+      <v-btn color="primary" variant="text" @click="store.showSnackBar = false">
+        关闭
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAppStore } from '@/store/app';
+
+
+const store = useAppStore();
+
+</script>
 
 <style>
 body {
@@ -16,7 +31,6 @@ body {
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
-  display: none;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;

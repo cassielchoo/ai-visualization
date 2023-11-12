@@ -13,13 +13,7 @@
   ></v-text-field>
   <v-text-field
     type="number"
-    label="遍历次数 Num of Epochs"
-    variant="underlined"
-    v-model="epochNum"
-  ></v-text-field>
-  <v-text-field
-    type="number"
-    label="隐藏神经元个数 Num of Hidden Nodes"
+    label="隐藏单元个数 Num of Hidden Units"
     variant="underlined"
     v-model="hiddenNum"
   ></v-text-field>
@@ -30,10 +24,7 @@ import { Ref, ref } from 'vue';
 
 const learningRate: Ref<number> = ref(0);
 const batchSize: Ref<number> = ref(0);
-const epochNum: Ref<number> = ref(0);
 const hiddenNum: Ref<number> = ref(0);
-
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

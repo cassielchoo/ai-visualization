@@ -1,14 +1,20 @@
 <template>
   <v-app>
-    <v-navigation-drawer floating v-model="drawer" :style="'background-color:'+ drawercolor">
-      <v-img
-        :src="isDark ? darkLogo : lightLogo"
-        style="display: block; margin: 1.25rem auto ;  ;"
-        
-        width="200"
-      ></v-img>
+    <v-navigation-drawer
+      floating
+      v-model="drawer"
+      :style="'background-color:' + drawercolor"
+    >
+      <template v-slot:prepend>
+        <v-img
+          :src="isDark ? darkLogo : lightLogo"
+          style="display: block; margin: 1.25rem auto; cursor: pointer"
+          width="200"
+          @click="router.push({name:'home'})"
+        ></v-img>
+      </template>
 
-      <v-list nav>
+      <v-list nav class="my-8">
         <div v-for="(item, i) in items" :key="i">
           <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
           <v-list-item
@@ -38,11 +44,7 @@
         </div>
       </template>
     </v-navigation-drawer>
-    <v-app-bar
-      color="background"
-      elevation="0"
-      height="100"
-    >
+    <v-app-bar color="background" elevation="0" height="100">
       <v-app-bar-nav-icon
         v-if="showDrawerBtn"
         @click.stop="drawer = !drawer"
@@ -95,12 +97,14 @@ import { useDisplay, useTheme } from 'vuetify';
 import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 
+const router = useRouter();
+
 const { mobile } = useDisplay();
 const theme = useTheme();
 
-let drawercolor: ComputedRef<string> = computed(() =>
-  theme.current.value.dark? '#181818':'#ffffff'
-  )
+const drawercolor: ComputedRef<string> = computed(() =>
+  theme.current.value.dark ? '#181818' : '#ffffff',
+);
 
 onMounted(() => {
   const Router = useRouter().options.routes[0].children;
@@ -119,25 +123,25 @@ interface Item {
   icon: string;
 }
 
-let drawer: Ref<boolean> = ref(true);
-let items: Ref<Item[]> = ref([]);
-let showDrawerBtn: ComputedRef<boolean> = computed(() => {
+const drawer: Ref<boolean> = ref(true);
+const items: Ref<Item[]> = ref([]);
+const showDrawerBtn: ComputedRef<boolean> = computed(() => {
   return mobile.value;
 });
 
-let search: Ref<string> = ref('');
-let searchLoading: Ref<boolean> = ref(false);
+const search: Ref<string> = ref('');
+const searchLoading: Ref<boolean> = ref(false);
 
 interface User {
   name: string;
   avatar: string;
 }
-let user: Ref<User> = ref({
+const user: Ref<User> = ref({
   name: 'John Doe',
   avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
 });
 
-let isDark: ComputedRef<boolean> = computed(
+const isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
 );
 
@@ -145,5 +149,5 @@ function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }
 
-let notifCount: Ref<number> = ref(99);
+const notifCount: Ref<number> = ref(99);
 </script>

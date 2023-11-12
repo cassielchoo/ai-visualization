@@ -116,9 +116,9 @@ const emit = defineEmits(['addnode']);
 
 const theme = useTheme();
 
-let mini: Ref<boolean> = ref(false);
+const mini: Ref<boolean> = ref(false);
 
-let open: Ref<string[]> = ref([]);
+const open: Ref<string[]> = ref([]);
 
 interface Tool {
   value: string;
@@ -141,7 +141,7 @@ const onDragStart = (event: DragEvent, tool: Tool, child: string) => {
   }
 };
 
-let toolbar: Ref<Tool[]> = ref([
+const toolbar: Ref<Tool[]> = ref([
   {
     value: 'import',
     type: 'input',
@@ -222,10 +222,10 @@ let toolbar: Ref<Tool[]> = ref([
   },
 ]);
 
-let search: Ref<string> = ref('');
-let searchLoading: Ref<boolean> = ref(false);
+const search: Ref<string> = ref('');
+const searchLoading: Ref<boolean> = ref(false);
 
-let toolbarColor: ComputedRef<string> = computed(() =>
+const toolbarColor: ComputedRef<string> = computed(() =>
   theme.global.current.value.dark ? '121212' : '#f1f3f4',
 );
 

@@ -6,7 +6,7 @@
 import { Ref, ref } from 'vue';
 
 
-let num:Ref<number>=ref(0)
+const num:Ref<number>=ref(0)
 </script>
 
 <style scoped>

@@ -2,10 +2,10 @@
   <VueFlow :nodes="initialNodes">
     <template #node-card="{ data }">
       <v-card class="card-node pa-5" rounded="lg" color="#42b983">
-        <v-card-title class="d-flex justify-center" style="font-size: x-large;">
+        <v-card-title class="d-flex justify-center" style="font-size: 2rem">
           {{ data.title }}
         </v-card-title>
-        <v-card-text style="word-wrap: break-word; width: 100%;text-align: center;font-size: medium;">
+        <v-card-text style="width: 100%;text-align: center;font-size: 1.4rem;line-height:1.7rem">
             {{ data.text }}
         </v-card-text>
       </v-card>
@@ -27,8 +27,8 @@ import { Background, BackgroundVariant } from '@vue-flow/background';
 import { onMounted } from 'vue';
 const theme = useTheme();
 
-let patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Lines);
-let patternColor: ComputedRef<string> = computed(() =>
+const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Lines);
+const patternColor: ComputedRef<string> = computed(() =>
   theme.global.current.value.dark ? '#818181' : '#828282',
 );
 
@@ -57,8 +57,8 @@ const initialNodes = computed(() => [
       'border-radius': '10px',
     },
     position: {
-      x: dimensions.value.width / 2 - 200,
-      y: dimensions.value.height / 2 - 200,
+      x: dimensions.value.width / 2 - 240,
+      y: dimensions.value.height / 2 - 250,
     },
   },
   {
@@ -66,17 +66,17 @@ const initialNodes = computed(() => [
     type: 'output',
     label: '样例',
     style: {
-      width: '11rem',
-      height: '3rem',
+      width: '14rem',
+      height: '4rem',
       '--vf-node-text': 'white',
       '--vf-node-bg': '#ec4899',
       '--vf-node-color': '#ec4899',
       'border-radius': '10px',
-      'font-size':'18px'
+      'font-size':'1.6rem'
     },
     position: {
-      x: dimensions.value.width / 2 - 325,
-      y: dimensions.value.height / 2 + 50,
+      x: dimensions.value.width / 2 - 385,
+      y: dimensions.value.height / 2 + 60,
     },
   },
   {
@@ -84,17 +84,17 @@ const initialNodes = computed(() => [
     type: 'output',
     label: '加入我们',
     style: {
-      width: '11rem',
-      height: '3rem',
+      width: '14rem',
+      height: '4rem',
       '--vf-node-text': 'white',
       '--vf-node-bg': '#0ea5e9',
       '--vf-node-color': '#0ea5e9',
       'border-radius': '10px',
-      'font-size':'18px'
+      'font-size':'1.6rem'
     },
     position: {
-      x: dimensions.value.width / 2 - 88,
-      y: dimensions.value.height / 2 + 130,
+      x: dimensions.value.width / 2 - 90,
+      y: dimensions.value.height / 2 + 160,
     },
   },
   {
@@ -102,16 +102,16 @@ const initialNodes = computed(() => [
     type: 'output',
     label: '说明文档',
     style: {
-      width: '11rem',
-      height: '3rem',
+      width: '14rem',
+      height: '4rem',
       '--vf-node-text': 'white',
       '--vf-node-bg': '#f15a16',
       '--vf-node-color': '#f15a16',
       'border-radius': '10px',
-      'font-size':'18px'
+      'font-size':'1.6rem'
     },
     position: {
-      x: dimensions.value.width / 2 + 150,
+      x: dimensions.value.width / 2 + 170,
       y: dimensions.value.height / 2 + 50,
     },
   },
@@ -157,8 +157,8 @@ onMounted(() => {
 
 <style>
 .card-node {
-  width: 25rem;
-  height: 11rem;
+  width: 30rem;
+  height: 14rem;
 }
 
 .vue-flow__handle{

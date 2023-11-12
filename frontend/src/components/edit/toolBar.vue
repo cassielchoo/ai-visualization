@@ -1,4 +1,5 @@
 <template>
+
   <!-- 普通大小工具栏 -->
   <transition name="narrow">
     <aside v-if="!mini" style="z-index: 99">
@@ -72,6 +73,8 @@
                 rounded
                 :color="toolclass.color"
               >
+                <v-tooltip  activator="parent" open-delay="500" max-width="250" v-if="tool.descr">{{ tool.descr }}</v-tooltip>
+
                 <span style="color: white">{{ tool.name }}</span>
               </v-sheet>
             </div>
@@ -149,7 +152,6 @@ let mini: Ref<boolean> = ref(false);
 
 let open: Ref<string[]> = ref([]);
 
-
 const onDragStart = (event: DragEvent, toolclass: ToolClass, tool: Tool) => {
   if (event.dataTransfer) {
     event.dataTransfer.setData('type', toolclass.type);
@@ -178,8 +180,8 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
         y: dimensions.value.height / 2,
       },
       data: {
-        color:toolclass.color,
-        accentColor:toolclass.accentColor,
+        color: toolclass.color,
+        accentColor: toolclass.accentColor,
         hasOptions: tool.hasOptions.toString() === 'true',
       },
       label: tool.name,
@@ -201,8 +203,6 @@ const expandTool = (value?: string) => {
   mini.value = false;
   open.value = value ? [value] : [];
 };
-
-
 </script>
 
 <style>

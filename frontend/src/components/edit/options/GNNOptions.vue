@@ -19,7 +19,7 @@
   ></v-text-field>
   <v-text-field
     type="number"
-    label="隐藏层中神经元个数 Num of Hidden Nodes"
+    label="隐藏神经元个数 Num of Hidden Nodes"
     variant="underlined"
     v-model="hiddenNum"
   ></v-text-field>
@@ -28,10 +28,10 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 
-let learningRate: Ref<number> = ref(0);
-let batchSize: Ref<number> = ref(0);
-let epochNum: Ref<number> = ref(0);
-let hiddenNum: Ref<number> = ref(0);
+const learningRate: Ref<number> = ref(0);
+const batchSize: Ref<number> = ref(0);
+const epochNum: Ref<number> = ref(0);
+const hiddenNum: Ref<number> = ref(0);
 
 </script>
 

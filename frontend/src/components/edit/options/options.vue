@@ -34,6 +34,10 @@
           v-if="selectedTab === '全连接神经网络'"
         ></full-connect-options>
         <random-forest-options v-if="selectedTab === '随机森林'"></random-forest-options>
+        <RNNOptions v-if="selectedTab === '循环神经网络'"></RNNOptions>
+        <cat-boost-options v-if="selectedTab === 'Catboost'"></cat-boost-options>
+        <xg-boost-options v-if="selectedTab === 'Xgboost'"></xg-boost-options>
+        <light-GBM v-if="selectedTab === 'lightGBM'"></light-GBM>
       </v-card-text>
     </v-card>
   </aside>
@@ -46,13 +50,17 @@ import KmeansOptions from './KMeansOptions.vue';
 import GNNOptions from './GNNOptions.vue';
 import FullConnectOptions from './FullConnectOptions.vue';
 import RandomForestOptions from './RandomForestOptions.vue';
+import RNNOptions from './RNNOptions.vue';
+import CatBoostOptions from './CatBoostOptions.vue';
+import XgBoostOptions from './XgBoostOptions.vue'
+import LightGBM from './LightGBMOptions.vue'
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 
 const { nodes } = useVueFlow();
 
-let selectedTab: Ref<string> = ref('');
-let selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
-  nodes.value.filter((node) => node.selected && node.data.hasOptions),
+const selectedTab: Ref<string> = ref('');
+const selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
+  nodes.value.filter((node:GraphNode) => node.selected && node.data.hasOptions),
 );
 
 watch(

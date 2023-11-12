@@ -7,33 +7,33 @@
   ></v-text-field>
   <v-text-field
     type="number"
-    label="批次大小 Batch Size"
-    variant="underlined"
-    v-model="batchSize"
-  ></v-text-field>
-  <v-text-field
-    type="number"
-    label="遍历次数 Num of Epochs"
+    label="迭代次数 Num of Epochs"
     variant="underlined"
     v-model="epochNum"
   ></v-text-field>
   <v-text-field
     type="number"
-    label="隐藏神经元个数 Num of Hidden Nodes"
+    label="最大深度 Max Depth"
     variant="underlined"
-    v-model="hiddenNum"
+    v-model="maxDepth"
   ></v-text-field>
+
+  <v-select
+    label="目标函数 Objective Function"
+    variant="underlined"
+    :items="objFunctions"
+    v-model="objFunction"
+  ></v-select>
 </template>
 
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
+import objFunctions from './objective-functions'
 
 const learningRate: Ref<number> = ref(0);
-const batchSize: Ref<number> = ref(0);
 const epochNum: Ref<number> = ref(0);
-const hiddenNum: Ref<number> = ref(0);
-
+const maxDepth: Ref<number> = ref(0);
+const objFunction: Ref<string> = ref('');
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
