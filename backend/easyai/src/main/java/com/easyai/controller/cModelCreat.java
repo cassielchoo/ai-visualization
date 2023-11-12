@@ -45,7 +45,7 @@ public class cModelCreat {
         }catch (Exception e){
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = null;
+            JSONObject returnJson = new JSONObject();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -53,9 +53,9 @@ public class cModelCreat {
         try {
             if (params != null) {
                 String modelId = String.valueOf(UUID.randomUUID());
-                String modelName = params.get("projectName").toString().trim();
+                String modelName = params.get("modelName").toString().trim();
                 String userId = StpUtil.getLoginId().toString().trim();
-                String dataJson = params.get("dataJson").toString().trim();
+                String dataJson = "";
                 String modelURL = "";
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 String creatTime = String.valueOf(System.currentTimeMillis());
@@ -63,8 +63,8 @@ public class cModelCreat {
                 int i = userModelService.InsertModel(newUserModel);
                 result.setMsg("OK");
                 result.setCode(200);
+                result.setData(modelId);
                 log.info("/cModelCreat执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
-
             }
         } catch (Exception e) {
             result = Constants.setResult(result);
