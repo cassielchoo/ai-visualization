@@ -111,4 +111,25 @@ public class cUsers {
         return JSON.toJSONString(result);
     }
 
+    /**
+     * 返回用户数据
+     * @return
+     */
+    @GetMapping("/info")
+    public String userInfoGet(){
+        CommonResult result = new CommonResult();
+        try{
+            String userId = StpUtil.getLoginId().toString().trim();
+            User user = userService.GetUserByUserId(userId).get(0);
+            result.setCode(200);
+            result.setMsg("OK");
+            result.setData(user);
+            log.info("/cUser/info GET 执行,userId:{},现在时间是:{},port:{}",userId,DateUtil.now(),serverPort);
+        }catch (Exception e){
+            result = Constants.setResult(result);
+            log.error("/cUser/info GET执行出现问题,error:{},现在时间:{},port:{}",e.getMessage(),DateUtil.now(),serverPort);
+        }
+        return JSON.toJSONString(result);
+    }
+
 }

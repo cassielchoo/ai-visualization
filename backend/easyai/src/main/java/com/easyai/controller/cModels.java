@@ -1,5 +1,6 @@
 package com.easyai.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
 import com.easyai.bean.CommonResult;
@@ -32,6 +33,15 @@ public class cModels {
     @PostMapping("/Kmeans")
     public String kmeans(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(500);
+            result.setMsg("Error");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 int NUmClusters = Integer.parseInt(params.get("NUmClusters").toString().trim());
@@ -61,6 +71,15 @@ public class cModels {
     @PostMapping("/RandomForest")
     public String randomForest(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 int NumTrees = Integer.parseInt(params.get("NumTrees").toString().trim());
@@ -93,6 +112,15 @@ public class cModels {
     @PostMapping("/Catboost")
     public String catboost(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 result.setCode(200);
@@ -121,6 +149,15 @@ public class cModels {
     @PostMapping("/CNN")
     public String CNN(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 double learningRate = Double.valueOf(params.get("NumTrees").toString().trim());
@@ -153,6 +190,15 @@ public class cModels {
     @PostMapping("/FullConnect")
     public String fullConnect(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 double learningRate = Double.valueOf(params.get("learningRate").toString().trim());
@@ -185,6 +231,15 @@ public class cModels {
     @PostMapping("/LightGBM")
     public String lightGBM(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 int nEpochs = Integer.parseInt(params.get("nEpochs").toString().trim());
@@ -205,38 +260,6 @@ public class cModels {
         return JSON.toJSONString(result);
     }
 
-    /**
-     * LinearDataClassifier 接口
-     *
-     * @param params
-     * @return
-     */
-    @PostMapping("/LinearDataClassifier")
-    public String linearDataClassifier(@RequestBody Map<String, Object> params) {
-        CommonResult result = new CommonResult();
-        try {
-            if (params != null) {
-                double learningRate = Double.valueOf(params.get("learningRate").toString().trim());
-                int batchSize = Integer.parseInt(params.get("batchSize").toString().trim());
-                int nEpochs = Integer.parseInt(params.get("nEpochs").toString().trim());
-                int numHiddenNodes = Integer.parseInt(params.get("numHiddenNodes").toString().trim());
-                double trainRatio = Double.valueOf(params.get("trainRatio").toString().trim());
-                result.setCode(200);
-                result.setMsg("OK");
-                JSONObject returnJson = LinearDataClassifier.FullConnect(learningRate, batchSize, nEpochs, numHiddenNodes, trainRatio);
-                result.setData(returnJson);
-                log.info("/model/LinearDataClassifier POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
-            }
-        } catch (Exception e) {
-            result.setCode(500);
-            result.setMsg("Error");
-            JSONObject returnJson = null;
-            returnJson.put("Error", e.getMessage());
-            result.setData(returnJson);
-            log.error("/model/LinearDataClassifier POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
-        }
-        return JSON.toJSONString(result);
-    }
 
     /**
      * Pred 接口
@@ -247,6 +270,15 @@ public class cModels {
     @PostMapping("/Pred")
     public String pred(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 String modelType = params.get("learningRate").toString().trim();
@@ -307,6 +339,15 @@ public class cModels {
     @PostMapping("/RNN")
     public String RNN(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 int nEpochs = Integer.parseInt(params.get("nEpochs").toString().trim());
@@ -336,6 +377,15 @@ public class cModels {
     @PostMapping("/Xgboost")
     public String Xgboost(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
+        try{
+            StpUtil.checkLogin();
+        }catch (Exception e){
+            result.setCode(403);
+            result.setMsg("Access Denied");
+            JSONObject returnJson = null;
+            returnJson.put("Error", e.getMessage());
+            return JSON.toJSONString(result);
+        }
         try {
             if (params != null) {
                 double eta = Double.parseDouble(params.get("eta").toString().trim());
