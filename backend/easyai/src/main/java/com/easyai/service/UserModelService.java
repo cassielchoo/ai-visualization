@@ -9,5 +9,6 @@ public interface UserModelService {
     List<UserModel> GetModelByUserId(String userId);
     UserModel GetModelByModelId(String modelId);
     int InsertModel(UserModel model);
+    int UpdateModel(UserModel model);
 
 }

@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CNN {
-    public static JSONObject CNNmodel(double learningRate, int batchSize, int nEpochs, int numHiddenNodes) throws Exception {
+    public static Map CNNmodel(double learningRate, int batchSize, int nEpochs, int numHiddenNodes) throws Exception {
         int seed = 123;//随机种子
         int nChannels = 1;
 //        int numRows = 28;
@@ -126,10 +126,10 @@ public class CNN {
         }
         System.out.println(performance.toString());
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("loss",loss);
-        jsonObject.put("performance",performance);
-        return jsonObject;
+        Map<String,Map> returnJson = new HashMap<>();
+        returnJson.put("loss",loss);
+        returnJson.put("performance",performance);
+        return returnJson;
     }
 
     public static void main(String[] args) throws Exception {

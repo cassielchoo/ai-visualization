@@ -25,4 +25,9 @@ public class UserModelServiceImpl implements UserModelService {
     public int InsertModel(UserModel model) {
         return userModelMapper.InsertModel(model);
     }
+
+    @Override
+    public int UpdateModel(UserModel model) {
+        return userModelMapper.UpdateModel(model);
+    }
 }

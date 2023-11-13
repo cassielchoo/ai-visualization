@@ -15,7 +15,7 @@ import java.util.Map;
 public class Xgboost {
     private static DMatrix trainMat = null;
     private static DMatrix testMat = null;
-    public static JSONObject xgboost(double eta, int depth, int nEpoch)throws Exception{
+    public static Map xgboost(double eta, int depth, int nEpoch)throws Exception{
             trainMat = new DMatrix("data\\train.txt");
             testMat = new DMatrix("data\\test.txt");
 
@@ -54,9 +54,9 @@ public class Xgboost {
 
         booster.saveModel("Intermediate_steps_file\\xgboost_model");
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("performance",per_model);
-        return jsonObject;
+        Map<String,Map> returnJson = new HashMap<>();
+        returnJson.put("performance",per_model);
+        return returnJson;
     }
 
     public static int[] get_orglabel(DMatrix dMatrix)throws Exception{

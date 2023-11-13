@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -38,7 +39,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -48,14 +49,14 @@ public class cModels {
                 int NUmClusters = Integer.parseInt(params.get("NUmClusters").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = RandomForest_K_means.K_means(NUmClusters);
+                Map<String,Map> returnJson = RandomForest_K_means.K_means(NUmClusters);
                 result.setData(returnJson);
                 log.info("/model/Kmeans POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/Kmeans POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -77,7 +78,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -90,14 +91,14 @@ public class cModels {
                 int NumAttribute = Integer.parseInt(params.get("NumAttribute").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = RandomForest_K_means.RandomForest(NumTrees, depth, NumSeed, NumAttribute);
+                Map<String,Map> returnJson = RandomForest_K_means.RandomForest(NumTrees, depth, NumSeed, NumAttribute);
                 result.setData(returnJson);
                 log.info("/model/RandomForest POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/RandomForest POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -119,7 +120,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -128,14 +129,14 @@ public class cModels {
             if (params != null) {
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = Catboost.catboost();
+                Map<String,Map> returnJson = Catboost.catboost();
                 result.setData(returnJson);
                 log.info("/model/Catboost POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/Catboost POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -157,7 +158,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -170,14 +171,14 @@ public class cModels {
                 int numHiddenNodes = Integer.parseInt(params.get("numHiddenNodes").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = CNN.CNNmodel(learningRate, batchSize, nEpochs, numHiddenNodes);
+                Map<String,Map> returnJson = CNN.CNNmodel(learningRate, batchSize, nEpochs, numHiddenNodes);
                 result.setData(returnJson);
                 log.info("/model/CNN POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/CNN POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -199,7 +200,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -212,14 +213,14 @@ public class cModels {
                 int numHiddenNodes = Integer.parseInt(params.get("numHiddenNodes").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = FullConnect.FullConnect(learningRate, batchSize, nEpochs, numHiddenNodes);
+                Map<String,Map> returnJson = FullConnect.FullConnect(learningRate, batchSize, nEpochs, numHiddenNodes);
                 result.setData(returnJson);
                 log.info("/model/FullConnect POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/FullConnect POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -241,7 +242,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -251,14 +252,14 @@ public class cModels {
                 int nEpochs = Integer.parseInt(params.get("nEpochs").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = LightGBM.lightgbm(nEpochs);
+                Map<String,Map> returnJson = LightGBM.lightgbm(nEpochs);
                 result.setData(returnJson);
                 log.info("/model/LightGBM POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/LightGBM POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -281,7 +282,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -293,16 +294,16 @@ public class cModels {
                     String name = params.get("name").toString().trim();
                     result.setCode(200);
                     result.setMsg("OK");
-                    JSONObject returnJson = new JSONObject();
-                    returnJson.put("result", pred.get_num(name));
+                    Map<String,String> returnJson = new HashMap<>();
+                    returnJson.put("result", String.valueOf(pred.get_num(name)));
                     result.setData(returnJson);
                     log.info("/model/Pred_CNN POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
                 } else if (modelType.equals("RNN")) {
                     String name = params.get("name").toString().trim();
                     result.setCode(200);
                     result.setMsg("OK");
-                    JSONObject returnJson = new JSONObject();
-                    returnJson.put("result", pred.get_num(name));
+                    Map<String,String> returnJson = new HashMap<>();
+                    returnJson.put("result", String.valueOf(pred.get_num(name)));
                     result.setData(returnJson);
                     log.info("/model/Pred_RNN POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
                 } else if (modelType.equals("randomforest") || modelType.equals("catboost") || modelType.equals("fullconnect") || modelType.equals("lightgbm") || modelType.equals("xgboost")) {
@@ -312,14 +313,14 @@ public class cModels {
                     double petal_width = Double.parseDouble(params.get("petal_width").toString().trim());
                     result.setCode(200);
                     result.setMsg("OK");
-                    JSONObject returnJson = new JSONObject();
-                    returnJson.put("result", pred.get_flowerclass(sepal_length, sepal_width, petal_length, petal_width));
+                    Map<String,String> returnJson = new HashMap<>();
+                    returnJson.put("result", String.valueOf(pred.get_flowerclass(sepal_length, sepal_width, petal_length, petal_width)));
                     result.setData(returnJson);
                     log.info("/model/Pred_Others POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
                 } else {
                     result.setCode(400);
                     result.setMsg("Model Not Found");
-                    JSONObject returnJson = new JSONObject();
+                    Map<String,String> returnJson = new HashMap<>();
                     returnJson.put("Error", "Model" + modelType + "Not Found");
                     result.setData(returnJson);
                     log.error("/model/Pred POST 执行出现错误,error:{},现在时间:{},port:{}", "Model Not Found", DateUtil.now(), serverPort);
@@ -329,7 +330,7 @@ public class cModels {
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/LinearDataClassifier POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -351,7 +352,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -361,14 +362,14 @@ public class cModels {
                 int nEpochs = Integer.parseInt(params.get("nEpochs").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = RNN.rnn(nEpochs);
+                Map<String,Map> returnJson = RNN.rnn(nEpochs);
                 result.setData(returnJson);
                 log.info("/model/RNN POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/RNN POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
@@ -390,7 +391,7 @@ public class cModels {
         }catch (Exception e){
             result.setCode(403);
             result.setMsg("Access Denied");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             return JSON.toJSONString(result);
@@ -402,14 +403,14 @@ public class cModels {
                 int nEpoch = Integer.parseInt(params.get("nEpochs").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
-                JSONObject returnJson = Xgboost.xgboost(eta, depth, nEpoch);
+                Map<String,Map> returnJson = Xgboost.xgboost(eta, depth, nEpoch);
                 result.setData(returnJson);
                 log.info("/model/Xgboost POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            JSONObject returnJson = new JSONObject();
+            Map<String,String> returnJson = new HashMap<>();
             returnJson.put("Error", e.getMessage());
             result.setData(returnJson);
             log.error("/model/Xgboost POST 执行出现错误,error:{},现在时间:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);

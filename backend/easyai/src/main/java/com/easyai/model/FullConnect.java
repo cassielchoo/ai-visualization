@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FullConnect {
-    public static JSONObject FullConnect(double learningRate, int batchSize, int nEpochs, int numHiddenNodes) throws Exception {
+    public static Map FullConnect(double learningRate, int batchSize, int nEpochs, int numHiddenNodes) throws Exception {
         int seed = 123;//随机种子
 
         String trainPtah = "data\\flower_labels_noname.csv";
@@ -157,10 +157,10 @@ public class FullConnect {
 
 
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("loss",loss);
-        jsonObject.put("performance",performance);
-        return jsonObject;
+        Map<String,Map> returnJson = new HashMap<>();
+        returnJson.put("loss",loss);
+        returnJson.put("performance",performance);
+        return returnJson;
 
     }
 

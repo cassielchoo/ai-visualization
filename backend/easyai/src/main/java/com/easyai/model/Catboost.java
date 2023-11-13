@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Catboost {
-    public static JSONObject catboost() throws Exception{
+    public static Map catboost() throws Exception{
         float[][] train_values = get_features("data\\flower_labels_catboost.csv",108,4);
         int[] train_labels = get_label("data\\flower_labels_catboost.csv",108);
 
@@ -49,10 +49,10 @@ public class Catboost {
         pre_model.put("f1score",all[2]);
         System.out.println(pre_model);
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("performance",pre_model);
-        System.out.println(jsonObject.toString());
-        return jsonObject;
+        Map<String,Map> returnJson = new HashMap<>();
+        returnJson.put("performance",pre_model);
+        System.out.println(returnJson.toString());
+        return returnJson;
 
     }
 

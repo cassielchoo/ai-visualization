@@ -111,19 +111,6 @@
             <artifactId>lightgbm</artifactId>
             <version>0.24.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>ml.dmlc</groupId>
-            <artifactId>xgboost4j</artifactId>
-            <version>0.90</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ml.dmlc</groupId>
-            <artifactId>xgboost4j-example</artifactId>
-            <version>0.90</version>
-        </dependency>
-
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
@@ -134,6 +121,20 @@
             <groupId>org.nd4j</groupId>
             <artifactId>${nd4j.backend}</artifactId>
             <version>${dl4j-master.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ml.dmlc</groupId>
+            <artifactId>xgboost4j</artifactId>
+            <version>0.90</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/xgboost4j.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>ml.dmlc</groupId>
+            <artifactId>xgboost4j-example</artifactId>
+            <version>0.90</version>
         </dependency>
 
         <dependency>
