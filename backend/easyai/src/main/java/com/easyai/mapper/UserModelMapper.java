@@ -10,11 +10,16 @@ import java.util.List;
 public interface UserModelMapper {
     @Select("select * from dbModelInfo where userId = #{userId};")
     List<UserModel> GetModelByUserId(@Param("userId") String userId);
+
     @Select("select * from dbModelInfo where modelId = #{modelId};")
     UserModel GetModelByModelId(@Param("modelId") String modelId);
+
     @Insert("insert into dbModelInfo(modelId,modelName,userId,dataJson,modelURL,lastEditTime,creatTime,thumbnailUrl,isFavourite) values (#{modelId},#{modelName},#{userId},#{dataJson},#{modelURL},#{lastEditTime},#{creatTime},#{thumbnailUrl},#{isFavourite});")
     int InsertModel(UserModel model);
+
     @Update("update dbModelInfo set modelName=#{modelName},userId=#{userId},dataJson=#{dataJson},modelURL=#{modelURL},lastEditTime=#{lastEditTime},creatTime=#{creatTime},thumbnailUrl=#{thumbnailUrl},isFavourite=#{isFavourite} where modelId = #{modelId}")
     int UpdateModel(UserModel model);
 
+    @Delete("delete from dbModelInfo where modelId = #{modelId};")
+    int DeleteModel(String modelId);
 }

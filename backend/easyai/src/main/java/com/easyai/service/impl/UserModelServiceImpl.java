@@ -30,4 +30,9 @@ public class UserModelServiceImpl implements UserModelService {
     public int UpdateModel(UserModel model) {
         return userModelMapper.UpdateModel(model);
     }
+
+    @Override
+    public int DeleteModel(String modelId) {
+        return userModelMapper.DeleteModel(modelId);
+    }
 }

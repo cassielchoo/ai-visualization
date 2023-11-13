@@ -10,5 +10,6 @@ public interface UserModelService {
     UserModel GetModelByModelId(String modelId);
     int InsertModel(UserModel model);
     int UpdateModel(UserModel model);
+    int DeleteModel(String modelId);
 
 }

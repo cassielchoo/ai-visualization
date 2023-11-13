@@ -47,9 +47,9 @@ public class cUserModel {
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            Map<String,String> returnJson = new HashMap<>();
-            returnJson.put("Error", e.getMessage());
-            result.setData(returnJson);
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
             return JSON.toJSONString(result);
         }
         try {
@@ -70,17 +70,17 @@ public class cUserModel {
                 result.setMsg("OK");
                 result.setCode(200);
                 result.setData(resultMap);
-                log.info("/cModelCreat执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+                log.info("/usermodel/creat执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result = Constants.setResult(result);
-            log.error("/cUser/register执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+            log.error("/usermodel/creat执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
         return JSON.toJSONString(result);
     }
 
     /**
-     * 创建模型 接口
+     * 获取指定用户模型 接口
      *
      * @return
      */
@@ -92,9 +92,9 @@ public class cUserModel {
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            Map<String,String> returnJson = new HashMap<>();
-            returnJson.put("Error", e.getMessage());
-            result.setData(returnJson);
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
             return JSON.toJSONString(result);
         }
         try {
@@ -109,6 +109,7 @@ public class cUserModel {
                 modelDetailJson = new HashMap<>() ;
                 modelDetailJson.put("UserName", userName);
                 modelDetailJson.put("modelId", usermomdel.getModelId());
+                modelDetailJson.put("modelName", usermomdel.getModelName());
                 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String sd = sdf.format(new Date(Long.parseLong(String.valueOf(usermomdel.getLastEditTime()))));
                 modelDetailJson.put("lastEditTime", sd);
@@ -120,13 +121,133 @@ public class cUserModel {
             result.setMsg("OK");
             result.setCode(200);
             result.setData(returnMap);
-            log.info("/cModelCreat执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+            log.info("/usermodel/getmodelbyuserid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
 
         } catch (Exception e) {
             result = Constants.setResult(result);
-            log.error("/cUser/register执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+            log.error("/usermodel/getmodelbyuserid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
 
+        return JSON.toJSONString(result);
+    }
+
+    /**
+     * 获取指定模型 接口
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("/getmodelbymodelid")
+    public String getModelByModelId(@RequestBody Map<String, Object> params) {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setMsg("Error");
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+            String userId = StpUtil.getLoginId().toString().trim();
+            String modelId = params.get("modelId").toString().trim();
+            UserModel theModel = userModelService.GetModelByModelId(modelId);
+            result.setMsg("OK");
+            result.setCode(200);
+            result.setData(theModel);
+            log.info("/usermodel/getmodelbymodelid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/usermodel/getmodelbymodelid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+        return JSON.toJSONString(result);
+    }
+
+    /**
+     * 删除指定模型 接口
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("/delete")
+    public String deleteModel(@RequestBody Map<String, Object> params) {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setMsg("Error");
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+            String userId = StpUtil.getLoginId().toString().trim();
+            String modelId = params.get("modelId").toString().trim();
+            int i = userModelService.DeleteModel(modelId);
+            result.setMsg("OK");
+            result.setCode(200);
+            log.info("/usermodel/delete执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/usermodel/delete执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+        return JSON.toJSONString(result);
+    }
+
+    /**
+     * 设置Favourite 接口
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("/setfavourite")
+    public String setFavourite(@RequestBody Map<String, Object> params) {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setMsg("Error");
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+            if (params != null) {
+                String modelId = params.get("modelId").toString().trim();
+                UserModel originModel = userModelService.GetModelByModelId(modelId);
+                String modelName = originModel.getModelName();
+                if(!originModel.getUserId().equals(StpUtil.getLoginId().toString().trim())){
+                    result.setCode(500);
+                    result.setMsg("Error");
+                    Map<String,String> returnJson = new HashMap<>();
+                    returnJson.put("Error", "Not Your Model!");
+                    result.setData(returnJson);
+                    return JSON.toJSONString(result);
+                }
+                String userId = originModel.getUserId();
+                int isFavourite = Integer.valueOf(params.get("isFavourite").toString().trim());
+                String lastEditTime = String.valueOf(System.currentTimeMillis());
+                UserModel newUserModel = originModel;
+                newUserModel.setIsFavourite(isFavourite);
+                newUserModel.setLastEditTime(lastEditTime);
+                int i = userModelService.UpdateModel(newUserModel);
+                Map<String,String> resultMap = new HashMap<>();
+                result.setMsg("OK");
+                result.setCode(200);
+                log.info("/usermodel/save执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+            }
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/usermodel/save执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
         return JSON.toJSONString(result);
     }
 
@@ -144,9 +265,9 @@ public class cUserModel {
         } catch (Exception e) {
             result.setCode(500);
             result.setMsg("Error");
-            Map<String,String> returnJson = new HashMap<>();
-            returnJson.put("Error", e.getMessage());
-            result.setData(returnJson);
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
             return JSON.toJSONString(result);
         }
         try {
@@ -164,21 +285,18 @@ public class cUserModel {
                 }
                 String userId = originModel.getUserId();
                 String dataJson = params.get("datajson").toString().trim();
-                String modelURL = originModel.getModelURL();
                 String thumbnailUrl = params.get("thumbnailUrl").toString().trim();;
-                int isFavourite = originModel.getIsFavourite();
-                String lastEditTime = String.valueOf(System.currentTimeMillis());
-                String creatTime = originModel.getCreatTime();
-                UserModel newUserModel = new UserModel(modelId, modelName, userId, dataJson, modelURL, lastEditTime, creatTime, thumbnailUrl, isFavourite);
+                UserModel newUserModel = originModel;
+                newUserModel.setDataJson(dataJson);
+                newUserModel.setThumbnailUrl(thumbnailUrl);
                 int i = userModelService.UpdateModel(newUserModel);
-                Map<String,String> resultMap = new HashMap<>();
                 result.setMsg("OK");
                 result.setCode(200);
-                log.info("/cModelCreat执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+                log.info("/usermodel/save执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result = Constants.setResult(result);
-            log.error("/cUser/register执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+            log.error("/usermodel/save执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
         return JSON.toJSONString(result);
     }
