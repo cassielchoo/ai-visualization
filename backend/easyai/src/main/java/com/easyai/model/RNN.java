@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class RNN {
-    public static JSONObject rnn(int nEpoches)throws Exception{
+    public static Map rnn(int nEpoches)throws Exception{
         SequenceRecordReader trainFeatures = new CSVSequenceRecordReader();
         trainFeatures.initialize(new FileSplit(new File("data\\rnn_train_values.csv")));
 
@@ -93,10 +93,10 @@ public class RNN {
         pre_model.put("f1score",all[2]);
         System.out.println(pre_model);
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("loss",loss);
-        jsonObject.put("performance",pre_model);
-        return jsonObject;
+        Map<String,Map> returnJson = new HashMap<>();
+        returnJson.put("loss",loss);
+        returnJson.put("performance",pre_model);
+        return returnJson;
     }
 
     public static Map gen(int n){

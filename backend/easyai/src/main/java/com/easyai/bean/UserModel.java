@@ -15,4 +15,6 @@ public class UserModel {
     String modelURL;
     String lastEditTime;
     String creatTime;
+    String thumbnailUrl;
+    int isFavourite;
 }

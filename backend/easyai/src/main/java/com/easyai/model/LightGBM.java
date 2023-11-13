@@ -100,7 +100,7 @@ public class LightGBM {
 //        return dataset;
 //    }
 
-    public static JSONObject lightgbm(int nEpoch) throws Exception {
+    public static Map lightgbm(int nEpoch) throws Exception {
         String trainpath = "data\\flower_labels_lightgbm.csv";
         String testpath = "data\\flower_labels_lightgbm_test.csv";
         LGBMDataset traindataset = data(trainpath);
@@ -137,11 +137,11 @@ public class LightGBM {
         traindataset.close();
         testdataset.close();
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("loss",loss);
-        jsonObject.put("performance",per_model);
-//        System.out.println(jsonObject.toString());
-        return jsonObject;
+        Map<String,Map> returnJson = new HashMap<>();
+        returnJson.put("loss",loss);
+        returnJson.put("performance",per_model);
+//        System.out.println(returnJson.toString());
+        return returnJson;
     }
 
     public static int[] getorg_label() throws LGBMException, IOException {
