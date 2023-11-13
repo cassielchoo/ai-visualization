@@ -14,24 +14,17 @@
 
   <v-container class="pa-8">
     <v-row>
-      <v-col cols="12" sm="6" xl="3">
-        <v-btn style="font-size: 1rem" variant="flat" block>
-          创建新的项⽬
-          <template v-slot:append>
-            <v-icon>mdi-plus-circle-outline</v-icon>
-          </template>
-        </v-btn>
+      <v-col cols="12" sm="4">
+        <create-project-dialog v-model="showCreateProjectDialog" />
       </v-col>
-      <v-col cols="12" sm="6" xl="3">
-        <v-btn style="font-size: 1rem" variant="flat" block>
-          使⽤模板创建新的项⽬
-          <template v-slot:append>
-            <v-icon>mdi-plus-circle-outline</v-icon>
-          </template>
-        </v-btn>
+      <v-col cols="12" sm="4">
+        <create-with-template-dialog v-model="showCreateWithTemplateDialog"/>
+      </v-col>
+      <v-col cols="12" sm="4">
+        <upload-data-dialog v-model="showUploadDataDialog"/>
       </v-col>
     </v-row>
-    <v-row class="mt-5" >
+    <v-row class="mt-5">
       <v-col cols="12" sm="6" lg="4" xl="3" v-for="proj of 8" :key="proj">
         <project-card></project-card>
       </v-col>
@@ -42,13 +35,21 @@
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
 import ProjectCard from '@/components/ProjectCard.vue';
+import CreateProjectDialog from '@/components/project/CreateProjectDialog.vue';
+import CreateWithTemplateDialog from '@/components/project/CreateWithTemplateDialog.vue';
+import UploadDataDialog from '@/components/project/UploadDataDialog.vue';
 
 interface Tab {
   name: string;
   value: number;
 }
 
+
 const selectedTab: Ref<number> = ref(0);
+
+const showCreateProjectDialog = ref(false);
+const showCreateWithTemplateDialog = ref(false);
+const showUploadDataDialog = ref(false);
 
 const tabs: Ref<Tab[]> = ref([
   {

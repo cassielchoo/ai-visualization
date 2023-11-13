@@ -43,7 +43,7 @@ export default createVuetify({
           success: '#4CAF50',
           warning: '#FB8C00',
           strong: '#212121',
-          background: '#f9f9f9',
+          background: '#f5f6f9',
         },
       },
       dark: {

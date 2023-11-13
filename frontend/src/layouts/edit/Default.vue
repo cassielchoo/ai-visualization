@@ -1,13 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar
-      color="background"
-      elevation="0"
-      height="45"
-    >
+    <v-app-bar color="background" elevation="0" height="45">
       <template v-slot:prepend>
         <v-app-bar-nav-icon
-        class="mr-1"
+          class="mr-1"
           density="comfortable"
           icon="mdi-arrow-left"
           @click="goBack"
@@ -15,7 +11,7 @@
         <span style="font-size: 20px">{{ projectName }}</span>
       </template>
 
-      <app-bar-menus/>
+      <app-bar-menus />
 
       <v-spacer></v-spacer>
       <v-btn
@@ -68,9 +64,10 @@
 </template>
 
 <script lang="ts" setup>
+import { getUserInfo } from '@/service/users';
 import DefaultView from './View.vue';
 import AppBarMenus from '@/components/edit/AppBarMenus.vue';
-import { computed, ComputedRef, ref, Ref } from 'vue';
+import { computed, ComputedRef, onMounted, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTheme } from 'vuetify';
 
@@ -123,4 +120,13 @@ const isDark: ComputedRef<boolean> = computed(
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }
+
+onMounted(async () => {
+  const res = await getUserInfo();
+  user.value = {
+    name: res.data!.userName,
+    avatar: res.data!.userPhoto,
+  };
+});
+
 </script>

@@ -1,5 +1,4 @@
 <template>
-
   <!-- 普通大小工具栏 -->
   <transition name="narrow">
     <aside v-if="!mini" style="z-index: 99">
@@ -73,7 +72,14 @@
                 rounded
                 :color="toolclass.color"
               >
-                <v-tooltip  activator="parent" open-delay="500" max-width="250" v-if="tool.descr">{{ tool.descr }}</v-tooltip>
+                <v-tooltip
+                  activator="parent"
+                  open-delay="1000"
+                  max-width="250"
+                  v-if="tool.descr"
+                >
+                  {{ tool.descr }}
+                </v-tooltip>
 
                 <span style="color: white">{{ tool.name }}</span>
               </v-sheet>
@@ -144,9 +150,11 @@
 </template>
 
 <script lang="ts" setup>
-import { useVueFlow } from '@vue-flow/core';
+import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { ref, Ref } from 'vue';
 import { toolbardata, Tool, ToolClass } from './toolbardata';
+import { useProjectStore } from '@/store/project';
+const store = useProjectStore();
 
 let mini: Ref<boolean> = ref(false);
 
@@ -168,9 +176,10 @@ const onDragStart = (event: DragEvent, toolclass: ToolClass, tool: Tool) => {
 let search: Ref<string> = ref('');
 let searchLoading: Ref<boolean> = ref(false);
 
-const { addNodes, nodes, dimensions } = useVueFlow();
+const { addNodes, nodes, dimensions, toObject } = useVueFlow();
 
 const addNode = (toolclass: ToolClass, tool: Tool) => {
+  console.log(123)
   addNodes([
     {
       id: nodes.value.length.toString(),
@@ -185,13 +194,24 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
         hasOptions: tool.hasOptions.toString() === 'true',
       },
       label: tool.name,
-      style: {
-        '--vf-node-text': 'white',
-        '--vf-node-bg': toolclass.color,
-        '--vf-node-color': toolclass.color,
+      style: (el: GraphNode) => {
+        if (el.selected)
+          return {
+            '--vf-node-text': 'white',
+            '--vf-node-bg': toolclass.color,
+            '--vf-node-color': toolclass.color,
+            'border-color': toolclass.accentColor + '!important',
+          };
+        return {
+          '--vf-node-text': 'white',
+          '--vf-node-bg': toolclass.color,
+          '--vf-node-color': toolclass.color,
+        };
       },
     },
   ]);
+
+  localStorage.setItem(store.id, JSON.stringify(toObject()));
 };
 
 const narrowTool = () => {

@@ -7,12 +7,14 @@
 </template>
 
 <script lang="ts" setup>
-import { VueFlow, useVueFlow } from '@vue-flow/core';
+import { GraphEdge, GraphNode, VueFlow, useVueFlow } from '@vue-flow/core';
 import { nextTick, watch, ref, ComputedRef, computed, Ref } from 'vue';
 import { useTheme } from 'vuetify';
 import { Background, BackgroundVariant } from '@vue-flow/background';
 import { onContextMenu } from './contextMenu/context-menu';
+import { useProjectStore } from '@/store/project';
 const theme = useTheme();
+const store = useProjectStore();
 
 const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Dots);
 const patternColor: ComputedRef<string> = computed(() => {
@@ -42,13 +44,39 @@ const {
   vueFlowRef,
   onPaneReady,
   nodes,
+  fromObject,
+  toObject,
 } = flow;
-const openContextMenu = (e:MouseEvent) => {
-  onContextMenu(e,flow,theme.global.current.value.dark)
-}
 
-onPaneReady(({ fitView }) => {
-  fitView();
+const openContextMenu = (e: MouseEvent) => {
+  onContextMenu(e, flow, theme.global.current.value.dark);
+};
+
+onPaneReady((instance: typeof VueFlow) => {
+  const flow = JSON.parse(localStorage.getItem(store.id) ?? '{}');
+  
+  if (flow) {
+    fromObject(flow);
+  }
+
+  nodes.value.forEach((node: GraphNode) => {
+    node.style = () => {
+      if (node.selected)
+        return {
+          '--vf-node-text': 'white',
+          '--vf-node-bg': node.data.color,
+          '--vf-node-color': node.data.color,
+          'border-color': node.data.accentColor + '!important',
+        };
+      return {
+        '--vf-node-text': 'white',
+        '--vf-node-bg': node.data.color,
+        '--vf-node-color': node.data.color,
+      };
+    };
+  });
+
+  instance.fitView();
 });
 
 const onDragOver = ref();
@@ -59,7 +87,7 @@ onDragOver.value = function (event: DragEvent) {
   }
 };
 
-onConnect((params) => {
+onConnect((params: GraphEdge) => {
   // edge连接规则
   const handleRules = [
     () => params.source !== params.target,
@@ -97,7 +125,7 @@ const onDrop = (event: DragEvent) => {
         accentColor,
         hasOptions: data === 'true',
       },
-      style: (el) => {
+      style: (el: GraphNode) => {
         if (el.selected)
           return {
             '--vf-node-text': 'white',
@@ -113,6 +141,8 @@ const onDrop = (event: DragEvent) => {
       },
     },
   ]);
+
+  localStorage.setItem(store.id, JSON.stringify(toObject()));
 
   nextTick(() => {
     const node = findNode((nodes.value.length - 1).toString())!;

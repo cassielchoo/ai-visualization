@@ -1,6 +1,6 @@
 <template>
   <router-view></router-view>
-  <v-snackbar v-model="store.showSnackBar" timeout="2000">
+  <v-snackbar v-model="store.showSnackBar" timeout="2000" location="top">
     {{ store.message }}
 
     <template v-slot:actions>
@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import { useAppStore } from '@/store/app';
 
-
 const store = useAppStore();
+
 
 </script>
 

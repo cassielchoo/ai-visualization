@@ -1,24 +1,29 @@
 // Utilities
 import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
+import { User } from '@/service/interface';
+
 
 export const useAppStore = defineStore('app', () => {
   const token: Ref<string> = ref(localStorage.getItem('TOKEN') ?? '');
 
-  const userId: Ref<string> = ref(localStorage.getItem('USERID') ?? '');
-
-  const saveLoginInfo = (t: string, id: string) => {
+  const saveLoginInfo = (t: string) => {
     token.value = t;
-    userId.value = id;
     localStorage.setItem('TOKEN', t);
-    localStorage.setItem('USERID', id);
   };
 
+  const user: Ref<User> = ref({
+    userId: '',
+    userName: '',
+    userPasshash: '',
+    userPhone: '',
+    userPhoto: '',
+  });
+
   const deleteLoginInfo = () => {
-    localStorage.removeItem('TOKEN');
-    localStorage.removeItem('USERID');
+    localStorage.clear();
     token.value = '';
-    userId.value = '';
+    handleGlobalMessaging('登出成功，正在跳转首页');
   };
 
   const message: Ref<string> = ref('');
@@ -36,5 +41,6 @@ export const useAppStore = defineStore('app', () => {
     message,
     showSnackBar,
     token,
+    user,
   };
 });

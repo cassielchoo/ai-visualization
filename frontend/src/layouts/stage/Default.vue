@@ -10,7 +10,7 @@
           :src="isDark ? darkLogo : lightLogo"
           style="display: block; margin: 1.25rem auto; cursor: pointer"
           width="200"
-          @click="router.push({name:'home'})"
+          @click="router.push({ name: 'home' })"
         ></v-img>
       </template>
 
@@ -38,6 +38,7 @@
             variant="plain"
             prepend-icon="mdi-exit-to-app"
             class="text-error"
+            @click="logout"
           >
             退出登录
           </v-btn>
@@ -93,10 +94,14 @@ import DefaultView from './View.vue';
 import { Ref, computed, ref, ComputedRef, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useDisplay, useTheme } from 'vuetify';
+import { useAppStore } from '@/store/app';
+
+import { getUserInfo } from '@/service/users';
 
 import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 
+const { deleteLoginInfo } = useAppStore();
 const router = useRouter();
 
 const { mobile } = useDisplay();
@@ -106,7 +111,7 @@ const drawercolor: ComputedRef<string> = computed(() =>
   theme.current.value.dark ? '#181818' : '#ffffff',
 );
 
-onMounted(() => {
+onMounted(async () => {
   const Router = useRouter().options.routes[0].children;
   for (const route of Router!) {
     items.value.push({
@@ -115,6 +120,14 @@ onMounted(() => {
       icon: typeof route.meta?.icon === 'string' ? route.meta?.icon : '',
     });
   }
+
+  const res = await getUserInfo();
+  user.value = {
+    name: res.data!.userName,
+    avatar: res.data!.userPhoto,
+  };
+
+
 });
 
 interface Item {
@@ -137,8 +150,8 @@ interface User {
   avatar: string;
 }
 const user: Ref<User> = ref({
-  name: 'John Doe',
-  avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
+  name: '',
+  avatar: '',
 });
 
 const isDark: ComputedRef<boolean> = computed(
@@ -150,4 +163,10 @@ function toggleTheme() {
 }
 
 const notifCount: Ref<number> = ref(99);
+
+const logout = () => {
+  deleteLoginInfo();
+  router.push({ name: 'home' });
+};
+
 </script>
