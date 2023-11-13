@@ -12,13 +12,11 @@ import {
   UserLoginProps,
   ResponseData,
   UserLoginResData,
-  User,
-} from './interface';
+} from './request';
+import { User } from '../types/user';
 
 //用户登录
-export const userLogin = async (
-  data: UserLoginProps,
-): Promise<ResponseData<UserLoginResData>> => {
+export const userLogin = async (data: UserLoginProps) => {
   const res: ResponseData<UserLoginResData> = await axios({
     method: 'post',
     url: `/user/login`,
@@ -43,9 +41,7 @@ export const userLogin = async (
 };
 
 //用户注册
-export const userRegister = async (
-  data: UserRegisterProps,
-): Promise<ResponseData> => {
+export const userRegister = async (data: UserRegisterProps) => {
   const res: ResponseData = await axios({
     method: 'post',
     url: `/user/register`,

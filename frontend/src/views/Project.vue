@@ -18,15 +18,25 @@
         <create-project-dialog v-model="showCreateProjectDialog" />
       </v-col>
       <v-col cols="12" sm="4">
-        <create-with-template-dialog v-model="showCreateWithTemplateDialog"/>
+        <create-with-template-dialog v-model="showCreateWithTemplateDialog" />
       </v-col>
       <v-col cols="12" sm="4">
-        <upload-data-dialog v-model="showUploadDataDialog"/>
+        <upload-data-dialog v-model="showUploadDataDialog" />
       </v-col>
     </v-row>
     <v-row class="mt-5">
-      <v-col cols="12" sm="6" lg="4" xl="3" v-for="proj of 8" :key="proj">
-        <project-card></project-card>
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+        xl="3"
+        v-for="proj of projs"
+        :key="proj.modelId"
+      >
+        <project-card
+          :proj="proj"
+          @toggleFavorite="toggleFavorite(proj)"
+        ></project-card>
       </v-col>
     </v-row>
   </v-container>
@@ -38,12 +48,14 @@ import ProjectCard from '@/components/ProjectCard.vue';
 import CreateProjectDialog from '@/components/project/CreateProjectDialog.vue';
 import CreateWithTemplateDialog from '@/components/project/CreateWithTemplateDialog.vue';
 import UploadDataDialog from '@/components/project/UploadDataDialog.vue';
+import { onMounted } from 'vue';
+import { getModelList, setModelFav } from '@/service/model';
+import { BriefModel } from '@/types/model';
 
 interface Tab {
   name: string;
   value: number;
 }
-
 
 const selectedTab: Ref<number> = ref(0);
 
@@ -65,4 +77,19 @@ const tabs: Ref<Tab[]> = ref([
     value: 2,
   },
 ]);
+
+const projs: Ref<BriefModel[]> = ref([]);
+
+const toggleFavorite = async (proj: BriefModel) => {
+  proj.isFavourite = proj.isFavourite === '1' ? '0' : '1';
+  await setModelFav({
+    isFavourite: proj.isFavourite,
+    modelId: proj.modelId,
+  });
+};
+
+onMounted(async () => {
+  const res = await getModelList();
+  projs.value = res.data ?? [];
+});
 </script>

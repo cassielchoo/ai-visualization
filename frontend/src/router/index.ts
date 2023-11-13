@@ -58,7 +58,7 @@ const routes = [
     ],
   },
   {
-    path: '/edit',
+    path: '/edit/:id',
     name: 'edit',
     component: () => import('@/layouts/edit/Default.vue'),
   },

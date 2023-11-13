@@ -8,7 +8,7 @@
           icon="mdi-arrow-left"
           @click="goBack"
         ></v-app-bar-nav-icon>
-        <span style="font-size: 20px">{{ projectName }}</span>
+        <span style="font-size: 20px">{{ projStore.modelInfo.modelName }}</span>
       </template>
 
       <app-bar-menus />
@@ -38,7 +38,9 @@
           width="120"
         >
           <v-icon>{{ cloudStatus.icon }}</v-icon>
-          <span v-if="showStatusText" class="mx-1">{{ cloudStatusText }}</span>
+          <span v-if="showStatusText" class="mx-1">
+            {{ projStore.cloudStatusText }}
+          </span>
         </v-btn>
         <v-btn
           :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
@@ -49,12 +51,12 @@
 
         <v-list-item
           density="compact"
-          :prepend-avatar="user.avatar"
+          :prepend-avatar="appStore.user.userPhoto"
           class="mx-3"
           variant="flat"
           @click="1"
         >
-          {{ user.name }}
+          {{ appStore.user.userName }}
         </v-list-item>
       </template>
     </v-app-bar>
@@ -70,22 +72,24 @@ import AppBarMenus from '@/components/edit/AppBarMenus.vue';
 import { computed, ComputedRef, onMounted, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTheme } from 'vuetify';
+import { useProjectStore } from '@/store/project';
+import { useAppStore } from '@/store/app';
 
 const theme = useTheme();
 const router = useRouter();
+const projStore = useProjectStore();
+const appStore = useAppStore();
 
-const projectName: Ref<string> = ref('项目1');
 
-const cloudStatusText: Ref<string> = ref('已保存');
 const showStatusText: Ref<boolean> = ref(true);
 
 const cloudStatus = computed(() => {
-  if (cloudStatusText.value === '已保存')
+  if (projStore.cloudStatusText === '已保存')
     return {
       icon: 'mdi-cloud-check-outline',
       color: 'success',
     };
-  if (cloudStatusText.value === '正在保存') {
+  if (projStore.cloudStatusText === '正在保存') {
     return {
       icon: 'mdi-cloud-sync-outline',
       color: 'warning',
@@ -103,16 +107,6 @@ const goBack = () => {
   });
 };
 
-interface User {
-  name: string;
-  avatar: string;
-}
-
-const user: Ref<User> = ref({
-  name: 'John Doe',
-  avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-});
-
 const isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
 );
@@ -123,10 +117,6 @@ function toggleTheme() {
 
 onMounted(async () => {
   const res = await getUserInfo();
-  user.value = {
-    name: res.data!.userName,
-    avatar: res.data!.userPhoto,
-  };
+  appStore.user = res.data!;
 });
-
 </script>

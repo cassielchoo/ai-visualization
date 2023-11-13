@@ -24,7 +24,7 @@
           :src="isDark ? darkLogo : lightLogo"
         ></v-img>
 
-        <v-form>
+        <v-form @submit.prevent="submit" v-model="isValid">
           <div class="text-medium-emphasis">用户名</div>
 
           <v-text-field
@@ -68,7 +68,7 @@
             color="blue"
             size="large"
             variant="tonal"
-            @click="submit"
+            type="submit"
             :loading="loginLoading"
           >
             登录
@@ -85,7 +85,7 @@ import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 import { userLogin } from '@/service/users';
-import { UserLoginProps } from '@/service/interface';
+import { UserLoginProps } from '@/service/request';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -119,12 +119,16 @@ const rules = {
   ],
 };
 
+const isValid: Ref<boolean> = ref(false);
+
 const loginLoading: Ref<boolean> = ref(false);
 
 const submit = async () => {
-  loginLoading.value = true;
-  const res = await userLogin(loginForm.value);
-  loginLoading.value = false;
-  if (res.code === 200) router.push({ name: 'project' });
+  if (isValid.value) {
+    loginLoading.value = true;
+    const res = await userLogin(loginForm.value);
+    loginLoading.value = false;
+    if (res.code === 200) router.push({ name: 'project' });
+  }
 };
 </script>

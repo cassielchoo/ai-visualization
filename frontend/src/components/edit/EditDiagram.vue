@@ -1,5 +1,10 @@
 <template>
-  <div class="dndflow" @drop="onDrop" :oncontextmenu="openContextMenu">
+  <div
+    class="dndflow"
+    @drop="onDrop"
+    :oncontextmenu="openContextMenu"
+    id="diagram"
+  >
     <VueFlow @dragover="onDragOver" fit-view-on-init>
       <Background :variant="patternVariant" :patternColor="patternColor" />
     </VueFlow>
@@ -8,11 +13,22 @@
 
 <script lang="ts" setup>
 import { GraphEdge, GraphNode, VueFlow, useVueFlow } from '@vue-flow/core';
-import { nextTick, watch, ref, ComputedRef, computed, Ref } from 'vue';
+import {
+  nextTick,
+  watch,
+  ref,
+  ComputedRef,
+  computed,
+  Ref,
+  onMounted,
+} from 'vue';
 import { useTheme } from 'vuetify';
 import { Background, BackgroundVariant } from '@vue-flow/background';
 import { onContextMenu } from './contextMenu/context-menu';
 import { useProjectStore } from '@/store/project';
+import { getModelById } from '@/service/model';
+import { handleSaveModel } from './save-model';
+import { useRoute } from 'vue-router';
 const theme = useTheme();
 const store = useProjectStore();
 
@@ -53,29 +69,6 @@ const openContextMenu = (e: MouseEvent) => {
 };
 
 onPaneReady((instance: typeof VueFlow) => {
-  const flow = JSON.parse(localStorage.getItem(store.id) ?? '{}');
-  
-  if (flow) {
-    fromObject(flow);
-  }
-
-  nodes.value.forEach((node: GraphNode) => {
-    node.style = () => {
-      if (node.selected)
-        return {
-          '--vf-node-text': 'white',
-          '--vf-node-bg': node.data.color,
-          '--vf-node-color': node.data.color,
-          'border-color': node.data.accentColor + '!important',
-        };
-      return {
-        '--vf-node-text': 'white',
-        '--vf-node-bg': node.data.color,
-        '--vf-node-color': node.data.color,
-      };
-    };
-  });
-
   instance.fitView();
 });
 
@@ -98,6 +91,7 @@ onConnect((params: GraphEdge) => {
   const judger = handleRules.every((rule) => rule());
   if (judger) {
     addEdges([params]);
+    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject()));
   }
 });
 
@@ -142,7 +136,7 @@ const onDrop = (event: DragEvent) => {
     },
   ]);
 
-  localStorage.setItem(store.id, JSON.stringify(toObject()));
+  handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject()));
 
   nextTick(() => {
     const node = findNode((nodes.value.length - 1).toString())!;
@@ -161,6 +155,39 @@ const onDrop = (event: DragEvent) => {
     );
   });
 };
+
+const route = useRoute();
+
+onMounted(async () => {
+  store.modelInfo.modelId = route.params.id as string;
+
+  const res = await getModelById(store.modelInfo.modelId);
+
+  store.modelInfo=res.data
+
+  const flow = JSON.parse(res.data!.dataJson);
+
+  if (flow) {
+    fromObject(flow);
+  }
+
+  nodes.value.forEach((node: GraphNode) => {
+    node.style = () => {
+      if (node.selected)
+        return {
+          '--vf-node-text': 'white',
+          '--vf-node-bg': node.data.color,
+          '--vf-node-color': node.data.color,
+          'border-color': node.data.accentColor + '!important',
+        };
+      return {
+        '--vf-node-text': 'white',
+        '--vf-node-bg': node.data.color,
+        '--vf-node-color': node.data.color,
+      };
+    };
+  });
+});
 </script>
 
 <style>
@@ -175,4 +202,3 @@ const onDrop = (event: DragEvent) => {
   height: 100%;
 }
 </style>
-./contextMenu/context-menu

@@ -21,10 +21,17 @@ export interface UserRegisterProps {
   userName: string;
 }
 
-export interface User {
-  userId: string;
-  userName: string;
-  userPasshash: string;
-  userPhone: string;
-  userPhoto: string;
+export interface CreateModelResData {
+  modelId:string;
+}
+
+export interface SetModelFavProps {
+  isFavourite:string;
+  modelId:string;
+}
+
+export interface SaveModelProps {
+  modelId:string;
+  datajson:string;
+  thumbnailUrl:string;
 }

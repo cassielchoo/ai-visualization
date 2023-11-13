@@ -11,7 +11,7 @@
           @click="toggleTheme"
         ></v-btn>
         <v-btn @click="dialog = true" v-if="!store.token">登录</v-btn>
-        <v-btn :to="{name:'project'}" v-else>进入控制台</v-btn>
+        <v-btn :to="{ name: 'project' }" v-else>进入控制台</v-btn>
 
         <v-dialog v-model="dialog" width="348" persistent>
           <login-box

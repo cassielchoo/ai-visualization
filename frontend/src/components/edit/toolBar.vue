@@ -154,6 +154,7 @@ import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { ref, Ref } from 'vue';
 import { toolbardata, Tool, ToolClass } from './toolbardata';
 import { useProjectStore } from '@/store/project';
+import { handleSaveModel } from './save-model';
 const store = useProjectStore();
 
 let mini: Ref<boolean> = ref(false);
@@ -179,7 +180,6 @@ let searchLoading: Ref<boolean> = ref(false);
 const { addNodes, nodes, dimensions, toObject } = useVueFlow();
 
 const addNode = (toolclass: ToolClass, tool: Tool) => {
-  console.log(123)
   addNodes([
     {
       id: nodes.value.length.toString(),
@@ -211,7 +211,7 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
     },
   ]);
 
-  localStorage.setItem(store.id, JSON.stringify(toObject()));
+    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject()));
 };
 
 const narrowTool = () => {

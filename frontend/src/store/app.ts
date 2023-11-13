@@ -1,7 +1,7 @@
 // Utilities
 import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
-import { User } from '@/service/interface';
+import { User } from '@/types/user';
 
 
 export const useAppStore = defineStore('app', () => {

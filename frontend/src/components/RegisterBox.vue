@@ -25,7 +25,7 @@
           :src="isDark ? darkLogo : lightLogo"
         ></v-img>
 
-        <v-form>
+        <v-form @submit.prevent="submit" v-model="isValid">
           <div class="text-medium-emphasis">用户名</div>
 
           <v-text-field
@@ -93,7 +93,7 @@
             color="blue"
             size="large"
             variant="tonal"
-            @click="submit"
+            type="submit"
             :loading="registerLoading"
           >
             注册
@@ -110,7 +110,7 @@ import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 import { userRegister } from '@/service/users';
-import { UserRegisterProps } from '@/service/interface';
+import { UserRegisterProps } from '@/service/request';
 
 const emits = defineEmits(['to-login', 'close']);
 
@@ -161,11 +161,16 @@ const rules = {
   ],
 };
 
+const isValid: Ref<boolean> = ref(false);
+
 const registerLoading: Ref<boolean> = ref(false);
 
 const submit = async () => {
-  registerLoading.value = true;
-  await userRegister(registerForm.value);
-  registerLoading.value = false;
+  if (isValid.value) {
+    registerLoading.value = true;
+    await userRegister(registerForm.value);
+    registerLoading.value = false;
+  }
 };
 </script>
+@/service/request @/types/request

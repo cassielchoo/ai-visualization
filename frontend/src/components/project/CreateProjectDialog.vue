@@ -14,38 +14,40 @@
           width="100%"
           class="pa-6"
         >
+          <p class="mb-5" style="font-size: x-large">创建项目</p>
 
-        <p class="mb-5" style="font-size: x-large;">创建项目</p>
+          <v-form @submit.prevent="submit" v-model="isValid">
+            <v-text-field variant="underlined" v-model="form.name">
+              <template v-slot:prepend>项目名称</template>
+            </v-text-field>
 
-          <v-text-field variant="underlined">
-            <template v-slot:prepend>项目名称</template>
-          </v-text-field>
+            <v-radio-group v-model="form.type" inline>
+              <v-row>
+                <v-col style="text-align: left">
+                  <v-radio label="作为个人" value="s"></v-radio>
+                </v-col>
+                <v-col style="text-align: left">
+                  <v-radio label="作为团队" value="t"></v-radio>
+                </v-col>
+              </v-row>
+            </v-radio-group>
 
-          <v-radio-group v-model="form.type" inline>
-            <v-row>
-              <v-col style="text-align: left;">
-                <v-radio label="作为个人" value="s"></v-radio>
-              </v-col>
-              <v-col style="text-align: left;">
-                <v-radio label="作为团队" value="t"></v-radio>
-              </v-col>
-            </v-row>
-          </v-radio-group>
+            <v-divider class="mb-4"></v-divider>
 
-          <v-divider class="mb-4"></v-divider>
-
-          <div class="text-end">
-            <v-btn
-              class="text-none"
-              color="primary"
-              rounded
-              variant="flat"
-              width="90"
-              @loading="loading"
-            >
-              完成
-            </v-btn>
-          </div>
+            <div class="text-end">
+              <v-btn
+                class="text-none"
+                color="primary"
+                rounded
+                variant="flat"
+                width="90"
+                type="submit"
+                @loading="loading"
+              >
+                完成
+              </v-btn>
+            </div>
+          </v-form>
         </v-sheet>
       </v-dialog>
     </v-btn>
@@ -53,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { createModel } from '@/service/model';
 import { Ref, ref } from 'vue';
 
 const dialog = ref(false);
@@ -63,10 +66,20 @@ interface Form {
   type: 's' | 't';
 }
 
-const form:Ref<Form> = ref({
+const form: Ref<Form> = ref({
   name: '',
   type: 's',
 });
+
+const isValid: Ref<boolean> = ref(false);
+
+const submit = async () => {
+  if (isValid.value) {
+    loading.value=true
+    await createModel(form.value.name)
+    loading.value=false
+  }
+};
 </script>
 
 <style scoped></style>

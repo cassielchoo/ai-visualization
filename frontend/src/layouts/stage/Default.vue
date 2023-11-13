@@ -78,10 +78,10 @@
       <v-list-item
         variant="flat"
         @click="1"
-        :prepend-avatar="user.avatar"
+        :prepend-avatar="store.user.userPhoto"
         class="mx-3"
       >
-        {{ user.name }}
+        {{ store.user.userName }}
       </v-list-item>
     </v-app-bar>
 
@@ -101,7 +101,7 @@ import { getUserInfo } from '@/service/users';
 import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 
-const { deleteLoginInfo } = useAppStore();
+const store = useAppStore();
 const router = useRouter();
 
 const { mobile } = useDisplay();
@@ -122,12 +122,7 @@ onMounted(async () => {
   }
 
   const res = await getUserInfo();
-  user.value = {
-    name: res.data!.userName,
-    avatar: res.data!.userPhoto,
-  };
-
-
+  store.user = res.data!;
 });
 
 interface Item {
@@ -145,14 +140,6 @@ const showDrawerBtn: ComputedRef<boolean> = computed(() => {
 const search: Ref<string> = ref('');
 const searchLoading: Ref<boolean> = ref(false);
 
-interface User {
-  name: string;
-  avatar: string;
-}
-const user: Ref<User> = ref({
-  name: '',
-  avatar: '',
-});
 
 const isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
@@ -165,8 +152,7 @@ function toggleTheme() {
 const notifCount: Ref<number> = ref(99);
 
 const logout = () => {
-  deleteLoginInfo();
+  store.deleteLoginInfo();
   router.push({ name: 'home' });
 };
-
 </script>
