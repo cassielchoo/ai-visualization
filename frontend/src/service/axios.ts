@@ -18,13 +18,10 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   (config) => {
-    // 在发送请求之前做些什么，例如在header中加入token验证
-    //let token = localStorage.getItem('token')
-    //let userId = localStorage.getItem('userId')
-    //if (token) {
-    //config.headers.Authorization = token;
-    //config.headers.userId = userId;
-    //}
+    const token = localStorage.getItem('TOKEN')
+    if (token) {
+    config.headers.satoken = token;
+    }
 
     return config;
   },

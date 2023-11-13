@@ -1,10 +1,13 @@
 // Composables
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
     path: '/',
     redirect: '/home',
+    meta: {
+      requiresAuth: true,
+    },
     component: () => import('@/layouts/stage/Default.vue'),
     children: [
       {
@@ -76,8 +79,16 @@ const router = createRouter({
   routes,
 });
 
+
 router.beforeEach((to, from) => {
-  document.title = typeof to.meta.title === "string" ? to.meta.title : "EasyAI";
+  document.title = typeof to.meta.title === 'string' ? to.meta.title : 'EasyAI';
+
+  if (to.meta.requiresAuth) {
+    if (!localStorage.getItem('TOKEN')) {
+      router.push({ name: 'home' });
+      alert('请先登录');
+    }
+  }
 });
 
 export default router;

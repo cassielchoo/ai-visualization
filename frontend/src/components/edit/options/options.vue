@@ -56,11 +56,11 @@ import XgBoostOptions from './XgBoostOptions.vue'
 import LightGBM from './LightGBMOptions.vue'
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 
-const { nodes } = useVueFlow();
+const { getSelectedNodes } = useVueFlow();
 
 const selectedTab: Ref<string> = ref('');
 const selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
-  nodes.value.filter((node:GraphNode) => node.selected && node.data.hasOptions),
+  getSelectedNodes.value.filter((node:GraphNode) => node.data.hasOptions),
 );
 
 watch(

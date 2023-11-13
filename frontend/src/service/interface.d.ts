@@ -9,7 +9,6 @@ export interface UserLoginResData {
   tokenValue: string;
 }
 
-
 export interface UserLoginProps {
   userId: string;
   userPasshash: string;
@@ -22,3 +21,10 @@ export interface UserRegisterProps {
   userName: string;
 }
 
+export interface User {
+  userId: string;
+  userName: string;
+  userPasshash: string;
+  userPhone: string;
+  userPhoto: string;
+}
