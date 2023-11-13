@@ -242,11 +242,11 @@ public class cUserModel {
                 Map<String,String> resultMap = new HashMap<>();
                 result.setMsg("OK");
                 result.setCode(200);
-                log.info("/usermodel/save执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+                log.info("/usermodel/setfavourite执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result = Constants.setResult(result);
-            log.error("/usermodel/save执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+            log.error("/usermodel/setfavourite执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
         return JSON.toJSONString(result);
     }
