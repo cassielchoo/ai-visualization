@@ -119,26 +119,26 @@ public class RandomForest_K_means {
 ////            System.out.println(eval.recall(3));
             // 输出准确率
 
-            System.out.println(eval.toSummaryString("", true));
-            for (String item : eval.toSummaryString("", true).split("\n")) {
-                if (item.contains("Correlation coefficient")) {
-                    double correlatin = Double.parseDouble(item.split("                  ")[1]);
-                    pre_model.put("CC", correlatin);
-                } else if (item.contains("Mean absolute error")) {
-                    double MAE = Double.parseDouble(item.split("                      ")[1]);
-                    pre_model.put("MAE", MAE);
-                } else if (item.contains("Root mean squared error")) {
-                    double MSE = Double.parseDouble(item.split("                  ")[1]);
-                    pre_model.put("MSE", MSE);
-                } else if (item.contains("Relative absolute error")) {
-                    double RAE = turn_Str_to_Dou(item.split("                  ")[1]);
-                    pre_model.put("RAE", RAE);
-                } else if (item.contains("Root relative squared error")) {
-                    double RRSE = turn_Str_to_Dou(item.split("              ")[1]);
-                    pre_model.put("RRSE", RRSE);
-                    break;
-                }
-            }
+//            System.out.println(eval.toSummaryString("", true));
+//            for (String item : eval.toSummaryString("", true).split("\n")) {
+//                if (item.contains("Correlation coefficient")) {
+//                    double correlatin = Double.parseDouble(item.split("                  ")[1]);
+//                    pre_model.put("CC", correlatin);
+//                } else if (item.contains("Mean absolute error")) {
+//                    double MAE = Double.parseDouble(item.split("                      ")[1]);
+//                    pre_model.put("MAE", MAE);
+//                } else if (item.contains("Root mean squared error")) {
+//                    double MSE = Double.parseDouble(item.split("                  ")[1]);
+//                    pre_model.put("MSE", MSE);
+//                } else if (item.contains("Relative absolute error")) {
+//                    double RAE = turn_Str_to_Dou(item.split("                  ")[1]);
+//                    pre_model.put("RAE", RAE);
+//                } else if (item.contains("Root relative squared error")) {
+//                    double RRSE = turn_Str_to_Dou(item.split("              ")[1]);
+//                    pre_model.put("RRSE", RRSE);
+//                    break;
+//                }
+//            }
             returnJson.put("performance", pre_model);
 
             System.out.println(pre_model);
