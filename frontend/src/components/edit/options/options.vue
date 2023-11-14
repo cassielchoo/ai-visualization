@@ -11,66 +11,64 @@
         position: fixed;
       "
       variant="flat"
-      v-if="selectedNodes.length > 0"
+      
     >
-      <v-card-title>训练结果</v-card-title>
-      <v-card-text class="my-2">
-        <CNN-results />
-      </v-card-text>
 
-      <v-card-title>
-        <v-tabs density="compact" center-active v-model="selectedNode">
-          <v-tab v-for="node in selectedNodes" :key="node.id" :value="node">
-            {{ node.label }}
-          </v-tab>
-        </v-tabs>
-      </v-card-title>
-      <v-card-text class="my-2">
-        <import-options
-          v-if="selectedNode.label === '从 csv/excel 导入'"
-          :options="selectedNode.data.options"
-        ></import-options>
-        <kmeans-options
-          v-if="selectedNode.label === 'K-means'"
-          :options="selectedNode.data.options"
-          @save="saveOptions"
-        ></kmeans-options>
-        <GNNOptions
-          v-if="selectedNode.label === '卷积神经网络'"
-          :options="selectedNode.data.options"
-          @save="saveOptions"
-        ></GNNOptions>
-        <full-connect-options
-          v-if="selectedNode.label === '全连接神经网络'"
-          :options="selectedNode.data.options"
-          @save="saveOptions"
-        ></full-connect-options>
-        <random-forest-options
-          v-if="selectedNode.label === '随机森林'"
-          :options="selectedNode.data.options"
-          @save="saveOptions"
-        ></random-forest-options>
-        <RNNOptions
-          v-if="selectedNode.label === '循环神经网络'"
-          :options="selectedNode.data.options"
-          @save="saveOptions"
-        ></RNNOptions>
-        <cat-boost-options
-          v-if="selectedNode.label === 'Catboost'"
-          :options="selectedNode.data.options"
-          @save="saveOptions"
-        ></cat-boost-options>
-        <xg-boost-options
-          v-if="selectedNode.label === 'Xgboost'"
-          :options="selectedNode.data.options!"
-          @save="saveOptions"
-        ></xg-boost-options>
-        <light-GBM
-          v-if="selectedNode.label === 'lightGBM'"
-          :options="selectedNode.data.options"
-          @save="saveOptions"
-        ></light-GBM>
-      </v-card-text>
+      <div v-if="selectedNodes.length > 0">
+        <v-card-title>
+          <v-tabs density="compact" center-active v-model="selectedNode">
+            <v-tab v-for="node in selectedNodes" :key="node.id" :value="node">
+              {{ node.label }}
+            </v-tab>
+          </v-tabs>
+        </v-card-title>
+        <v-card-text class="my-2">
+          <import-options
+            v-if="selectedNode.label === '从 csv/excel 导入'"
+            :options="selectedNode.data.options"
+          ></import-options>
+          <kmeans-options
+            v-if="selectedNode.label === 'K-means'"
+            :options="selectedNode.data.options"
+            @save="saveOptions"
+          ></kmeans-options>
+          <GNNOptions
+            v-if="selectedNode.label === '卷积神经网络'"
+            :options="selectedNode.data.options"
+            @save="saveOptions"
+          ></GNNOptions>
+          <full-connect-options
+            v-if="selectedNode.label === '全连接神经网络'"
+            :options="selectedNode.data.options"
+            @save="saveOptions"
+          ></full-connect-options>
+          <random-forest-options
+            v-if="selectedNode.label === '随机森林'"
+            :options="selectedNode.data.options"
+            @save="saveOptions"
+          ></random-forest-options>
+          <RNNOptions
+            v-if="selectedNode.label === '循环神经网络'"
+            :options="selectedNode.data.options"
+            @save="saveOptions"
+          ></RNNOptions>
+          <cat-boost-options
+            v-if="selectedNode.label === 'Catboost'"
+            :options="selectedNode.data.options"
+            @save="saveOptions"
+          ></cat-boost-options>
+          <xg-boost-options
+            v-if="selectedNode.label === 'Xgboost'"
+            :options="selectedNode.data.options!"
+            @save="saveOptions"
+          ></xg-boost-options>
+          <light-GBM
+            v-if="selectedNode.label === 'lightGBM'"
+            :options="selectedNode.data.options"
+            @save="saveOptions"
+          ></light-GBM>
+        </v-card-text>
+      </div>
     </v-card>
   </aside>
 </template>
@@ -89,7 +87,7 @@ import LightGBM from './LightGBMOptions.vue';
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 import { handleSaveModel } from '../save-model';
 import { useProjectStore } from '@/store/project';
-import CNNResults from '@/components/edit/results/CNNResults.vue'
+import Results from '../results/Results.vue';
 const store = useProjectStore();
 
 const { getSelectedNodes, toObject } = useVueFlow();

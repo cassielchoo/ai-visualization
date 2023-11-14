@@ -1,7 +1,8 @@
 import { useAppStore } from '@/store/app';
 import axios from 'axios';
+import router from '@/router';
 
-const { handleGlobalMessaging } = useAppStore();
+const { handleGlobalMessaging, deleteLoginInfo } = useAppStore();
 
 const instance = axios.create({
   baseURL: '/api',
@@ -11,16 +12,16 @@ const instance = axios.create({
     //重试次数
     retry: 2,
     //重试间隔(ms)
-    retryDelay: 100
+    retryDelay: 100,
   },
 });
 
 // 请求拦截器
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('TOKEN')
+    const token = localStorage.getItem('TOKEN');
     if (token) {
-    config.headers.satoken = token;
+      config.headers.satoken = token;
     }
 
     return config;
@@ -34,8 +35,13 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   (response) => {
-    if (response.status === 200) return response.data;
-    else alert('错误');
+    if (response.status === 200) {
+      if (response.data.code === 403) {
+        deleteLoginInfo('登录信息过期');
+        router.push({ name: 'home' });
+      }
+      return response.data;
+    } else alert('错误');
   },
   (error) => {
     if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {

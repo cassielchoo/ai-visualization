@@ -124,9 +124,9 @@ import {
   xgBoostModel,
 } from '@/service/model';
 import { GraphNode, useVueFlow } from '@vue-flow/core';
-import { json } from 'stream/consumers';
+import { handleSaveModel } from '@/components/edit/save-model';
 
-const { nodes } = useVueFlow();
+const { nodes,toObject } = useVueFlow();
 
 const theme = useTheme();
 const router = useRouter();
@@ -160,17 +160,17 @@ const submit = async () => {
       break;
     case '全连接神经网络':
       res = await fullConnectModel(node.data.options);
-      console.log(res);
-
       break;
     case '卷积神经网络':
-      await CNNModel(node.data.options);
+      res = await CNNModel(node.data.options);
       break;
     case '循环神经网络':
       res = await RNNModel(node.data.options);
-      console.log(typeof res);
       break;
   }
+  node.data.results = res?.data;
+  handleSaveModel(projStore.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+
 };
 
 const cloudStatus = computed(() => {

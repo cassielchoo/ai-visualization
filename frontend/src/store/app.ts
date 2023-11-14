@@ -20,10 +20,10 @@ export const useAppStore = defineStore('app', () => {
     userPhoto: '',
   });
 
-  const deleteLoginInfo = () => {
+  const deleteLoginInfo = (msg: string = '登出成功，正在跳转首页') => {
     localStorage.clear();
     token.value = '';
-    handleGlobalMessaging('登出成功，正在跳转首页');
+    handleGlobalMessaging(msg);
   };
 
   const message: Ref<string> = ref('');
