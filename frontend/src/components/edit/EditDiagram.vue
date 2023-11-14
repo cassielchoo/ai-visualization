@@ -210,5 +210,10 @@ onMounted(async () => {
   flex-grow: 1;
   height: 100%;
 }
+
+.vue-flow__handle{
+  width:10px !important;
+  height:5px !important;
+  border-radius: 3px !important;
+}
 </style>
-@/service/user-model
