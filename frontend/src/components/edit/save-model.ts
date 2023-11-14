@@ -1,4 +1,4 @@
-import { saveModel } from '@/service/model';
+import { saveModel } from '@/service/user-model';
 import html2canvas from 'html2canvas';
 
 export const handleSaveModel = async (modelId: string, dataJson: string) => {
@@ -10,7 +10,7 @@ export const handleSaveModel = async (modelId: string, dataJson: string) => {
     })
   ).toDataURL('image/jpeg');
 
-  saveModel({
+  await saveModel({
     modelId,
     datajson: dataJson,
     thumbnailUrl: canvas,

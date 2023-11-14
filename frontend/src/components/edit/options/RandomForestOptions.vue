@@ -1,20 +1,28 @@
 <template>
-    <v-text-field type="number" label="树的个数 Num of Trees" variant="underlined" v-model="num"></v-text-field>
-    <v-text-field type="number" label="深度 Depth (0为不设限)" variant="underlined" v-model="depth"></v-text-field>
-    <v-text-field type="number" label="随机种子 Seed" variant="underlined" v-model="seed"></v-text-field>
-    <v-text-field type="number" label="特征采样参数 Num of Attributes" variant="underlined" v-model="attriNum"></v-text-field>
-
+    <v-text-field type="number" label="树的个数 Num of Trees" variant="underlined" v-model="options.NumTrees"></v-text-field>
+    <v-text-field type="number" label="深度 Depth (0为不设限)" variant="underlined" v-model="options.depth"></v-text-field>
+    <v-text-field type="number" label="随机种子 Seed" variant="underlined" v-model="options.NumSeed"></v-text-field>
+    <v-text-field type="number" label="特征采样参数 Num of Attributes" variant="underlined" v-model="options.NumAttribute"></v-text-field>
+  <v-row>
+    <v-col><v-btn block variant="text" color="primary">恢复默认</v-btn></v-col>
+    <v-col><v-btn block variant="tonal" color="primary" @click="saveOptions">保存</v-btn></v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
+import { RandomForestModelProps } from '@/service/request';
 import { Ref, ref } from 'vue';
 
+const props = defineProps<{
+  options: RandomForestModelProps;
+}>();
 
-const num: Ref<number> = ref(100)
-const depth:Ref<number>=ref(0)
-const seed:Ref<number>=ref(1)
-const attriNum:Ref<number>=ref(0)
+const emits = defineEmits(['save']);
+const options = ref({ ...props.options });
 
+const saveOptions = () => {
+  emits('save', options.value);
+};
 </script>
 
 <style scoped>

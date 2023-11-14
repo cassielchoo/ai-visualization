@@ -163,11 +163,14 @@ let open: Ref<string[]> = ref([]);
 
 const onDragStart = (event: DragEvent, toolclass: ToolClass, tool: Tool) => {
   if (event.dataTransfer) {
+    event.dataTransfer.setData('category', toolclass.value);
     event.dataTransfer.setData('type', toolclass.type);
     event.dataTransfer.setData('color', toolclass.color);
     event.dataTransfer.setData('accentColor', toolclass.accentColor);
     event.dataTransfer.setData('name', tool.name);
     event.dataTransfer.setData('data', tool.hasOptions.toString());
+    event.dataTransfer.setData('options', JSON.stringify(tool.options ?? {}));
+
     event.dataTransfer.setData('application/vueflow', toolclass.type);
 
     event.dataTransfer.effectAllowed = 'move';
@@ -180,38 +183,45 @@ let searchLoading: Ref<boolean> = ref(false);
 const { addNodes, nodes, dimensions, toObject } = useVueFlow();
 
 const addNode = (toolclass: ToolClass, tool: Tool) => {
-  addNodes([
-    {
-      id: nodes.value.length.toString(),
-      type: toolclass.type,
-      position: {
-        x: dimensions.value.width / 2,
-        y: dimensions.value.height / 2,
-      },
-      data: {
-        color: toolclass.color,
-        accentColor: toolclass.accentColor,
-        hasOptions: tool.hasOptions.toString() === 'true',
-      },
-      label: tool.name,
-      style: (el: GraphNode) => {
-        if (el.selected)
+  if (
+    toolclass.value !== 'model' ||
+    nodes.value.filter((node: GraphNode) => node.data.category === 'model')
+      .length === 0
+  )
+    addNodes([
+      {
+        id: nodes.value.length.toString(),
+        type: toolclass.type,
+        position: {
+          x: dimensions.value.width / 2,
+          y: dimensions.value.height / 2,
+        },
+        data: {
+          color: toolclass.color,
+          accentColor: toolclass.accentColor,
+          hasOptions: tool.hasOptions.toString() === 'true',
+          options: tool.options,
+          category: toolclass.value,
+        },
+        label: tool.name,
+        style: (el: GraphNode) => {
+          if (el.selected)
+            return {
+              '--vf-node-text': 'white',
+              '--vf-node-bg': toolclass.color,
+              '--vf-node-color': toolclass.color,
+              'border-color': toolclass.accentColor + '!important',
+            };
           return {
             '--vf-node-text': 'white',
             '--vf-node-bg': toolclass.color,
             '--vf-node-color': toolclass.color,
-            'border-color': toolclass.accentColor + '!important',
           };
-        return {
-          '--vf-node-text': 'white',
-          '--vf-node-bg': toolclass.color,
-          '--vf-node-color': toolclass.color,
-        };
+        },
       },
-    },
-  ]);
+    ]);
 
-    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject()));
+  handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
 };
 
 const narrowTool = () => {

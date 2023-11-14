@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { createModel } from '@/service/model';
+import { createModel } from '@/service/user-model';
 import { Ref, ref } from 'vue';
 
 const dialog = ref(false);
@@ -75,11 +75,12 @@ const isValid: Ref<boolean> = ref(false);
 
 const submit = async () => {
   if (isValid.value) {
-    loading.value=true
-    await createModel(form.value.name)
-    loading.value=false
+    loading.value = true;
+    await createModel(form.value.name);
+    loading.value = false;
   }
 };
 </script>
 
 <style scoped></style>
+@/service/user-model

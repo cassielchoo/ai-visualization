@@ -1,80 +1,117 @@
 import axios from './axios';
 import { useAppStore } from '@/store/app';
+import {
+  ResponseData,
+  kMeansModelProps,
+  kMeansModelResData,
+  RandomForestModelProps,
+  RandomForestModelResData,
+  CatBoostModelResData,
+  CNNModelProps,
+  CNNResData,
+  FullConnectModelProps,
+  FullConnectResData,
+  LightGBMResData,
+  RNNResData,
+  XgBoostResData,
+  XgBoostModelProps,
+  PredProps,
+  LightGBMProps,
+  CatBoostModelProps,
+  RNNProps,
+} from './request';
 
 const store = useAppStore();
 
 const { handleGlobalMessaging } = store;
 
-import {
-  CreateModelResData,
-  ResponseData,
-  SetModelFavProps,
-  SaveModelProps,
-} from './request';
-import { BriefModel, Model } from '@/types/model';
-
-//创建项目
-export const createModel = async (modelName: string) => {
-  const res: ResponseData<CreateModelResData> = await axios({
+//Kmeans模型
+export const kMeansModel = async (data: kMeansModelProps) => {
+  const res: ResponseData<kMeansModelResData> = await axios({
     method: 'post',
-    url: `/usermodel/creat`,
-    data: {
-      modelName,
-    },
-  });
-
-  if (res.code === 200) {
-    handleGlobalMessaging('创建成功');
-  } else {
-    handleGlobalMessaging('创建失败');
-  }
-
-  return res;
-};
-
-//获取模型列表
-export const getModelList = async () => {
-  const res: ResponseData<BriefModel[]> = await axios({
-    method: 'post',
-    url: `/usermodel/getmodelbyuserid`,
-  });
-
-  return res;
-};
-
-//设置模型收藏
-export const setModelFav = async (data: SetModelFavProps) => {
-  const res: ResponseData = await axios({
-    method: 'post',
-    url: `/usermodel/setfavourite`,
+    url: `/model/Kmeans`,
     data,
   });
-
-  if (res.code !== 200) {
-    handleGlobalMessaging('设置失败');
-  }
-
   return res;
 };
 
-//根据modelid获取模型详细信息
-export const getModelById = async (modelId: string) => {
-  const res: ResponseData<Model> = await axios({
+//RandomForest模型
+export const randomForestModel = async (data: RandomForestModelProps) => {
+  const res: ResponseData<RandomForestModelResData> = await axios({
     method: 'post',
-    url: `/usermodel/getmodelbymodelid`,
-    data: {
-      modelId,
-    },
+    url: `/model/RandomForest`,
+    data,
   });
-
   return res;
 };
 
-//保存模型
-export const saveModel = async (data: SaveModelProps) => {
-  const res: ResponseData<Model> = await axios({
+//CatBoost模型
+export const catBoostModel = async (data: CatBoostModelProps) => {
+  const res: ResponseData<CatBoostModelResData> = await axios({
     method: 'post',
-    url: `/usermodel/save`,
+    url: `/model/Catboost`,
+    data
+  });
+  return res;
+};
+
+//CNN模型
+export const CNNModel = async (data: CNNModelProps) => {
+  const res: ResponseData<CNNResData> = await axios({
+    method: 'post',
+    url: `/model/CNN`,
+    data,
+  });
+  return res;
+};
+
+//FullConnect模型
+export const fullConnectModel = async (data: FullConnectModelProps) => {
+  const res: ResponseData<FullConnectResData> = await axios({
+    method: 'post',
+    url: `/model/FullConnect`,
+    data,
+  });
+  return res;
+};
+
+//LightGBM模型
+export const lightGBMModel = async (data: LightGBMProps) => {
+  const res: ResponseData<LightGBMResData> = await axios({
+    method: 'post',
+    url: `/model/LightGBM`,
+    data
+  });
+  return res;
+};
+
+//RNN模型
+export const RNNModel = async (data: RNNProps) => {
+  const res: ResponseData<RNNResData> = await axios({
+    method: 'post',
+    url: `/model/RNN`,
+    data
+  });
+  return res;
+};
+
+//XgBoost模型
+export const xgBoostModel = async (data: XgBoostModelProps) => {
+  const res: ResponseData<XgBoostResData> = await axios({
+    method: 'post',
+    url: `/model/Xgboost`,
+    data,
+  });
+  return res;
+};
+
+
+
+//预测
+export const handlePred = async (data: PredProps) => {
+  const res: ResponseData = await axios({
+    method: 'post',
+    url: `/model/Pred`,
     data,
   });
   return res;

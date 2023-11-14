@@ -23,7 +23,46 @@
       >
         <v-icon>mdi-fast-forward</v-icon>
         训练
+
+        <v-dialog v-model="showTrainDialog" activator="parent" width="400">
+          <v-sheet
+            elevation="12"
+            max-width="600"
+            rounded="lg"
+            width="100%"
+            class="pa-6"
+          >
+            <p class="mb-5" style="font-size: x-large">是否开始训练</p>
+
+            <v-divider class="mb-4"></v-divider>
+
+            <div class="text-end">
+              <v-btn
+                class="text-none"
+                color="primary"
+                rounded
+                variant="text"
+                width="90"
+                type="submit"
+                @click="showTrainDialog = false"
+              >
+                取消
+              </v-btn>
+              <v-btn
+                class="text-none"
+                color="primary"
+                rounded
+                variant="flat"
+                width="90"
+                @click="submit"
+              >
+                确定
+              </v-btn>
+            </div>
+          </v-sheet>
+        </v-dialog>
       </v-btn>
+
       <v-btn variant="text" @click="1" class="mx-1" density="comfortable">
         <v-icon>mdi-graph</v-icon>
         预测
@@ -74,14 +113,60 @@ import { useRouter } from 'vue-router';
 import { useTheme } from 'vuetify';
 import { useProjectStore } from '@/store/project';
 import { useAppStore } from '@/store/app';
+import {
+  kMeansModel,
+  randomForestModel,
+  catBoostModel,
+  CNNModel,
+  fullConnectModel,
+  lightGBMModel,
+  RNNModel,
+  xgBoostModel,
+} from '@/service/model';
+import { GraphNode, useVueFlow } from '@vue-flow/core';
+
+const { nodes } = useVueFlow();
 
 const theme = useTheme();
 const router = useRouter();
 const projStore = useProjectStore();
 const appStore = useAppStore();
 
-
 const showStatusText: Ref<boolean> = ref(true);
+
+const showTrainDialog: Ref<boolean> = ref(false);
+
+const submit = async () => {
+  const node: GraphNode = nodes.value.find(
+    (n: GraphNode) => n.data.category === 'model',
+  );
+  switch (node.label) {
+    case '随机森林':
+      await randomForestModel(node.data.options);
+      break;
+    case 'lightGBM':
+      await lightGBMModel(node.data.options);
+      break;
+    case 'Xgboost':
+      await xgBoostModel(node.data.options);
+      break;
+    case 'Catboost':
+      await catBoostModel(node.data.options);
+      break;
+    case 'K-means':
+      await kMeansModel(node.data.options);
+      break;
+    case '全连接神经网络':
+      await fullConnectModel(node.data.options);
+      break;
+    case '卷积神经网络':
+      await CNNModel(node.data.options);
+      break;
+    case '循环神经网络':
+      await RNNModel(node.data.options);
+      break;
+  }
+};
 
 const cloudStatus = computed(() => {
   if (projStore.cloudStatusText === '已保存')

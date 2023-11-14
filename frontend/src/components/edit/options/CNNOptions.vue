@@ -3,27 +3,26 @@
     type="number"
     label="学习率 Learning Rate"
     variant="underlined"
-    v-model="options.eta"
+    v-model="options.learningRate"
   ></v-text-field>
   <v-text-field
     type="number"
-    label="迭代次数 Num of Epochs"
+    label="批次大小 Batch Size"
+    variant="underlined"
+    v-model="options.batchSize"
+  ></v-text-field>
+  <v-text-field
+    type="number"
+    label="遍历次数 Num of Epochs"
     variant="underlined"
     v-model="options.nEpochs"
   ></v-text-field>
   <v-text-field
     type="number"
-    label="最大深度 Max Depth"
+    label="隐藏神经元个数 Num of Hidden Nodes"
     variant="underlined"
-    v-model="options.depth"
+    v-model="options.numHiddenNodes"
   ></v-text-field>
-
-  <v-select
-    label="目标函数 Objective Function"
-    variant="underlined"
-    :items="objFunctions"
-    v-model="options.objFunc"
-  ></v-select>
   <v-row>
     <v-col><v-btn block variant="text" color="primary">恢复默认</v-btn></v-col>
     <v-col>
@@ -36,14 +35,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import objFunctions from './objective-functions';
-import { CatBoostModelProps } from '@/service/request';
+import { CNNModelProps } from '@/service/request';
 
 const props = defineProps<{
-  options: CatBoostModelProps;
+  options: CNNModelProps;
 }>();
+
 const emits = defineEmits(['save']);
 const options = ref({ ...props.options });
+
 const saveOptions = () => {
   emits('save', options.value);
 };

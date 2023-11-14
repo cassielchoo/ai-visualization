@@ -26,7 +26,7 @@ import { useTheme } from 'vuetify';
 import { Background, BackgroundVariant } from '@vue-flow/background';
 import { onContextMenu } from './contextMenu/context-menu';
 import { useProjectStore } from '@/store/project';
-import { getModelById } from '@/service/model';
+import { getModelById } from '@/service/user-model';
 import { handleSaveModel } from './save-model';
 import { useRoute } from 'vue-router';
 const theme = useTheme();
@@ -91,16 +91,18 @@ onConnect((params: GraphEdge) => {
   const judger = handleRules.every((rule) => rule());
   if (judger) {
     addEdges([params]);
-    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject()));
+    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
   }
 });
 
 const onDrop = (event: DragEvent) => {
+  const category = event.dataTransfer!.getData('category');
   const type = event.dataTransfer!.getData('type');
   const color = event.dataTransfer!.getData('color');
   const accentColor = event.dataTransfer!.getData('accentColor');
   const name = event.dataTransfer!.getData('name');
   const data = event.dataTransfer!.getData('data');
+  const options = JSON.parse(event.dataTransfer!.getData('options'));
 
   const { left, top } = vueFlowRef.value!.getBoundingClientRect() ?? 0;
   const position = project({
@@ -108,52 +110,59 @@ const onDrop = (event: DragEvent) => {
     y: event.clientY - top,
   });
 
-  addNodes([
-    {
-      id: nodes.value.length.toString(),
-      type,
-      position,
-      label: name,
-      data: {
-        color,
-        accentColor,
-        hasOptions: data === 'true',
-      },
-      style: (el: GraphNode) => {
-        if (el.selected)
+  if (
+    category !== 'model' ||
+    nodes.value.filter((node: GraphNode) => node.data.category === 'model')
+      .length === 0
+  ) {
+    addNodes([
+      {
+        id: nodes.value.length.toString(),
+        type,
+        position,
+        label: name,
+        data: {
+          color,
+          accentColor,
+          hasOptions: data === 'true',
+          options,
+          category
+        },
+        style: (el: GraphNode) => {
+          if (el.selected)
+            return {
+              '--vf-node-text': 'white',
+              '--vf-node-bg': color,
+              '--vf-node-color': color,
+              'border-color': accentColor + '!important',
+            };
           return {
             '--vf-node-text': 'white',
             '--vf-node-bg': color,
             '--vf-node-color': color,
-            'border-color': accentColor + '!important',
           };
-        return {
-          '--vf-node-text': 'white',
-          '--vf-node-bg': color,
-          '--vf-node-color': color,
-        };
+        },
       },
-    },
-  ]);
+    ]);
+    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
 
-  handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject()));
-
-  nextTick(() => {
-    const node = findNode((nodes.value.length - 1).toString())!;
-    const stop = watch(
-      () => node.dimensions,
-      (dimensions) => {
-        if (dimensions.width > 0 && dimensions.height > 0) {
-          node.position = {
-            x: node.position.x - node.dimensions.width / 2,
-            y: node.position.y - node.dimensions.height / 2,
-          };
-          stop();
-        }
-      },
-      { deep: true, flush: 'post' },
-    );
-  });
+    nextTick(() => {
+      const node = findNode((nodes.value.length - 1).toString())!;
+      const stop = watch(
+        () => node.dimensions,
+        (dimensions) => {
+          if (dimensions.width > 0 && dimensions.height > 0) {
+            node.position = {
+              x: node.position.x - node.dimensions.width / 2,
+              y: node.position.y - node.dimensions.height / 2,
+            };
+            stop();
+          }
+        },
+        { deep: true, flush: 'post' },
+      );
+    });
+  }
 };
 
 const route = useRoute();
@@ -163,7 +172,7 @@ onMounted(async () => {
 
   const res = await getModelById(store.modelInfo.modelId);
 
-  store.modelInfo=res.data
+  store.modelInfo = res.data!;
 
   const flow = JSON.parse(res.data!.dataJson);
 
@@ -202,3 +211,4 @@ onMounted(async () => {
   height: 100%;
 }
 </style>
+@/service/user-model

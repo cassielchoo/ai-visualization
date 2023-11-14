@@ -49,7 +49,7 @@ import CreateProjectDialog from '@/components/project/CreateProjectDialog.vue';
 import CreateWithTemplateDialog from '@/components/project/CreateWithTemplateDialog.vue';
 import UploadDataDialog from '@/components/project/UploadDataDialog.vue';
 import { onMounted } from 'vue';
-import { getModelList, setModelFav } from '@/service/model';
+import { getModelList, setModelFav } from '@/service/user-model';
 import { BriefModel } from '@/types/model';
 
 interface Tab {
@@ -93,3 +93,4 @@ onMounted(async () => {
   projs.value = res.data ?? [];
 });
 </script>
+@/service/user-model

@@ -3,28 +3,40 @@
     type="number"
     label="学习率 Learning Rate"
     variant="underlined"
-    v-model="learningRate"
+    v-model="options.learningRate"
   ></v-text-field>
   <v-text-field
     type="number"
     label="批次大小 Batch Size"
     variant="underlined"
-    v-model="batchSize"
+    v-model="options.batchSize"
   ></v-text-field>
   <v-text-field
     type="number"
     label="隐藏单元个数 Num of Hidden Units"
     variant="underlined"
-    v-model="hiddenNum"
+    v-model="options.numHiddenNodes"
   ></v-text-field>
+    <v-row>
+    <v-col><v-btn block variant="text" color="primary">恢复默认</v-btn></v-col>
+    <v-col><v-btn block variant="tonal" color="primary" @click="saveOptions">保存</v-btn></v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
+import { RNNProps } from '@/service/request';
 import { Ref, ref } from 'vue';
 
-const learningRate: Ref<number> = ref(0);
-const batchSize: Ref<number> = ref(0);
-const hiddenNum: Ref<number> = ref(0);
+const props = defineProps<{
+  options: RNNProps;
+}>();
+
+const emits = defineEmits(['save']);
+const options = ref({ ...props.options });
+
+const saveOptions = () => {
+  emits('save', options.value);
+};
 </script>
 
 <style scoped></style>

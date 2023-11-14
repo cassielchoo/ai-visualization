@@ -14,30 +14,57 @@
       v-if="selectedNodes.length > 0"
     >
       <v-card-title>
-        <v-tabs density="compact" center-active v-model="selectedTab">
-          <v-tab
-            v-for="(node, i) in selectedNodes"
-            :key="i"
-            :value="node.label"
-          >
+        <v-tabs density="compact" center-active v-model="selectedNode">
+          <v-tab v-for="node in selectedNodes" :key="node.id" :value="node">
             {{ node.label }}
           </v-tab>
         </v-tabs>
       </v-card-title>
       <v-card-text class="my-2">
-        <kmeans-options v-if="selectedTab === 'K-means'"></kmeans-options>
         <import-options
-          v-if="selectedTab === '从 csv/excel 导入'"
+          v-if="selectedNode.label === '从 csv/excel 导入'"
+          :options="selectedNode.data.options"
         ></import-options>
-        <GNNOptions v-if="selectedTab === '卷积神经网络'"></GNNOptions>
+        <kmeans-options
+          v-if="selectedNode.label === 'K-means'"
+          :options="selectedNode.data.options"
+          @save="saveOptions"
+        ></kmeans-options>
+        <GNNOptions
+          v-if="selectedNode.label === '卷积神经网络'"
+          :options="selectedNode.data.options"
+          @save="saveOptions"
+        ></GNNOptions>
         <full-connect-options
-          v-if="selectedTab === '全连接神经网络'"
+          v-if="selectedNode.label === '全连接神经网络'"
+          :options="selectedNode.data.options"
+          @save="saveOptions"
         ></full-connect-options>
-        <random-forest-options v-if="selectedTab === '随机森林'"></random-forest-options>
-        <RNNOptions v-if="selectedTab === '循环神经网络'"></RNNOptions>
-        <cat-boost-options v-if="selectedTab === 'Catboost'"></cat-boost-options>
-        <xg-boost-options v-if="selectedTab === 'Xgboost'"></xg-boost-options>
-        <light-GBM v-if="selectedTab === 'lightGBM'"></light-GBM>
+        <random-forest-options
+          v-if="selectedNode.label === '随机森林'"
+          :options="selectedNode.data.options"
+          @save="saveOptions"
+        ></random-forest-options>
+        <RNNOptions
+          v-if="selectedNode.label === '循环神经网络'"
+          :options="selectedNode.data.options"
+          @save="saveOptions"
+        ></RNNOptions>
+        <cat-boost-options
+          v-if="selectedNode.label === 'Catboost'"
+          :options="selectedNode.data.options"
+          @save="saveOptions"
+        ></cat-boost-options>
+        <xg-boost-options
+          v-if="selectedNode.label === 'Xgboost'"
+          :options="selectedNode.data.options!"
+          @save="saveOptions"
+        ></xg-boost-options>
+        <light-GBM
+          v-if="selectedNode.label === 'lightGBM'"
+          :options="selectedNode.data.options"
+          @save="saveOptions"
+        ></light-GBM>
       </v-card-text>
     </v-card>
   </aside>
@@ -47,27 +74,36 @@
 import { GraphNode, useVueFlow } from '@vue-flow/core';
 import ImportOptions from './ImportOptions.vue';
 import KmeansOptions from './KMeansOptions.vue';
-import GNNOptions from './GNNOptions.vue';
+import GNNOptions from './CNNOptions.vue';
 import FullConnectOptions from './FullConnectOptions.vue';
 import RandomForestOptions from './RandomForestOptions.vue';
 import RNNOptions from './RNNOptions.vue';
 import CatBoostOptions from './CatBoostOptions.vue';
-import XgBoostOptions from './XgBoostOptions.vue'
-import LightGBM from './LightGBMOptions.vue'
+import XgBoostOptions from './XgBoostOptions.vue';
+import LightGBM from './LightGBMOptions.vue';
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
+import { handleSaveModel } from '../save-model';
+import { useProjectStore } from '@/store/project';
+const store = useProjectStore();
 
-const { getSelectedNodes } = useVueFlow();
+const { getSelectedNodes,toObject } = useVueFlow();
 
-const selectedTab: Ref<string> = ref('');
 const selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
-  getSelectedNodes.value.filter((node:GraphNode) => node.data.hasOptions),
+  getSelectedNodes.value.filter((node: GraphNode) => node.data.hasOptions),
 );
+const selectedNode: Ref<GraphNode> = ref(selectedNodes.value[0]);
+
+const saveOptions = (options: any) => {
+  console.log(options);
+  selectedNode.value.data.options = options;
+  handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+};
 
 watch(
   () => selectedNodes,
   () => {
     if (selectedNodes.value.length === 1) {
-      selectedTab.value = typeof selectedNodes.value[0].label === 'string'? selectedNodes.value[0].label : '';
+      selectedNode.value = selectedNodes.value[0];
     }
   },
   {
