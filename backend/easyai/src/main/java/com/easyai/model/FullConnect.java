@@ -90,12 +90,12 @@ public class FullConnect {
         model.init();
 //        model.setListeners(new ScoreIterationListener(10)); //Print score every 10 parameter updates
 
-        Map<Integer,Double> loss = new HashMap<>();
+        Map<String,Double> loss = new HashMap<>();
         int index = 0;
         for(int i = 0;i<nEpochs;i++) {
             model.fit(trainIter);
             double score = model.score();
-            loss.put(index,score);
+            loss.put(String.valueOf(index),score);
             index=index+1;
         }
         System.out.println(loss.toString());

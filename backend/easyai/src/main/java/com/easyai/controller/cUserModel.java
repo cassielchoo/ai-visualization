@@ -45,7 +45,7 @@ public class cUserModel {
         try {
             StpUtil.checkLogin();
         } catch (Exception e) {
-            result.setCode(500);
+            result.setCode(403);
             result.setMsg("Error");
             Map<String,String> returnMap = new HashMap<>();
             returnMap.put("Error", e.getMessage());
@@ -90,7 +90,7 @@ public class cUserModel {
         try {
             StpUtil.checkLogin();
         } catch (Exception e) {
-            result.setCode(500);
+            result.setCode(403);
             result.setMsg("Error");
             Map<String,String> returnMap = new HashMap<>();
             returnMap.put("Error", e.getMessage());
@@ -143,7 +143,7 @@ public class cUserModel {
         try {
             StpUtil.checkLogin();
         } catch (Exception e) {
-            result.setCode(500);
+            result.setCode(403);
             result.setMsg("Error");
             Map<String,String> returnMap = new HashMap<>();
             returnMap.put("Error", e.getMessage());
@@ -178,7 +178,7 @@ public class cUserModel {
         try {
             StpUtil.checkLogin();
         } catch (Exception e) {
-            result.setCode(500);
+            result.setCode(403);
             result.setMsg("Error");
             Map<String,String> returnMap = new HashMap<>();
             returnMap.put("Error", e.getMessage());
@@ -212,7 +212,7 @@ public class cUserModel {
         try {
             StpUtil.checkLogin();
         } catch (Exception e) {
-            result.setCode(500);
+            result.setCode(403);
             result.setMsg("Error");
             Map<String,String> returnMap = new HashMap<>();
             returnMap.put("Error", e.getMessage());
@@ -263,7 +263,7 @@ public class cUserModel {
         try {
             StpUtil.checkLogin();
         } catch (Exception e) {
-            result.setCode(500);
+            result.setCode(403);
             result.setMsg("Error");
             Map<String,String> returnMap = new HashMap<>();
             returnMap.put("Error", e.getMessage());

@@ -13,6 +13,11 @@
       variant="flat"
       v-if="selectedNodes.length > 0"
     >
+      <v-card-title>训练结果</v-card-title>
+      <v-card-text class="my-2">
+        <CNN-results />
+      </v-card-text>
+
       <v-card-title>
         <v-tabs density="compact" center-active v-model="selectedNode">
           <v-tab v-for="node in selectedNodes" :key="node.id" :value="node">
@@ -84,9 +89,10 @@ import LightGBM from './LightGBMOptions.vue';
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 import { handleSaveModel } from '../save-model';
 import { useProjectStore } from '@/store/project';
+import CNNResults from '@/components/edit/results/CNNResults.vue'
 const store = useProjectStore();
 
-const { getSelectedNodes,toObject } = useVueFlow();
+const { getSelectedNodes, toObject } = useVueFlow();
 
 const selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
   getSelectedNodes.value.filter((node: GraphNode) => node.data.hasOptions),

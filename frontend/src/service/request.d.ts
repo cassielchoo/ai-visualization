@@ -150,6 +150,7 @@ export interface LightGBMResData {
 export interface RNNProps {
   learningRate: number;
   batchSize: number;
+  nEpochs: number;
   numHiddenNodes: number;
 }
 

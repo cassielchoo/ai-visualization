@@ -77,14 +77,14 @@ public class CNN {
 //        model.setListeners(new ScoreIterationListener(10));  //Print score every 10 parameter updates
 
 //        System.out.println("/////////");
-        Map<Integer,Double> loss = new HashMap<>();
+        Map<String,Double> loss = new HashMap<>();
         for(int i = 0;i<nEpochs;i++) {
             model.fit(trainIter);
             double score = model.score();
 //            System.out.println("1111");
             System.out.println(score);
 //            System.out.println("2222");
-            loss.put(i,score);
+            loss.put(String.valueOf(i),score);
         }
 
         System.out.println(loss.toString());

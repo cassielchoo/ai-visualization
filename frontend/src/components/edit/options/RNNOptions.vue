@@ -13,6 +13,12 @@
   ></v-text-field>
   <v-text-field
     type="number"
+    label="遍历次数 Num of Epochs"
+    variant="underlined"
+    v-model="options.nEpochs"
+  ></v-text-field>
+  <v-text-field
+    type="number"
     label="隐藏单元个数 Num of Hidden Units"
     variant="underlined"
     v-model="options.numHiddenNodes"

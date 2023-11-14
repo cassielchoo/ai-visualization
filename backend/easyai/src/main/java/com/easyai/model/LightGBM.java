@@ -107,13 +107,13 @@ public class LightGBM {
         LGBMDataset testdataset = data(testpath);
         LGBMBooster booster = LGBMBooster.create(traindataset,"objective=multiclass num_class=3");
 //        booster.addValidData(testdataset);
-        Map<Integer,Double> loss = new HashMap<>();
+        Map<String,Double> loss = new HashMap<>();
         for(int i=0;i<nEpoch;i++){
             booster.updateOneIter();
             double[] eval =booster.getEval(0);
             System.out.println("-------start--------");
             System.out.println(eval[0]);
-            loss.put(i,eval[0]);
+            loss.put(String.valueOf(i),eval[0]);
             System.out.println("-------end--------");
             assertTrue(eval[0]>0);
         }

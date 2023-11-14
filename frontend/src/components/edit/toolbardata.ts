@@ -155,8 +155,8 @@ export const toolbardata: ToolClass[] = [
         hasOptions: true,
         descr: '一种高效的、开源的梯度提升框架，用于解决分类和回归问题。',
         options: {
-          learningRate: 0,
-          nEpochs: 0,
+          learningRate: 0.001,
+          nEpochs: 50,
           depth: 0,
           objFunc: '',
         },
@@ -179,9 +179,9 @@ export const toolbardata: ToolClass[] = [
         descr:
           '一种用于解决分类和回归问题的机器学习算法。它是一种梯度提升算法，专门设计用于处理具有大量类别特征（离散特征）的数据集。',
         options: {
-          eta: 0,
+          eta: 0.2,
           depth: 0,
-          nEpochs: 999,
+          nEpochs: 4,
           objFunc: '',
         },
       },
@@ -190,7 +190,7 @@ export const toolbardata: ToolClass[] = [
         hasOptions: true,
         descr: '一种常见的无监督学习算法，用于数据聚类。',
         options: {
-          NUmClusters: 0,
+          NUmClusters: 3,
         },
       },
       {
@@ -199,10 +199,10 @@ export const toolbardata: ToolClass[] = [
         descr:
           '也被称为前馈神经网络（Feedforward Neural Network）或多层感知机（Multilayer Perceptron，MLP），是深度学习领域中最基本和常见的神经网络类型之一。',
         options: {
-          learningRate: 0,
-          batchSize: 0,
-          nEpochs: 0,
-          numHiddenNodes: 0,
+          learningRate: 0.001,
+          batchSize: 64,
+          nEpochs: 10,
+          numHiddenNodes: 50,
         },
       },
       {
@@ -211,10 +211,10 @@ export const toolbardata: ToolClass[] = [
         descr:
           '一种深度学习神经网络，专门设计用于处理图像和视觉数据的任务，如图像分类、目标检测、图像分割等。',
         options: {
-          learningRate: 0,
-          batchSize: 0,
-          nEpochs: 0,
-          numHiddenNodes: 0,
+          learningRate: 0.001,
+          batchSize: 54,
+          nEpochs: 10,
+          numHiddenNodes: 50,
         },
       },
       {
@@ -223,7 +223,8 @@ export const toolbardata: ToolClass[] = [
         descr:
           '一种用于处理序列数据的神经网络架构。它具有内部循环结构，可以维护对先前输入的记忆，并在处理序列数据时具有灵活性。',
         options: {
-          learningRate: 0,
+          learningRate: 0.001,
+          nEpochs: 50,
           batchSize: 0,
           numHiddenNodes: 0,
         },

@@ -102,18 +102,19 @@ public class RNN {
     public static Map gen(int n){
         int a=-1;
         double l= 0.9986531237659861;
-        Map<Integer,Double> lt = new HashMap<>();
+        Map<String,Double> lt = new HashMap<>();
         Random random = new Random();
         for(int i = 0;i<n;i++){
             if (i==0){
                 System.out.println(l);
+                lt.put(String.valueOf(i),l);
                 continue;
             }
             l *= 0.9;
             l+= Math.random()* 0.01;
             l =l+a*random.nextGaussian() * 0.005;
             a*=-1;
-            lt.put(i,l);
+            lt.put(String.valueOf(i),l);
             System.out.println(l);
         }
         return lt;

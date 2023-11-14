@@ -59,12 +59,12 @@ public class cUsers {
                         result.setData(returnJson);
                         log.info("/cUser/login执行,userId:{},现在时间是:{},port:{}",userId, DateUtil.now(),serverPort);
                     }else{
-                        result.setCode(403);
+                        result.setCode(500);
                         result.setMsg("Password Incorrect");
                         log.warn("/cUser/login执行,userId:{},密码错误,现在时间是:{},port:{}",userId,DateUtil.now(),serverPort);
                     }
                 }else{
-                    result.setCode(403);
+                    result.setCode(500);
                     result.setMsg("Account Did Not Exist");
                     log.warn("/cUser/login执行,userId:{},账号不存在,现在时间是:{},port:{}",userId,DateUtil.now(),serverPort);
                 }
@@ -99,7 +99,7 @@ public class cUsers {
                     result.setCode(200);
                     log.info("/cUser/register执行,userId:{},现在时间:{},port:{}",userId,DateUtil.now(),serverPort);
                 }else{
-                    result.setCode(403);
+                    result.setCode(500);
                     result.setMsg("Account Already Exist");
                     log.warn("/cUser/register执行,账号已存在,userId:{},现在时间:{},port:{}",userId,DateUtil.now(),serverPort);
                 }

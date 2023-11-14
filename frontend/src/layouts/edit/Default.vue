@@ -124,6 +124,7 @@ import {
   xgBoostModel,
 } from '@/service/model';
 import { GraphNode, useVueFlow } from '@vue-flow/core';
+import { json } from 'stream/consumers';
 
 const { nodes } = useVueFlow();
 
@@ -140,30 +141,34 @@ const submit = async () => {
   const node: GraphNode = nodes.value.find(
     (n: GraphNode) => n.data.category === 'model',
   );
+  let res;
   switch (node.label) {
     case '随机森林':
-      await randomForestModel(node.data.options);
+      res = await randomForestModel(node.data.options);
       break;
     case 'lightGBM':
-      await lightGBMModel(node.data.options);
+      res = await lightGBMModel(node.data.options);
       break;
     case 'Xgboost':
-      await xgBoostModel(node.data.options);
+      res = await xgBoostModel(node.data.options);
       break;
     case 'Catboost':
-      await catBoostModel(node.data.options);
+      res = await catBoostModel(node.data.options);
       break;
     case 'K-means':
-      await kMeansModel(node.data.options);
+      res = await kMeansModel(node.data.options);
       break;
     case '全连接神经网络':
-      await fullConnectModel(node.data.options);
+      res = await fullConnectModel(node.data.options);
+      console.log(res);
+
       break;
     case '卷积神经网络':
       await CNNModel(node.data.options);
       break;
     case '循环神经网络':
-      await RNNModel(node.data.options);
+      res = await RNNModel(node.data.options);
+      console.log(typeof res);
       break;
   }
 };
