@@ -2,6 +2,7 @@ import axios from './axios';
 import sha256 from 'crypto-js/sha256';
 import CryptoJS from 'crypto-js';
 import { useAppStore } from '@/store/app';
+import defaultAvatar from '@/assets/default_avatar.png';
 
 const store = useAppStore();
 
@@ -62,9 +63,12 @@ export const userRegister = async (data: UserRegisterProps) => {
 };
 
 //获取用户信息
-export const getUserInfo = async (): Promise<ResponseData<User>> => {
-  return await axios({
+export const getUserInfo = async () => {
+  const res: ResponseData<User> = await axios({
     method: 'get',
     url: `/user/info`,
   });
+
+  res.data!.userPhoto = res.data?.userPhoto || defaultAvatar;
+  return res;
 };

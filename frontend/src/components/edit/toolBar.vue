@@ -97,6 +97,33 @@
         <v-divider class="mx-8 my-3"></v-divider>
         <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
           怎么使用
+          <v-tooltip
+            activator="parent"
+            open-delay="200"
+            style="color:aquamarine;color"
+            theme="light"
+          >
+            <v-sheet
+              class="py-3"
+              rounded="xl"
+              theme="dark"
+              color="#212121"
+              style="line-height: 2rem"
+            >
+              <!-- <video
+                :src="demoMp4"
+                width="550"
+                autoplay
+              ></video> -->
+              <v-row><v-img :src="demoGif" width="300"></v-img></v-row>
+              <div class="px-3 mt-4">
+                <v-row>1.从左侧工具目录内选择相应模块</v-row>
+                <v-row>2.将所选择的模块进行连线</v-row>
+                <v-row>3.点击相应模块来设置相关参数</v-row>
+                <v-row>4.点击相应按钮进行模型训练预测</v-row>
+              </div>
+            </v-sheet>
+          </v-tooltip>
         </v-btn>
       </v-card>
     </aside>
@@ -150,6 +177,9 @@
 </template>
 
 <script lang="ts" setup>
+import demoGif from '@/assets/howtouse_demo.gif';
+import demoMp4 from '@/assets/howtouse_demo.mp4';
+
 import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { ref, Ref } from 'vue';
 import { toolbardata, Tool, ToolClass } from './toolbardata';
@@ -264,5 +294,8 @@ const expandTool = (value?: string) => {
 .node {
   border-style: solid;
 }
+
+#v-tooltip-41 {
+  --v-theme-surface-variant: 33, 33, 33;
+}
 </style>
-@/components/edit/toolbardata
