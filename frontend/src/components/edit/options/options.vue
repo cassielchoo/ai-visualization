@@ -98,7 +98,6 @@ const selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
 const selectedNode: Ref<GraphNode> = ref(selectedNodes.value[0]);
 
 const saveOptions = (options: any) => {
-  console.log(options);
   selectedNode.value.data.options = options;
   handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
 };

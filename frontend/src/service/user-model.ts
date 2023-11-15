@@ -66,7 +66,6 @@ export const getModelById = async (modelId: string) => {
       modelId,
     },
   });
-  console.log(res);
   return res;
 };
 
