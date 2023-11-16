@@ -126,7 +126,7 @@ import {
 import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { handleSaveModel } from '@/components/edit/save-model';
 
-const { nodes,toObject } = useVueFlow();
+const { nodes, toObject, addNodes } = useVueFlow();
 
 const theme = useTheme();
 const router = useRouter();
@@ -168,9 +168,31 @@ const submit = async () => {
       res = await RNNModel(node.data.options);
       break;
   }
-  node.data.results = res?.data;
-  handleSaveModel(projStore.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
 
+  if (res?.code === 200) {
+    addNodes([
+      {
+        id: nodes.value.length.toString(),
+        type: 'results',
+        position: {
+          x: node.position.x + 400,
+          y: node.position.y,
+        },
+        data: {
+          hasOptions: false,
+          category: 'results',
+          results: res?.data,
+          color:'#474747'
+        },
+        label: '训练结果',
+      },
+    ]);
+
+    handleSaveModel(
+      projStore.modelInfo.modelId,
+      JSON.stringify(toObject() ?? {}),
+    );
+  }
 };
 
 const cloudStatus = computed(() => {

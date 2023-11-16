@@ -100,10 +100,9 @@ export interface CNNResData {
     50: number;
   };
   performance: {
-    Accuracy: number;
-    Recall: number;
-    'F1 Score': number;
-    Precision: number;
+    recall: number;
+    f1score: number;
+    precision: number;
   };
 }
 
@@ -120,10 +119,9 @@ export interface FullConnectResData {
     50: number;
   };
   performance: {
-    Accuracy: number;
-    Recall: number;
-    'F1 Score': number;
-    Precision: number;
+    recall: number;
+    f1score: number;
+    precision: number;
   };
 }
 
@@ -140,10 +138,9 @@ export interface LightGBMResData {
     23: number;
   };
   performance: {
-    Accuracy: number;
-    Recall: number;
-    'F1 Score': number;
-    Precision: number;
+    recall: number;
+    f1score: number;
+    precision: number;
   };
 }
 

@@ -120,18 +120,15 @@ public class FullConnect {
         String evalStats = eval.stats();
         String[] lines = evalStats.split("\n");
         for (String line : lines) {
-            if (line.contains("Accuracy")) {//通过率或准确率
+            if (line.contains("Precision")) {
                 String[] text = line.split("[:,(\t]");
-                 performance.put ("Accuracy",Double.parseDouble(text[1].replaceAll("^\\s+", "")));
-            }else if (line.contains("Precision")) {
-                String[] text = line.split("[:,(\t]");
-                performance.put ("Precision",Double.parseDouble(text[1].replaceAll("^\\s+", "")));
+                performance.put ("precision",Double.parseDouble(text[1].replaceAll("^\\s+", "")));
             }else if(line.contains("Recall")){
                 String[] text = line.split("[:,(\t]");
-                performance.put ("Recall",Double.parseDouble(text[1].replaceAll("^\\s+", "")));
+                performance.put ("recall",Double.parseDouble(text[1].replaceAll("^\\s+", "")));
             }else if(line.contains("F1 Score")){
                 String[] text = line.split("[:,(\t]");
-                performance.put ("F1 Score",Double.parseDouble(text[1].replaceAll("^\\s+", "")));
+                performance.put ("f1score",Double.parseDouble(text[1].replaceAll("^\\s+", "")));
                 break;
             }
         }

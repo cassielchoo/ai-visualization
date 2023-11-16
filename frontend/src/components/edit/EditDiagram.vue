@@ -7,12 +7,16 @@
   >
     <VueFlow @dragover="onDragOver" fit-view-on-init>
       <Background :variant="patternVariant" :patternColor="patternColor" />
+      <template #node-results="{ data }">
+        <results-node :data="data.results"></results-node>
+      </template>
     </VueFlow>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { GraphEdge, GraphNode, VueFlow, useVueFlow } from '@vue-flow/core';
+import ResultsNode from './ResultsNode.vue';
 import {
   nextTick,
   watch,
@@ -126,7 +130,7 @@ const onDrop = (event: DragEvent) => {
           accentColor,
           hasOptions: data === 'true',
           options,
-          category
+          category,
         },
         style: (el: GraphNode) => {
           if (el.selected)
@@ -211,9 +215,9 @@ onMounted(async () => {
   height: 100%;
 }
 
-.vue-flow__handle{
-  width:10px !important;
-  height:5px !important;
+.vue-flow__handle {
+  width: 10px !important;
+  height: 5px !important;
   border-radius: 3px !important;
 }
 </style>

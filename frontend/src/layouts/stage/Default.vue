@@ -61,7 +61,7 @@
         flat
         hide-details
         class="ml-10"
-        variant="solo"
+        variant="outlined"
       ></v-text-field>
       <v-spacer></v-spacer>
 

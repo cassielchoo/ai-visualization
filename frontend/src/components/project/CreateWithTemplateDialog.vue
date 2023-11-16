@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-btn style="font-size: 1rem" variant="flat" block size="large">
+    <v-btn style="font-size: 1rem" variant="outlined" block size="large">
       使用模板创建新的项⽬
       <template v-slot:append>
         <v-icon>mdi-plus-circle-outline</v-icon>
