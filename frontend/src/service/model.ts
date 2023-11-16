@@ -32,6 +32,7 @@ export const kMeansModel = async (data: kMeansModelProps) => {
     url: `/model/Kmeans`,
     data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
   return res;
 };
 
@@ -42,6 +43,8 @@ export const randomForestModel = async (data: RandomForestModelProps) => {
     url: `/model/RandomForest`,
     data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
+
   return res;
 };
 
@@ -50,8 +53,10 @@ export const catBoostModel = async (data: CatBoostModelProps) => {
   const res: ResponseData<CatBoostModelResData> = await axios({
     method: 'post',
     url: `/model/Catboost`,
-    data
+    data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
+
   return res;
 };
 
@@ -62,6 +67,8 @@ export const CNNModel = async (data: CNNModelProps) => {
     url: `/model/CNN`,
     data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
+
   return res;
 };
 
@@ -72,6 +79,8 @@ export const fullConnectModel = async (data: FullConnectModelProps) => {
     url: `/model/FullConnect`,
     data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
+
   return res;
 };
 
@@ -80,8 +89,10 @@ export const lightGBMModel = async (data: LightGBMProps) => {
   const res: ResponseData<LightGBMResData> = await axios({
     method: 'post',
     url: `/model/LightGBM`,
-    data
+    data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
+
   return res;
 };
 
@@ -90,8 +101,10 @@ export const RNNModel = async (data: RNNProps) => {
   const res: ResponseData<RNNResData> = await axios({
     method: 'post',
     url: `/model/RNN`,
-    data
+    data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
+
   return res;
 };
 
@@ -102,13 +115,13 @@ export const xgBoostModel = async (data: XgBoostModelProps) => {
     url: `/model/Xgboost`,
     data,
   });
+  if (res.code === 500) handleGlobalMessaging('训练出现错误');
+
   return res;
 };
 
-
-
 //预测
-export const handlePred = async (data: PredProps) => {
+export const pred = async (data: PredProps) => {
   const res: ResponseData = await axios({
     method: 'post',
     url: `/model/Pred`,

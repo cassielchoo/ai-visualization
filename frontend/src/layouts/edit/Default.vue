@@ -63,9 +63,12 @@
         </v-dialog>
       </v-btn>
 
-      <v-btn variant="text" @click="1" class="mx-1" density="comfortable">
+      <v-btn variant="text" @click="pred" class="mx-1" density="comfortable">
         <v-icon>mdi-graph</v-icon>
         预测
+        <template v-slot:append v-if="openPred">
+          <v-icon>mdi-close</v-icon>
+        </template>
       </v-btn>
       <v-spacer></v-spacer>
       <template v-slot:append>
@@ -126,6 +129,8 @@ import {
 import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { handleSaveModel } from '@/components/edit/save-model';
 
+import { provide } from 'vue';
+
 const { nodes, toObject, addNodes } = useVueFlow();
 
 const theme = useTheme();
@@ -137,7 +142,11 @@ const showStatusText: Ref<boolean> = ref(true);
 
 const showTrainDialog: Ref<boolean> = ref(false);
 
+const type = ref('');
+provide('type', type);
+
 const submit = async () => {
+  showTrainDialog.value = false;
   const node: GraphNode = nodes.value.find(
     (n: GraphNode) => n.data.category === 'model',
   );
@@ -182,7 +191,7 @@ const submit = async () => {
           hasOptions: false,
           category: 'results',
           results: res?.data,
-          color:'#474747'
+          color: '#474747',
         },
         label: '训练结果',
       },
@@ -193,6 +202,20 @@ const submit = async () => {
       JSON.stringify(toObject() ?? {}),
     );
   }
+};
+
+const openPred = ref(false);
+
+const pred = () => {
+  const node: GraphNode = nodes.value.find(
+    (n: GraphNode) => n.data.category === 'model',
+  );
+  if (openPred.value) {
+    type.value = '';
+  } else {
+    type.value = node.label as string;
+  }
+  openPred.value = !openPred.value;
 };
 
 const cloudStatus = computed(() => {

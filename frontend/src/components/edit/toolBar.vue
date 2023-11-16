@@ -217,8 +217,8 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
     toolclass.value !== 'model' ||
     nodes.value.filter((node: GraphNode) => node.data.category === 'model')
       .length === 0
-  )
-    addNodes([
+  ) {
+    addNodes(
       {
         id: nodes.value.length.toString(),
         type: toolclass.type,
@@ -248,10 +248,11 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
             '--vf-node-color': toolclass.color,
           };
         },
-      },
-    ]);
+      }
+    );
 
-  handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+  }
 };
 
 const narrowTool = () => {

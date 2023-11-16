@@ -146,7 +146,7 @@ export const toolbardata: ToolClass[] = [
         options: {
           NumTrees: 100,
           depth: 0,
-          NumSeed: 1,
+          NumSeed: 123,
           NumAttribute: 0,
         },
       },

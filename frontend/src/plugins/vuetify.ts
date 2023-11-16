@@ -44,7 +44,6 @@ export default createVuetify({
           warning: '#FB8C00',
           strong: '#212121',
           background: '#f5f6f9',
-          'surface-variant': '#424242',
         },
       },
       dark: {
@@ -57,7 +56,6 @@ export default createVuetify({
           warning: '#FB8C00',
           strong: '#F5F5F5',
           background: '#121212',
-          'surface-variant': '#424242',
         },
       },
     },

@@ -52,7 +52,10 @@
 </template>
 
 <script setup lang="ts">
+import { useVueFlow } from '@vue-flow/core';
 import { Ref, ref } from 'vue';
+
+
 
 const files: Ref<File[]> = ref([]);
 const radios: Ref<number> = ref(1);

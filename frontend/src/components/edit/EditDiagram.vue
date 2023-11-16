@@ -119,35 +119,33 @@ const onDrop = (event: DragEvent) => {
     nodes.value.filter((node: GraphNode) => node.data.category === 'model')
       .length === 0
   ) {
-    addNodes([
-      {
-        id: nodes.value.length.toString(),
-        type,
-        position,
-        label: name,
-        data: {
-          color,
-          accentColor,
-          hasOptions: data === 'true',
-          options,
-          category,
-        },
-        style: (el: GraphNode) => {
-          if (el.selected)
-            return {
-              '--vf-node-text': 'white',
-              '--vf-node-bg': color,
-              '--vf-node-color': color,
-              'border-color': accentColor + '!important',
-            };
+    addNodes({
+      id: nodes.value.length.toString(),
+      type,
+      position,
+      label: name,
+      data: {
+        color,
+        accentColor,
+        hasOptions: data === 'true',
+        options,
+        category,
+      },
+      style: (el: GraphNode) => {
+        if (el.selected)
           return {
             '--vf-node-text': 'white',
             '--vf-node-bg': color,
             '--vf-node-color': color,
+            'border-color': accentColor + '!important',
           };
-        },
+        return {
+          '--vf-node-text': 'white',
+          '--vf-node-bg': color,
+          '--vf-node-color': color,
+        };
       },
-    ]);
+    });
     handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
 
     nextTick(() => {

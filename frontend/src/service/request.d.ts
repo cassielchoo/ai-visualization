@@ -171,9 +171,9 @@ export interface XgBoostResData {
 
 export interface PredProps {
   modelType: string;
-  name: string;
-  sepal_length: number;
-  sepal_width: number;
-  petal_length: number;
-  petal_width: number;
+  name?: string;
+  sepal_length?: number;
+  sepal_width?: number;
+  petal_length?: number;
+  petal_width?: number;
 }

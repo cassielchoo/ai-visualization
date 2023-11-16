@@ -21,10 +21,10 @@ export function onContextMenu(
   ) {
     items.push({
       label: '删除所选元素',
-      onClick: () => {
+      onClick: async() => {
         flow.removeNodes(flow.getSelectedNodes.value);
         flow.removeEdges(flow.getSelectedEdges.value);
-        handleSaveModel(
+        await handleSaveModel(
           store.modelInfo.modelId,
           JSON.stringify(flow.toObject()),
         );
