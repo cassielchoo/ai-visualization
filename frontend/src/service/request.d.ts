@@ -36,6 +36,9 @@ export interface SaveModelProps {
   thumbnailUrl: string;
 }
 
+
+
+
 export interface kMeansModelProps {
   NUmClusters: number;
 }
@@ -95,10 +98,7 @@ export interface CNNModelProps {
 }
 
 export interface CNNResData {
-  loss: {
-    1: number;
-    50: number;
-  };
+  loss: { [key: number]: number };
   performance: {
     recall: number;
     f1score: number;
@@ -114,10 +114,7 @@ export interface FullConnectModelProps {
 }
 
 export interface FullConnectResData {
-  loss: {
-    1: number;
-    50: number;
-  };
+  loss: { [key: number]: number };
   performance: {
     recall: number;
     f1score: number;
@@ -133,10 +130,7 @@ export interface LightGBMProps {
 }
 
 export interface LightGBMResData {
-  loss: {
-    22: number;
-    23: number;
-  };
+  loss: { [key: number]: number };
   performance: {
     recall: number;
     f1score: number;
@@ -152,10 +146,7 @@ export interface RNNProps {
 }
 
 export interface RNNResData {
-  loss: {
-    1: number;
-    50: number;
-  };
+  loss: { [key: number]: number };
   performance: {
     recall: number;
     f1score: number;
