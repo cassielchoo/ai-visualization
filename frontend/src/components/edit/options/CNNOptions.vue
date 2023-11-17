@@ -35,7 +35,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CNNModelProps } from '@/service/request';
+
+import {CNNModelProps} from "@/types/model";
 
 const props = defineProps<{
   options: CNNModelProps;

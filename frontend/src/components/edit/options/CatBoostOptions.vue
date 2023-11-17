@@ -37,7 +37,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import objFunctions from './objective-functions';
-import { CatBoostModelProps } from '@/service/request';
+
+import {CatBoostModelProps} from "@/types/model";
 
 const props = defineProps<{
   options: CatBoostModelProps;

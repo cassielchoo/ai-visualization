@@ -1,6 +1,6 @@
 import axios from './axios';
 import { useAppStore } from '@/store/app';
-
+import router from '@/router';
 const store = useAppStore();
 
 const { handleGlobalMessaging } = store;
@@ -10,7 +10,7 @@ import {
   ResponseData,
   SetModelFavProps,
   SaveModelProps,
-} from './request';
+} from './types/request';
 import { BriefModel, Model } from '@/types/model';
 
 //创建项目
@@ -24,7 +24,10 @@ export const createModel = async (modelName: string) => {
   });
 
   if (res.code === 200) {
-    handleGlobalMessaging('创建成功');
+    handleGlobalMessaging('创建成功,即将刷新页面');
+    setTimeout(() => {
+      router.go(0);
+    }, 500);
   } else {
     handleGlobalMessaging('创建失败');
   }
@@ -79,4 +82,23 @@ export const saveModel = async (data: SaveModelProps) => {
   return res;
 };
 
+//删除模型
+export const delModel = async (modelId: string) => {
+  const res: ResponseData<Model> = await axios({
+    method: 'post',
+    url: `/usermodel/delete`,
+    data: {
+      modelId,
+    },
+  });
 
+  if (res.code === 200) {
+    handleGlobalMessaging('删除成功，即将刷新页面');
+    setTimeout(() => {
+      router.go(0);
+    }, 500);
+  } else {
+    handleGlobalMessaging('删除失败');
+  }
+  return res;
+};

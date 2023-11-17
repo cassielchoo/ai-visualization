@@ -30,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { RNNProps } from '@/service/request';
 import { Ref, ref } from 'vue';
+import {RNNProps} from "@/types/model";
 
 const props = defineProps<{
   options: RNNProps;

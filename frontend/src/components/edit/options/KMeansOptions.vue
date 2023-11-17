@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import { kMeansModelProps } from '@/service/request';
 import { Ref, ref } from 'vue';
+import {kMeansModelProps} from "@/types/model";
 const props = defineProps<{
   options: kMeansModelProps;
 }>();

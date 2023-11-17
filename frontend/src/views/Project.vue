@@ -35,7 +35,8 @@
       >
         <project-card
           :proj="proj"
-          @toggleFavorite="toggleFavorite(proj)"
+          @togglefavorite="toggleFavorite(proj)"
+          @handledel="handleDel(proj.modelId)"
         ></project-card>
       </v-col>
     </v-row>
@@ -44,12 +45,12 @@
 
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
-import ProjectCard from '@/components/ProjectCard.vue';
-import CreateProjectDialog from '@/components/project/CreateProjectDialog.vue';
-import CreateWithTemplateDialog from '@/components/project/CreateWithTemplateDialog.vue';
-import UploadDataDialog from '@/components/project/UploadDataDialog.vue';
+import ProjectCard from '@/components/stage/project/ModelCard.vue';
+import CreateProjectDialog from '@/components/stage/project/CreateProjectDialog.vue';
+import CreateWithTemplateDialog from '@/components/stage/project/CreateWithTemplateDialog.vue';
+import UploadDataDialog from '@/components/stage/project/UploadDataDialog.vue';
 import { onMounted } from 'vue';
-import { getModelList, setModelFav } from '@/service/user-model';
+import { delModel, getModelList, setModelFav } from '@/service/user-model';
 import { BriefModel } from '@/types/model';
 
 interface Tab {
@@ -88,9 +89,12 @@ const toggleFavorite = async (proj: BriefModel) => {
   });
 };
 
+const handleDel = async (modelId: string) => {
+  await delModel(modelId);
+};
+
 onMounted(async () => {
   const res = await getModelList();
   projs.value = res.data ?? [];
 });
 </script>
-@/service/user-model

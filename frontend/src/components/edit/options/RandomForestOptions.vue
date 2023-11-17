@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { RandomForestModelProps } from '@/service/request';
 import { Ref, ref } from 'vue';
+import {RandomForestModelProps} from "@/types/model";
 
 const props = defineProps<{
   options: RandomForestModelProps;

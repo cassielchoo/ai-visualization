@@ -30,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { FullConnectModelProps } from '@/service/request';
 import {  ref } from 'vue';
+import {FullConnectModelProps} from "@/types/model";
 
 const props = defineProps<{
   options: FullConnectModelProps;

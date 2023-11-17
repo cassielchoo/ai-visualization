@@ -24,15 +24,13 @@ import { useVueFlow } from '@vue-flow/core';
 import { onMounted } from 'vue';
 import * as echarts from 'echarts';
 import {
-  CNNResData,
   CatBoostModelResData,
-  FullConnectResData,
-  LightGBMResData,
+  CNNResData,
+  FullConnectResData, kMeansModelResData,
+  LightGBMResData, RandomForestModelResData,
   RNNResData,
-  RandomForestModelResData,
-  XgBoostResData,
-  kMeansModelResData,
-} from '@/service/request';
+  XgBoostResData
+} from "@/types/model";
 const { onPaneReady } = useVueFlow();
 
 const props = defineProps<{

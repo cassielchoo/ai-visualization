@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-btn style="font-size: 1rem" variant="outlined" block size="large" >
+    <v-btn style="font-size: 1rem" variant="outlined" block size="large">
       创建新的项⽬
       <template v-slot:append>
         <v-icon>mdi-plus-circle-outline</v-icon>
@@ -17,7 +17,11 @@
           <p class="mb-5" style="font-size: x-large">创建项目</p>
 
           <v-form @submit.prevent="submit" v-model="isValid">
-            <v-text-field variant="underlined" v-model="form.name">
+            <v-text-field
+              variant="underlined"
+              v-model="form.name"
+              :rules="nonEmptyRule"
+            >
               <template v-slot:prepend>项目名称</template>
             </v-text-field>
 
@@ -61,6 +65,13 @@ import { Ref, ref } from 'vue';
 const dialog = ref(false);
 const loading = ref(false);
 
+const nonEmptyRule = [
+  (value: string) => {
+    if (value) return true;
+    return '不能为空';
+  },
+];
+
 interface Form {
   name: string;
   type: 's' | 't';
@@ -81,6 +92,3 @@ const submit = async () => {
   }
 };
 </script>
-
-<style scoped></style>
-@/service/user-model

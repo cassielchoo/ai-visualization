@@ -1,25 +1,25 @@
 import axios from './axios';
 import { useAppStore } from '@/store/app';
+import { ResponseData } from './types/request';
 import {
-  ResponseData,
-  kMeansModelProps,
-  kMeansModelResData,
-  RandomForestModelProps,
-  RandomForestModelResData,
+  CatBoostModelProps,
   CatBoostModelResData,
   CNNModelProps,
   CNNResData,
   FullConnectModelProps,
   FullConnectResData,
-  LightGBMResData,
-  RNNResData,
-  XgBoostResData,
-  XgBoostModelProps,
-  PredProps,
+  kMeansModelProps,
+  kMeansModelResData,
   LightGBMProps,
-  CatBoostModelProps,
+  LightGBMResData,
+  PredProps,
+  RandomForestModelProps,
+  RandomForestModelResData,
   RNNProps,
-} from './request';
+  RNNResData,
+  XgBoostModelProps,
+  XgBoostResData,
+} from '@/types/model';
 
 const store = useAppStore();
 
@@ -66,6 +66,7 @@ export const CNNModel = async (data: CNNModelProps) => {
     method: 'post',
     url: `/model/CNN`,
     data,
+    timeout: 0,
   });
   if (res.code === 500) handleGlobalMessaging('训练出现错误');
 
@@ -122,7 +123,7 @@ export const xgBoostModel = async (data: XgBoostModelProps) => {
 
 //预测
 export const pred = async (data: PredProps) => {
-  const res: ResponseData = await axios({
+  const res: ResponseData<{ result: string }> = await axios({
     method: 'post',
     url: `/model/Pred`,
     data,

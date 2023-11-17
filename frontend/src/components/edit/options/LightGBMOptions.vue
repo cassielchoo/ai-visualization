@@ -33,7 +33,8 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import objFunctions from './objective-functions'
-import { LightGBMProps } from '@/service/request';
+
+import {LightGBMProps} from "@/types/model";
 
 const props = defineProps<{
   options: LightGBMProps;

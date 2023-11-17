@@ -110,7 +110,7 @@ import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 import { userRegister } from '@/service/users';
-import { UserRegisterProps } from '@/service/request';
+import { UserRegisterProps } from '@/service/types/request';
 
 const emits = defineEmits(['to-login', 'close']);
 

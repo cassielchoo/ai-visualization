@@ -4,14 +4,14 @@
       <head-banner-diagram></head-banner-diagram>
     </div>
     <div class="statistics">
-      <statistics></statistics>
+      <intros></intros>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import HeadBannerDiagram from '@/components/home/HeadBannerDiagram.vue';
-import Statistics from '@/components/home/Statistics.vue';
+import Intros from '@/components/home/Intros.vue';
 </script>
 
 <style>
@@ -25,7 +25,7 @@ import Statistics from '@/components/home/Statistics.vue';
   flex-direction: column;
   position: relative;
   flex: 1;
-    border-top-style: solid;
+  border-top-style: solid;
   border-bottom-style: solid;
   border-width: 2px;
   border-color: #818181;
