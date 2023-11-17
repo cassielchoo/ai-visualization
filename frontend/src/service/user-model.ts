@@ -10,7 +10,7 @@ import {
   ResponseData,
   SetModelFavProps,
   SaveModelProps,
-} from './types/request';
+} from '../types/request';
 import { BriefModel, Model } from '@/types/model';
 
 //创建项目

@@ -1,6 +1,6 @@
 import axios from './axios';
 import { useAppStore } from '@/store/app';
-import { ResponseData } from './types/request';
+import { ResponseData } from '../types/request';
 import {
   CatBoostModelProps,
   CatBoostModelResData,

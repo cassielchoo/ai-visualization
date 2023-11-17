@@ -70,7 +70,7 @@
         @click="toggleTheme"
       ></v-btn>
 
-      <v-badge :content="notifCount" color="error">
+      <v-badge :content="notifCount" color="error" v-model="showCount">
         <v-btn variant="text" icon="mdi-bell-outline"></v-btn>
       </v-badge>
 
@@ -144,7 +144,8 @@ function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }
 
-const notifCount: Ref<number> = ref(99);
+const showCount:ComputedRef<boolean>=computed(()=>notifCount.value>0)
+const notifCount: Ref<number> = ref(0);
 
 const logout = () => {
   store.deleteLoginInfo();

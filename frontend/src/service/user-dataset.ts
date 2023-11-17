@@ -6,13 +6,12 @@ const store = useAppStore();
 const { handleGlobalMessaging } = store;
 
 import {
-    BriefDataset,
+  BriefDataset,
   CreateDatasetProps,
-  CreateModelResData,
   Dataset,
   ResponseData,
   SetDatasetFavProps,
-} from './types/request';
+} from '../types/request';
 
 //创建数据集
 export const createDataset = async (data: CreateDatasetProps) => {
@@ -56,7 +55,6 @@ export const delDataset = async (dataId: string) => {
   return res;
 };
 
-
 //设置数据集收藏
 export const setDatasetFav = async (data: SetDatasetFavProps) => {
   const res: ResponseData = await axios({
@@ -71,7 +69,6 @@ export const setDatasetFav = async (data: SetDatasetFavProps) => {
 
   return res;
 };
-
 
 //根据datasetid获取数据集详细信息
 export const getDatasetById = async (dataSetId: string) => {

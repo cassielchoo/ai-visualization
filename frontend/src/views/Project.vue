@@ -33,25 +33,38 @@
         v-for="proj of projs"
         :key="proj.modelId"
       >
-        <project-card
+        <model-card
           :proj="proj"
           @togglefavorite="toggleFavorite(proj)"
           @handledel="handleDel(proj.modelId)"
-        ></project-card>
+        ></model-card>
       </v-col>
+      <!-- <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+        xl="3"
+        v-for="dataset of datasets"
+        :key="dataset.dataSetId"
+      >
+        <dataset-card :dataset="dataset"></dataset-card>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
-import ProjectCard from '@/components/stage/project/ModelCard.vue';
+import ModelCard from '@/components/stage/project/ModelCard.vue';
 import CreateProjectDialog from '@/components/stage/project/CreateProjectDialog.vue';
 import CreateWithTemplateDialog from '@/components/stage/project/CreateWithTemplateDialog.vue';
 import UploadDataDialog from '@/components/stage/project/UploadDataDialog.vue';
 import { onMounted } from 'vue';
 import { delModel, getModelList, setModelFav } from '@/service/user-model';
 import { BriefModel } from '@/types/model';
+import { BriefDataset } from '@/types/request';
+import { getDatasetList } from '@/service/user-dataset';
+import DatasetCard from '@/components/stage/project/DatasetCard.vue';
 
 interface Tab {
   name: string;
@@ -80,6 +93,7 @@ const tabs: Ref<Tab[]> = ref([
 ]);
 
 const projs: Ref<BriefModel[]> = ref([]);
+const datasets: Ref<BriefDataset[]> = ref([]);
 
 const toggleFavorite = async (proj: BriefModel) => {
   proj.isFavourite = proj.isFavourite === '1' ? '0' : '1';
@@ -94,7 +108,9 @@ const handleDel = async (modelId: string) => {
 };
 
 onMounted(async () => {
-  const res = await getModelList();
-  projs.value = res.data ?? [];
+  const md = await getModelList();
+  const ds = await getDatasetList();
+  projs.value = md.data ?? [];
+  datasets.value = ds.data ?? [];
 });
 </script>

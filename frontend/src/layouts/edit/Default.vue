@@ -6,6 +6,9 @@
 </template>
 
 <script lang="ts" setup>
+import { useVueFlow } from '@vue-flow/core';
 import DefaultView from './View.vue';
 import EditAppBar from '@/components/edit/EditAppBar.vue';
+useVueFlow();
+
 </script>

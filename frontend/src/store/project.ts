@@ -4,11 +4,13 @@ import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
 
 export const useProjectStore = defineStore('project', () => {
+  const isReady = ref(true);
+
   const modelInfo: Ref<Model> = ref({
     UserName: '',
     modelId: '',
     lastEditTime: '',
-    isFavourite: '',
+    isFavourite: '0',
     thumbnailUrl: '',
     modelName: '',
     userId: '',
@@ -17,5 +19,5 @@ export const useProjectStore = defineStore('project', () => {
     modelURL: '',
   });
   const cloudStatusText: Ref<string> = ref('已保存');
-  return { cloudStatusText, modelInfo };
+  return { cloudStatusText, modelInfo, isReady };
 });

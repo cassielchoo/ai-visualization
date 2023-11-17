@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { delModel } from '@/service/user-model';
+import { createDataset } from '@/service/user-dataset';
 import { useAppStore } from '@/store/app';
 import { Ref, ref } from 'vue';
 const store = useAppStore();
@@ -117,12 +117,15 @@ const submit = async () => {
   if (isValid.value) {
     loading.value = true;
     const base64String = await fileToBase64();
-
+    await createDataset({
+      dataName: form.value.name,
+      dataURL: base64String,
+    });
     loading.value = false;
   }
 };
 
-const fileToBase64 = () => {
+const fileToBase64 = (): Promise<string> => {
   return new Promise((resolve, reject) => {
     // 创建一个新的 FileReader 对象
     const reader = new FileReader();

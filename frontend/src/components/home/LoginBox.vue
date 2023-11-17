@@ -85,7 +85,7 @@ import lightLogo from '@/assets/light_logo.png';
 import darkLogo from '@/assets/dark_logo.png';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 import { userLogin } from '@/service/users';
-import { UserLoginProps } from '@/service/types/request';
+import { UserLoginProps } from '@/types/request';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

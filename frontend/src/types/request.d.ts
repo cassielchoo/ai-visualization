@@ -21,9 +21,6 @@ export interface UserRegisterProps {
   userName: string;
 }
 
-export interface CreateModelResData {
-  modelId: string;
-}
 
 export interface SetModelFavProps {
   modelId: string;

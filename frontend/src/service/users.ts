@@ -13,7 +13,7 @@ import {
   UserLoginProps,
   ResponseData,
   UserLoginResData,
-} from './types/request';
+} from '../types/request';
 import { User } from '../types/user';
 
 //用户登录

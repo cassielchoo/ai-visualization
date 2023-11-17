@@ -8,6 +8,7 @@
       v-bind="props"
     >
       <v-img
+        v-if="proj.thumbnailUrl"
         :src="proj.thumbnailUrl"
         height="250px"
         cover
@@ -15,6 +16,17 @@
         @click="toEdit"
         style="cursor: pointer"
       ></v-img>
+
+      <v-sheet
+        v-else
+        class="align-center justify-center ma-3 rounded-xl d-flex"
+        height="250px"
+        :src="proj.thumbnailUrl"
+        @click="toEdit"
+        style="cursor: pointer; font-size: 2rem"
+      >
+        {{ proj.modelName }}
+      </v-sheet>
 
       <v-card-title>{{ proj.modelName || '未命名项目' }}</v-card-title>
 
@@ -53,7 +65,7 @@
         contained
         class="align-center justify-center"
       >
-        <v-tooltip text="进入" location="top">
+        <v-tooltip text="进入" location="top" v-model="showToolTip">
           <template v-slot:activator="{ props }">
             <v-btn
               variant="elevated"
@@ -90,11 +102,7 @@
           </template>
         </v-tooltip>
 
-        <v-tooltip
-          text="删除"
-          location="top"
-          v-if="!deleteAlert"
-        >
+        <v-tooltip text="删除" location="top" v-if="!deleteAlert">
           <template v-slot:activator="{ props }">
             <v-btn
               variant="elevated"
@@ -102,7 +110,6 @@
               color="error"
               class="mx-1"
               v-bind="props"
-              
               @click="alertToDel"
             >
               <v-icon>mdi-delete-empty</v-icon>
@@ -110,11 +117,7 @@
           </template>
         </v-tooltip>
 
-        <v-tooltip
-          text="再次点击确认删除"
-          location="top"
-          v-else
-        >
+        <v-tooltip text="再次点击确认删除" location="top" v-else>
           <template v-slot:activator="{ props }">
             <v-btn
               variant="outlined"
@@ -148,24 +151,24 @@ const store = useAppStore();
 
 const emit = defineEmits(['togglefavorite', 'handledel']);
 
+const showToolTip=ref(false)
 const toEdit = () => {
+  showToolTip.value=false
   router.push('/edit/' + props.proj.modelId);
 };
 
-
-const deleteAlert=ref(false)
-
+const deleteAlert = ref(false);
 
 const toggleFavorite = () => {
   emit('togglefavorite');
 };
 
 const alertToDel = () => {
-  deleteAlert.value = true
+  deleteAlert.value = true;
   setTimeout(() => {
-    deleteAlert.value=false
+    deleteAlert.value = false;
   }, 3000);
-}
+};
 
 const handleDel = () => {
   emit('handledel');
