@@ -6,6 +6,8 @@ import { Ref, ref } from 'vue';
 export const useProjectStore = defineStore('project', () => {
   const isReady = ref(true);
 
+  const modelType=ref('')
+
   const modelInfo: Ref<Model> = ref({
     UserName: '',
     modelId: '',
@@ -19,5 +21,5 @@ export const useProjectStore = defineStore('project', () => {
     modelURL: '',
   });
   const cloudStatusText: Ref<string> = ref('已保存');
-  return { cloudStatusText, modelInfo, isReady };
+  return { cloudStatusText, modelInfo, isReady, modelType };
 });

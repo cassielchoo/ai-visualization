@@ -5,7 +5,7 @@
     :oncontextmenu="openContextMenu"
     id="diagram"
   >
-    <VueFlow @dragover="onDragOver" fit-view-on-init>
+    <VueFlow @dragover="onDragOver" fit-view-on-init :style="{ background: 'black' }">
       <Background :variant="patternVariant" :patternColor="patternColor" />
       <template #node-results="{ data }">
         <results-node :data="data.results"></results-node>
@@ -138,11 +138,13 @@ const onDrop = (event: DragEvent) => {
             '--vf-node-bg': color,
             '--vf-node-color': color,
             'border-color': accentColor + '!important',
+            'font-size': '1.5rem',
           };
         return {
           '--vf-node-text': 'white',
           '--vf-node-bg': color,
           '--vf-node-color': color,
+          'font-size': '1.5rem',
         };
       },
     });
@@ -190,11 +192,13 @@ onMounted(async () => {
           '--vf-node-bg': node.data.color,
           '--vf-node-color': node.data.color,
           'border-color': node.data.accentColor + '!important',
+          'font-size': '1.5rem',
         };
       return {
         '--vf-node-text': 'white',
         '--vf-node-bg': node.data.color,
         '--vf-node-color': node.data.color,
+        'font-size': '1.5rem',
       };
     };
   });

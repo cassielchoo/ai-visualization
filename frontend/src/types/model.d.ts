@@ -53,7 +53,7 @@ export interface RandomForestModelResData {
 export interface CatBoostModelProps {
   eta: number;
   depth: number;
-  nEpochs: number;
+  nEstimators: number;
   objFunc: string;
 }
 
@@ -70,6 +70,12 @@ export interface CNNModelProps {
   batchSize: number;
   nEpochs: number;
   numHiddenNodes: number;
+  numHiddenLayers: number;
+  kernelSize: {
+    height: number;
+    width: number;
+  };
+  activFunc:string;
 }
 
 export interface CNNResData {
@@ -85,7 +91,9 @@ export interface FullConnectModelProps {
   learningRate: number;
   batchSize: number;
   nEpochs: number;
+  numHiddenLayers: number;
   numHiddenNodes: number;
+  activFunc: string;
 }
 
 export interface FullConnectResData {
@@ -99,7 +107,7 @@ export interface FullConnectResData {
 
 export interface LightGBMProps {
   learningRate: number;
-  nEpochs: number;
+  nEstimators: number;
   depth: number;
   objFunc: string;
 }
@@ -118,6 +126,8 @@ export interface RNNProps {
   batchSize: number;
   nEpochs: number;
   numHiddenNodes: number;
+  numHiddenLayers: number;
+  activFunc:string;
 }
 
 export interface RNNResData {
@@ -132,7 +142,7 @@ export interface RNNResData {
 export interface XgBoostModelProps {
   eta: number;
   depth: number;
-  nEpochs: number;
+  nEstimators: number;
   objFunc: string;
 }
 

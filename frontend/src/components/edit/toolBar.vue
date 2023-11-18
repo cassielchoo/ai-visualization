@@ -8,6 +8,7 @@
         class="cards"
         style="overflow: auto; top: 4.5rem; bottom: 1.8rem; position: fixed"
         variant="flat"
+        theme="dark"
       >
         <v-card-title class="d-flex justify-space-between">
           <span class="mt-1">
@@ -41,6 +42,7 @@
         style="overflow: auto; top: 12rem; bottom: 6.5rem; position: fixed"
         class="cards"
         variant="flat"
+        theme="dark"
       >
         <v-list v-model:opened="open" bg-color="background">
           <v-list-group
@@ -93,6 +95,7 @@
         rounded="xl"
         style="bottom: 1.8rem; position: fixed"
         variant="flat"
+        theme="dark"
       >
         <v-divider class="mx-8 my-3"></v-divider>
         <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
@@ -145,6 +148,7 @@
         "
         class="d-flex align-start flex-column align-center"
         variant="flat"
+        theme="dark"
       >
         <v-btn icon variant="plain">
           <v-icon icon="mdi-menu"></v-icon>
@@ -218,38 +222,38 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
     nodes.value.filter((node: GraphNode) => node.data.category === 'model')
       .length === 0
   ) {
-    addNodes(
-      {
-        id: nodes.value.length.toString(),
-        type: toolclass.type,
-        position: {
-          x: dimensions.value.width / 2,
-          y: dimensions.value.height / 2,
-        },
-        data: {
-          color: toolclass.color,
-          accentColor: toolclass.accentColor,
-          hasOptions: tool.hasOptions.toString() === 'true',
-          options: tool.options,
-          category: toolclass.value,
-        },
-        label: tool.name,
-        style: (el: GraphNode) => {
-          if (el.selected)
-            return {
-              '--vf-node-text': 'white',
-              '--vf-node-bg': toolclass.color,
-              '--vf-node-color': toolclass.color,
-              'border-color': toolclass.accentColor + '!important',
-            };
+    addNodes({
+      id: nodes.value.length.toString(),
+      type: toolclass.type,
+      position: {
+        x: dimensions.value.width / 2,
+        y: dimensions.value.height / 2,
+      },
+      data: {
+        color: toolclass.color,
+        accentColor: toolclass.accentColor,
+        hasOptions: tool.hasOptions.toString() === 'true',
+        options: tool.options,
+        category: toolclass.value,
+      },
+      label: tool.name,
+      style: (el: GraphNode) => {
+        if (el.selected)
           return {
             '--vf-node-text': 'white',
             '--vf-node-bg': toolclass.color,
             '--vf-node-color': toolclass.color,
+            'border-color': toolclass.accentColor + '!important',
+            'font-size': '1.5rem',
           };
-        },
-      }
-    );
+        return {
+          '--vf-node-text': 'white',
+          '--vf-node-bg': toolclass.color,
+          '--vf-node-color': toolclass.color,
+          'font-size': '1.5rem',
+        };
+      },
+    });
 
     handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
   }

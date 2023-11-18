@@ -7,13 +7,13 @@
   ></v-text-field>
   <v-text-field
     type="number"
-    label="迭代次数 Num of Epochs"
+    label="迭代次数 Num of Estimators"
     variant="underlined"
-    v-model="options.nEpochs"
+    v-model="options.nEstimators"
   ></v-text-field>
   <v-text-field
     type="number"
-    label="最大深度 Max Depth"
+    label="最大深度 Max Depth (0为不设限)"
     variant="underlined"
     v-model="options.depth"
   ></v-text-field>

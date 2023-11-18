@@ -1,88 +1,92 @@
 <template>
-    <v-navigation-drawer
-      floating
-      v-model="drawer"
-      :style="'background-color:' + drawercolor"
+  <v-navigation-drawer
+    floating
+    v-model="drawer"
+    :class="theme.current.value.dark ? 'dark-drawer' : 'light-drawer'"
+  >
+    <template v-slot:prepend>
+      <v-img
+        :src="isDark ? darkLogo : darkLogo"
+        style="display: block; margin: 1.25rem auto; cursor: pointer"
+        width="200"
+        @click="router.push({ name: 'home' })"
+      ></v-img>
+    </template>
+
+    <v-list nav class="my-8">
+      <div v-for="(item, i) in items" :key="i">
+        <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
+        <v-list-item
+          class="pl-10 ma-3"
+          :value="item"
+          color="white"
+          :prepend-icon="item.icon"
+        >
+          <v-list-item-title
+            style="font-size: 1.2rem"
+            variant="plain"
+            class="py-3"
+          >
+            {{ item.title }}
+          </v-list-item-title>
+        </v-list-item>
+      </div>
+    </v-list>
+    <template v-slot:append>
+      <div class="pa-5">
+        <v-divider class="mx-6 my-3"></v-divider>
+        <v-btn
+          block
+          variant="plain"
+          prepend-icon="mdi-exit-to-app"
+          style="font-size: 1rem"
+          class="py-3"
+          @click="logout"
+        >
+          退出登录
+        </v-btn>
+      </div>
+    </template>
+  </v-navigation-drawer>
+  <v-app-bar color="background" elevation="0" height="100">
+    <v-app-bar-nav-icon
+      v-if="showDrawerBtn"
+      @click.stop="drawer = !drawer"
+    ></v-app-bar-nav-icon>
+
+    <v-text-field
+      :loading="searchLoading"
+      v-model="search"
+      rounded
+      placeholder="搜索项目"
+      clearable
+      prepend-inner-icon="mdi-magnify"
+      flat
+      hide-details
+      class="ml-10"
+      variant="outlined"
+    ></v-text-field>
+    <v-spacer></v-spacer>
+
+    <v-btn
+      variant="text"
+      :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
+      @click="toggleTheme"
+    ></v-btn>
+
+    <v-badge :content="notifCount" color="error" v-model="showCount">
+      <v-btn variant="text" icon="mdi-bell-outline"></v-btn>
+    </v-badge>
+
+    <v-list-item
+      variant="flat"
+      @click="1"
+      :prepend-avatar="store.user.userPhoto"
+      class="mx-3"
     >
-      <template v-slot:prepend>
-        <v-img
-          :src="isDark ? darkLogo : lightLogo"
-          style="display: block; margin: 1.25rem auto; cursor: pointer"
-          width="200"
-          @click="router.push({ name: 'home' })"
-        ></v-img>
-      </template>
-
-      <v-list nav class="my-8">
-        <div v-for="(item, i) in items" :key="i">
-          <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
-          <v-list-item
-            class="pl-10 ma-3"
-            :value="item"
-            color="primary"
-            :prepend-icon="item.icon"
-            variant="plain"
-          >
-            <v-list-item-title style="font-size: 1rem" variant="plain">
-              {{ item.title }}
-            </v-list-item-title>
-          </v-list-item>
-        </div>
-      </v-list>
-      <template v-slot:append>
-        <div class="pa-5">
-          <v-divider class="mx-6 my-3"></v-divider>
-          <v-btn
-            block
-            variant="plain"
-            prepend-icon="mdi-exit-to-app"
-            class="text-error"
-            @click="logout"
-          >
-            退出登录
-          </v-btn>
-        </div>
-      </template>
-    </v-navigation-drawer>
-    <v-app-bar color="background" elevation="0" height="100">
-      <v-app-bar-nav-icon
-        v-if="showDrawerBtn"
-        @click.stop="drawer = !drawer"
-      ></v-app-bar-nav-icon>
-
-      <v-text-field
-        :loading="searchLoading"
-        v-model="search"
-        rounded
-        placeholder="搜索项目"
-        clearable
-        prepend-inner-icon="mdi-magnify"
-        flat
-        hide-details
-        class="ml-10"
-        variant="outlined"
-      ></v-text-field>
-      <v-spacer></v-spacer>
-
-      <v-btn
-        variant="text"
-        :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
-        @click="toggleTheme"
-      ></v-btn>
-
-      <v-badge :content="notifCount" color="error" v-model="showCount">
-        <v-btn variant="text" icon="mdi-bell-outline"></v-btn>
-      </v-badge>
-
-      <v-list-item
-        variant="flat"
-        @click="1"
-        :prepend-avatar="store.user.userPhoto"
-        class="mx-3"
-      >
-        {{ store.user.userName }}
-      </v-list-item>
-    </v-app-bar>
+      {{ store.user.userName }}
+    </v-list-item>
+  </v-app-bar>
 </template>
 
 <script lang="ts" setup>
@@ -101,10 +105,6 @@ const router = useRouter();
 
 const { mobile } = useDisplay();
 const theme = useTheme();
-
-const drawercolor: ComputedRef<string> = computed(() =>
-  theme.current.value.dark ? '#181818' : '#ffffff',
-);
 
 onMounted(async () => {
   const Router = useRouter().options.routes[0].children;
@@ -135,7 +135,6 @@ const showDrawerBtn: ComputedRef<boolean> = computed(() => {
 const search: Ref<string> = ref('');
 const searchLoading: Ref<boolean> = ref(false);
 
-
 const isDark: ComputedRef<boolean> = computed(
   () => theme.global.current.value.dark,
 );
@@ -144,7 +143,7 @@ function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }
 
-const showCount:ComputedRef<boolean>=computed(()=>notifCount.value>0)
+const showCount: ComputedRef<boolean> = computed(() => notifCount.value > 0);
 const notifCount: Ref<number> = ref(0);
 
 const logout = () => {
@@ -152,3 +151,13 @@ const logout = () => {
   router.push({ name: 'home' });
 };
 </script>
+
+<style scoped>
+.dark-drawer {
+  background: #181818;
+}
+.light-drawer {
+  /* background: linear-gradient(-70deg, #d2e3fc, #87b5fa,#3481f5); */
+  background: #5496f6;
+}
+</style>

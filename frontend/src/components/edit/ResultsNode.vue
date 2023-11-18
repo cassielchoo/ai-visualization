@@ -1,5 +1,5 @@
 <template>
-  <v-card color="background" rounded="xl" class="node-results" variant="flat">
+  <v-card color="background" rounded="xl" class="node-results" variant="flat" theme="dark">
     <div v-if="projStore.isReady">
       <v-card-title>训练结果</v-card-title>
       <v-card-text class="my-2">
@@ -18,14 +18,18 @@
         </v-sheet>
       </v-card-text>
     </div>
-    <div v-else class="d-flex justify-center align-center" style="height: 26rem;">
+    <div
+      v-else
+      class="d-flex justify-center align-center"
+      style="height: 26rem"
+    >
       <v-progress-circular
         :size="40"
         color="primary"
         indeterminate
         class="mx-2"
       ></v-progress-circular>
-      <span style="font-size: 1.5rem;"> 正在训练中 </span>
+      <span style="font-size: 1.5rem">正在训练中</span>
     </div>
   </v-card>
 </template>
@@ -45,7 +49,7 @@ import {
   XgBoostResData,
 } from '@/types/model';
 import { useProjectStore } from '@/store/project';
-const { onPaneReady } = useVueFlow();
+import { computed } from 'vue';
 
 const projStore = useProjectStore();
 
@@ -67,7 +71,7 @@ const cnTrans = {
   recall: '召回率',
 };
 
-const hasLoss = 'loss' in props.data;
+const hasLoss = computed(() => 'loss' in props.data);
 
 const init = () => {
   var myChart = echarts.init(document.getElementById('chart1'));
@@ -83,14 +87,14 @@ const init = () => {
       boundaryGap: true,
 
       type: 'category',
-      data: Object.keys(hasLoss ? props.data.loss : []),
+      data: Object.keys('loss' in props.data ? props.data.loss : []),
     },
     yAxis: {
       type: 'value',
     },
     series: [
       {
-        data: Object.values(hasLoss ? props.data.loss : []),
+        data: Object.values('loss' in props.data ? props.data.loss : []),
         type: 'line',
       },
     ],
@@ -112,7 +116,7 @@ onMounted(() => {
     () => projStore.isReady,
     (isReady) => {
       if (isReady) {
-        if (hasLoss) {
+        if (hasLoss.value) {
           init();
         }
         stop();

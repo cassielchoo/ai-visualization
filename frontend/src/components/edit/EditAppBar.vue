@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="background" elevation="0" height="45">
+  <v-app-bar color="background" elevation="0" height="45" theme="dark">
     <template v-slot:prepend>
       <v-app-bar-nav-icon
         class="mr-1"
@@ -81,12 +81,6 @@
           {{ projStore.cloudStatusText }}
         </span>
       </v-btn>
-      <v-btn
-        :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
-        variant="text"
-        @click="toggleTheme"
-        density="comfortable"
-      ></v-btn>
 
       <v-list-item
         density="compact"
@@ -103,9 +97,8 @@
 
 <script lang="ts" setup>
 import { getUserInfo } from '@/service/users';
-import { computed, ComputedRef, onMounted, ref, Ref } from 'vue';
+import { computed, onMounted, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useTheme } from 'vuetify';
 import { useProjectStore } from '@/store/project';
 import { useAppStore } from '@/store/app';
 import {
@@ -121,11 +114,9 @@ import {
 import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { handleSaveModel } from '@/components/edit/save-model';
 
-import { provide } from 'vue';
 
 const { nodes, toObject, addNodes, findNode } = useVueFlow();
 
-const theme = useTheme();
 const router = useRouter();
 const projStore = useProjectStore();
 const appStore = useAppStore();
@@ -134,13 +125,9 @@ const showStatusText: Ref<boolean> = ref(true);
 
 const showTrainDialog: Ref<boolean> = ref(false);
 
-const type = ref('');
-
-provide('type', type);
-
 const submit = async () => {
   showTrainDialog.value = false;
-  projStore.isReady=false
+  projStore.isReady = false;
   const node: GraphNode = nodes.value.find(
     (n: GraphNode) => n.data.category === 'model',
   );
@@ -157,7 +144,7 @@ const submit = async () => {
         hasOptions: false,
         category: 'results',
         color: '#474747',
-        results: {}
+        results: {},
       },
       label: '训练结果',
     },
@@ -167,6 +154,7 @@ const submit = async () => {
   switch (node.label) {
     case '随机森林':
       res = await randomForestModel(node.data.options);
+
       break;
     case 'lightGBM':
       res = await lightGBMModel(node.data.options);
@@ -191,17 +179,15 @@ const submit = async () => {
       break;
   }
 
-  
-
   if (res?.code === 200) {
-    const node: GraphNode = findNode((nodes.value.length-1).toString());
+    const node: GraphNode = findNode((nodes.value.length - 1).toString());
     node.data.results = res?.data;
-    handleSaveModel(
+    await handleSaveModel(
       projStore.modelInfo.modelId,
       JSON.stringify(toObject() ?? {}),
     );
+    projStore.isReady = true;
   }
-   projStore.isReady=true
 };
 
 const openPred = ref(false);
@@ -211,9 +197,9 @@ const pred = () => {
     (n: GraphNode) => n.data.category === 'model',
   );
   if (openPred.value) {
-    type.value = '';
+    projStore.modelType = '';
   } else {
-    type.value = node.label as string;
+    projStore.modelType = node.label as string;
   }
   openPred.value = !openPred.value;
 };
@@ -241,14 +227,6 @@ const goBack = () => {
     name: 'project',
   });
 };
-
-const isDark: ComputedRef<boolean> = computed(
-  () => theme.global.current.value.dark,
-);
-
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
-}
 
 onMounted(async () => {
   const res = await getUserInfo();

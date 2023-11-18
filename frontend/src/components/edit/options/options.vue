@@ -11,6 +11,7 @@
         position: fixed;
       "
       variant="flat"
+      theme="dark"
       
     >
 

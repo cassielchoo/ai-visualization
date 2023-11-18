@@ -13,16 +13,28 @@
   ></v-text-field>
   <v-text-field
     type="number"
-    label="遍历次数 Num of Epochs"
+    label="训练轮次 Num of Epochs"
     variant="underlined"
     v-model="options.nEpochs"
   ></v-text-field>
+    <v-text-field
+    type="number"
+    label="隐藏层数量 Num of Hidden Layers"
+    variant="underlined"
+    v-model="options.numHiddenLayers"
+  ></v-text-field>
   <v-text-field
     type="number"
-    label="隐藏单元个数 Num of Hidden Units"
+    label="隐藏神经元个数 Num of Hidden Nodes"
     variant="underlined"
     v-model="options.numHiddenNodes"
   ></v-text-field>
+    <v-select
+    label="激活函数 Activation Function"
+    variant="underlined"
+    :items="activFunc"
+    v-model="options.activFunc"
+  ></v-select>
     <v-row>
     <v-col><v-btn block variant="text" color="primary">恢复默认</v-btn></v-col>
     <v-col><v-btn block variant="tonal" color="primary" @click="saveOptions">保存</v-btn></v-col>
@@ -36,6 +48,12 @@ import {RNNProps} from "@/types/model";
 const props = defineProps<{
   options: RNNProps;
 }>();
+
+const activFunc = [
+  'Relu',
+  'Sigmoid',
+  'Tanh',
+];
 
 const emits = defineEmits(['save']);
 const options = ref({ ...props.options });

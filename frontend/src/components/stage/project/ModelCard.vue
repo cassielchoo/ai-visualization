@@ -4,7 +4,7 @@
       max-width="500"
       min-width="224"
       class="rounded-xl"
-      variant="flat"
+      variant="outlined"
       v-bind="props"
     >
       <v-img

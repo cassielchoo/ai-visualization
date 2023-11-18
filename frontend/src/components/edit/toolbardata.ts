@@ -156,7 +156,7 @@ export const toolbardata: ToolClass[] = [
         descr: '一种高效的、开源的梯度提升框架，用于解决分类和回归问题。',
         options: {
           learningRate: 0.001,
-          nEpochs: 50,
+          nEstimators: 50,
           depth: 0,
           objFunc: '',
         },
@@ -167,9 +167,9 @@ export const toolbardata: ToolClass[] = [
         descr:
           '一种强大的机器学习算法，特别用于解决回归和分类问题。它是一种集成学习算法，通过组合多个决策树模型来提高预测性能。',
         options: {
-          eta: 0,
-          depth: 0,
-          nEpochs: 0,
+          eta: 0.001,
+          depth: 50,
+          nEstimators: 0,
           objFunc: '',
         },
       },
@@ -179,9 +179,9 @@ export const toolbardata: ToolClass[] = [
         descr:
           '一种用于解决分类和回归问题的机器学习算法。它是一种梯度提升算法，专门设计用于处理具有大量类别特征（离散特征）的数据集。',
         options: {
-          eta: 0.2,
+          eta: 0.001,
+          nEstimators: 50,
           depth: 0,
-          nEpochs: 4,
           objFunc: '',
         },
       },
@@ -200,9 +200,11 @@ export const toolbardata: ToolClass[] = [
           '也被称为前馈神经网络（Feedforward Neural Network）或多层感知机（Multilayer Perceptron，MLP），是深度学习领域中最基本和常见的神经网络类型之一。',
         options: {
           learningRate: 0.001,
-          batchSize: 64,
+          batchSize: 12,
           nEpochs: 10,
+          numHiddenLayers: 1,
           numHiddenNodes: 50,
+          activFunc: '',
         },
       },
       {
@@ -215,6 +217,11 @@ export const toolbardata: ToolClass[] = [
           batchSize: 54,
           nEpochs: 10,
           numHiddenNodes: 50,
+          numHiddenLayers: 1,
+          kernelSize: {
+            height: 2,
+            width: 2,
+          },
         },
       },
       {
@@ -227,13 +234,9 @@ export const toolbardata: ToolClass[] = [
           nEpochs: 50,
           batchSize: 0,
           numHiddenNodes: 0,
+          numHiddenLayers: 1,
+          activFunc: '',
         },
-      },
-      {
-        name: '图神经网络',
-        hasOptions: false,
-        descr:
-          '一种用于处理图结构数据的深度学习模型。它通过学习节点之间的关系和图的拓扑结构来进行节点分类、图分类和链接预测等任务。',
       },
     ],
   },

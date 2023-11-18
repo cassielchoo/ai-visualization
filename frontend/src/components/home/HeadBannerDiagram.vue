@@ -1,5 +1,5 @@
 <template>
-  <VueFlow :nodes="initialNodes">
+  <VueFlow :nodes="initialNodes" :edges="initialEdges" style="border-style: solid;border-radius: 10px;border-color: #5496f6;" fit-view-on-init>
     <template #node-card="{ data }">
       <v-card class="card-node pa-5" rounded="lg" color="#42b983">
         <v-card-title class="d-flex justify-center" style="font-size: 2rem">
@@ -32,7 +32,7 @@ const patternColor: ComputedRef<string> = computed(() =>
   theme.global.current.value.dark ? '#818181' : '#828282',
 );
 
-const { dimensions, addEdges } = useVueFlow({
+const { dimensions, addEdges,onPaneReady } = useVueFlow({
   maxZoom: 4,
   minZoom: 0.1,
   defaultViewport: {
@@ -150,9 +150,6 @@ const initialEdges = [
   },
 ];
 
-onMounted(() => {
-  addEdges(initialEdges);
-});
 </script>
 
 <style>

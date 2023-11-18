@@ -4,6 +4,7 @@
     width="250"
     style="position: fixed; right: 1.6rem; bottom: 1.8rem"
     class="d-flex justify-space-between"
+    theme="dark"
   >
   <v-btn @click="fitView({ duration: 1000, padding: 1 })" variant="plain" icon="mdi-fullscreen" density="comfortable"></v-btn>
     <v-btn @click="zoomOut" variant="plain">-</v-btn>
