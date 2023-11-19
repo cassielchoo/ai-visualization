@@ -1,5 +1,6 @@
 package com.easyai.service.impl;
 
+import com.easyai.bean.TemplateModel;
 import com.easyai.bean.UserModel;
 import com.easyai.mapper.UserModelMapper;
 import com.easyai.service.UserModelService;
@@ -7,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserModelServiceImpl implements UserModelService {
     @Autowired
     UserModelMapper userModelMapper;
+
     @Override
     public List<UserModel> GetModelByUserId(String userId) {
         return userModelMapper.GetModelByUserId(userId);
@@ -19,6 +22,11 @@ public class UserModelServiceImpl implements UserModelService {
     @Override
     public UserModel GetModelByModelId(String modelId) {
         return userModelMapper.GetModelByModelId(modelId);
+    }
+
+    @Override
+    public TemplateModel GetTemplateModelByName(String modelName) {
+        return userModelMapper.GetTemplateModelByName(modelName);
     }
 
     @Override
