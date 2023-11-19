@@ -8,7 +8,7 @@
       class="btn"
       elevation="3"
     >
-      上传数据
+      上传数据集
       <template v-slot:append>
         <v-icon>mdi-plus-circle-outline</v-icon>
       </template>

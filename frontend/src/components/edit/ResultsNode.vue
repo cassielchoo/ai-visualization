@@ -77,6 +77,13 @@ const cnTrans = {
   f1score: 'F1值',
   precision: '精准率',
   recall: '召回率',
+  SE: '簇内误差平方和',
+  cluster_0: '属于该簇的数据序号',
+  cluster_1: '属于该簇的数据序号',
+  cluster_2: '属于该簇的数据序号',
+  center0: '聚类中心',
+  center1: '聚类中心',
+  center2: '聚类中心',
 };
 
 const hasLoss = computed(() => 'loss' in props.data);

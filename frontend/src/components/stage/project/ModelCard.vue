@@ -35,7 +35,7 @@
           <template v-slot:prepend>
             <v-avatar
               color="grey-darken-3"
-              :image="store.user.userPhone"
+              :image="store.user.userPhoto"
             ></v-avatar>
           </template>
 
@@ -53,7 +53,7 @@
               <v-icon
                 :icon="
                   proj.isFavourite === '0' ? 'mdi-heart-outline' : 'mdi-heart'
-                "
+                " color="error"
               ></v-icon>
             </v-btn>
           </template>

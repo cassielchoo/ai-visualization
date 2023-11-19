@@ -20,6 +20,6 @@ import '@imengyu/vue3-context-menu/lib/vue3-context-menu.css';
 
 const app = createApp(App);
 
-registerPlugins(app);
 
+registerPlugins(app);
 app.mount('#app');

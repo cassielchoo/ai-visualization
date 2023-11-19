@@ -9,10 +9,9 @@
         width: 20rem;
         position: fixed;
       "
-      variant="flat"      
+      variant="flat"
       elevation="4"
     >
-
       <div v-if="selectedNodes.length > 0">
         <v-card-title>
           <v-tabs density="compact" center-active v-model="selectedNode">
@@ -86,9 +85,11 @@ import LightGBM from './LightGBMOptions.vue';
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 import { handleSaveModel } from '../save-model';
 import { useProjectStore } from '@/store/project';
-import Results from '../results/Results.vue';
+import { useAppStore } from '@/store/app';
 const store = useProjectStore();
+const appStore = useAppStore();
 
+const { handleGlobalMessaging } = appStore;
 const { getSelectedNodes, toObject } = useVueFlow();
 
 const selectedNodes: ComputedRef<GraphNode[]> = computed(() =>
@@ -98,7 +99,11 @@ const selectedNode: Ref<GraphNode> = ref(selectedNodes.value[0]);
 
 const saveOptions = (options: any) => {
   selectedNode.value.data.options = options;
-  handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+  handleSaveModel(
+    store.modelInfo.modelId,
+    JSON.stringify(toObject() ?? {}),
+  );
+    handleGlobalMessaging('保存成功');
 };
 
 watch(

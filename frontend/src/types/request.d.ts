@@ -21,7 +21,6 @@ export interface UserRegisterProps {
   userName: string;
 }
 
-
 export interface SetModelFavProps {
   modelId: string;
   isFavourite: '0' | '1';
@@ -46,12 +45,13 @@ export interface SetDatasetFavProps {
 export interface BriefDataset {
   dataSetId: string;
   dataSetName: string;
+  isFavourite: '0' | '1';
 }
 
 export interface Dataset {
   dataId: string;
   dataName: string;
   dataURL: string;
-  isFavourite: '0'|'1';
+  isFavourite: '0' | '1';
   userId: string;
 }

@@ -221,7 +221,7 @@ export const toolbardata: ToolClass[] = [
           '一种深度学习神经网络，专门设计用于处理图像和视觉数据的任务，如图像分类、目标检测、图像分割等。',
         options: {
           learningRate: 0.001,
-          batchSize: 54,
+          batchSize: 12,
           nEpochs: 10,
           numHiddenNodes: 50,
           numHiddenLayers: 1,
@@ -239,8 +239,8 @@ export const toolbardata: ToolClass[] = [
         options: {
           learningRate: 0.001,
           nEpochs: 50,
-          batchSize: 0,
-          numHiddenNodes: 0,
+          batchSize: 12,
+          numHiddenNodes: 50,
           numHiddenLayers: 1,
           activFunc: '',
         },

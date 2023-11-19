@@ -15,12 +15,12 @@
       ></v-img>
     </template>
 
-    <v-list nav class="my-8">
+    <v-list nav class="my-8" mandatory v-model:selected="currentRoute" >
       <div v-for="(item, i) in items" :key="i">
         <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
         <v-list-item
           class="pl-8 ma-3"
-          :value="item"
+          :value="item.title"
           color="primary"
           :prepend-icon="item.icon"
           variant="flat"
@@ -93,7 +93,7 @@
 
 <script lang="ts" setup>
 import { Ref, computed, ref, ComputedRef, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 import { useDisplay, useTheme } from 'vuetify';
 import { useAppStore } from '@/store/app';
 
@@ -104,9 +104,9 @@ import darkLogo from '@/assets/dark_logo.png';
 
 const store = useAppStore();
 const router = useRouter();
+const route=useRoute()
 
 const { mobile } = useDisplay();
-const theme = useTheme();
 
 onMounted(async () => {
   const Router = useRouter().options.routes[0].children;
@@ -120,7 +120,11 @@ onMounted(async () => {
 
   const res = await getUserInfo();
   store.user = res.data!;
+
+  currentRoute.value=[route.meta.title as string]
 });
+
+const currentRoute:Ref<[string]>=ref([''])
 
 interface Item {
   title: string;
@@ -130,6 +134,7 @@ interface Item {
 
 const drawer: Ref<boolean> = ref(true);
 const items: Ref<Item[]> = ref([]);
+
 const showDrawerBtn: ComputedRef<boolean> = computed(() => {
   return mobile.value;
 });
