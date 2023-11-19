@@ -58,6 +58,10 @@ public class cUserModel {
                 String modelName = params.get("modelName").toString().trim();
                 String userId = StpUtil.getLoginId().toString().trim();
                 String dataJson = "";
+                if (params.containsKey("templateModelName")){
+                    String templateModelName = params.get("templateModelName").toString().trim();
+                    dataJson = userModelService.GetTemplateModelByName(templateModelName).getTDataJson();;
+                }
                 String modelURL = "";
                 String thumbnailUrl = "";
                 int isFavourite = 0;
@@ -78,6 +82,7 @@ public class cUserModel {
         }
         return JSON.toJSONString(result);
     }
+
 
     /**
      * 获取指定用户模型 接口

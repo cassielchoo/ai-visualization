@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6303d728-84a3-4076-af13-121e33ab5ea7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/edit/EditDiagram.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/edit/EditDiagram.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/edit/save-model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/edit/save-model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/project/CreateProjectDialog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/project/CreateProjectDialog.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/service/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/service/model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/service/request.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/service/request.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Project.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Project.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,10 +20,11 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2Y9QWPaZVgMlh0W0l0gjQfMzLP4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -34,7 +35,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/cassi/OneDrive/code/ai-visualization/frontend",
+    "last_opened_file_path": "D:/D-Data/Coding/PDCProject2023",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "ts.external.directory.path": "C:\\Users\\cassi\\OneDrive\\code\\ai-visualization\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -48,6 +53,8 @@
       <option name="presentableId" value="Default" />
       <updated>1699935347090</updated>
       <workItem from="1699935348123" duration="12000" />
+      <workItem from="1700052356924" duration="256000" />
+      <workItem from="1700209413450" duration="691000" />
     </task>
     <servers />
   </component>

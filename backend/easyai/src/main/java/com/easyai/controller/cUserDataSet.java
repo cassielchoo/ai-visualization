@@ -184,6 +184,7 @@ public class cUserDataSet {
                 dataSetDetailJson = new HashMap<>();
                 dataSetDetailJson.put("dataSetId", userDataSet.getDataId());
                 dataSetDetailJson.put("dataSetName", userDataSet.getDataName());
+                dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;
             }

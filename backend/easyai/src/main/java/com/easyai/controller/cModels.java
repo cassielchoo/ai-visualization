@@ -246,7 +246,7 @@ public class cModels {
         }
         try {
             if (params != null) {
-                int nEpochs = Integer.parseInt(params.get("nEpochs").toString().trim());
+                int nEpochs = Integer.parseInt(params.get("nEstimators").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
                 Map<String, Map> returnMap = LightGBM.lightgbm(nEpochs);
@@ -397,7 +397,7 @@ public class cModels {
             if (params != null) {
                 double eta = Double.parseDouble(params.get("eta").toString().trim());
                 int depth = Integer.parseInt(params.get("depth").toString().trim());
-                int nEpoch = Integer.parseInt(params.get("nEpochs").toString().trim());
+                int nEpoch = Integer.parseInt(params.get("nEstimators").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
                 Map<String, Map> returnMap = Xgboost.xgboost(eta, depth, nEpoch);
