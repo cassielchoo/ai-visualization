@@ -246,7 +246,7 @@ public class cModels {
         }
         try {
             if (params != null) {
-                int nEpochs = Integer.parseInt(params.get("nEpochs").toString().trim());
+                int nEpochs = Integer.parseInt(params.get("nEstimators").toString().trim());
                 result.setCode(200);
                 result.setMsg("OK");
                 Map<String, Map> returnMap = LightGBM.lightgbm(nEpochs);
