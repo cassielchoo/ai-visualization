@@ -3,12 +3,11 @@
   <transition name="narrow">
     <aside v-if="!mini" style="z-index: 99">
       <v-card
-        color="background"
         rounded="xl"
         class="cards"
         style="overflow: auto; top: 4.5rem; bottom: 1.8rem; position: fixed"
         variant="flat"
-        theme="dark"
+        elevation="4"
       >
         <v-card-title class="d-flex justify-space-between">
           <span class="mt-1">
@@ -23,6 +22,7 @@
         </v-card-title>
         <v-card-subtitle>
           <v-text-field
+          :bg-color="appStore.isDark?'#232323':'#f4f4f4'"
             hide-details
             v-model="search"
             :clearable="true"
@@ -37,14 +37,12 @@
         </v-card-subtitle>
       </v-card>
       <v-card
-        color="background"
         rounded="xl"
         style="overflow: auto; top: 12rem; bottom: 6.5rem; position: fixed"
         class="cards"
         variant="flat"
-        theme="dark"
       >
-        <v-list v-model:opened="open" bg-color="background">
+        <v-list v-model:opened="open" >
           <v-list-group
             v-for="toolclass of toolbardata"
             :key="toolclass.value"
@@ -90,12 +88,10 @@
         </v-list>
       </v-card>
       <v-card
-        color="background"
         class="pa-3 cards"
         rounded="xl"
         style="bottom: 1.8rem; position: fixed"
         variant="flat"
-        theme="dark"
       >
         <v-divider class="mx-8 my-3"></v-divider>
         <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
@@ -188,9 +184,10 @@ import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { ref, Ref } from 'vue';
 import { toolbardata, Tool, ToolClass } from './toolbardata';
 import { useProjectStore } from '@/store/project';
+import { useAppStore } from '@/store/app';
 import { handleSaveModel } from './save-model';
-const store = useProjectStore();
-
+const projStore = useProjectStore();
+const appStore=useAppStore()
 let mini: Ref<boolean> = ref(false);
 
 let open: Ref<string[]> = ref([]);
@@ -216,7 +213,7 @@ let searchLoading: Ref<boolean> = ref(false);
 
 const { addNodes, nodes, dimensions, toObject } = useVueFlow();
 
-const addNode = (toolclass: ToolClass, tool: Tool) => {
+const addNode = async(toolclass: ToolClass, tool: Tool) => {
   if (
     toolclass.value !== 'model' ||
     nodes.value.filter((node: GraphNode) => node.data.category === 'model')
@@ -255,7 +252,7 @@ const addNode = (toolclass: ToolClass, tool: Tool) => {
       },
     });
 
-    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+    await handleSaveModel(projStore.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
   }
 };
 
@@ -300,7 +297,7 @@ const expandTool = (value?: string) => {
   border-style: solid;
 }
 
-#v-tooltip-41 {
-  --v-theme-surface-variant: 33, 33, 33;
+#v-tooltip-36 {
+  --v-theme-surface-variant: 33, 33, 33 !important;
 }
 </style>

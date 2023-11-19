@@ -11,7 +11,6 @@
         position: fixed;
       "
       variant="flat"
-      theme="dark"
       v-if="projStore.modelType && getSelectedNodes.length === 0"
     >
       <v-card-title>预测数据</v-card-title>

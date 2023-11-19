@@ -2,11 +2,13 @@
   <v-navigation-drawer
     floating
     v-model="drawer"
-    :class="theme.current.value.dark ? 'dark-drawer' : 'light-drawer'"
+    width="240"
+    elevation="2"
+    color="background"
   >
     <template v-slot:prepend>
       <v-img
-        :src="isDark ? darkLogo : darkLogo"
+        :src="store.isDark ? darkLogo : lightLogo"
         style="display: block; margin: 1.25rem auto; cursor: pointer"
         width="200"
         @click="router.push({ name: 'home' })"
@@ -17,16 +19,14 @@
       <div v-for="(item, i) in items" :key="i">
         <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
         <v-list-item
-          class="pl-10 ma-3"
+          class="pl-8 ma-3"
           :value="item"
-          color="white"
+          color="primary"
           :prepend-icon="item.icon"
+          variant="flat"
+          base-color="background"
         >
-          <v-list-item-title
-            style="font-size: 1.2rem"
-            variant="plain"
-            class="py-3"
-          >
+          <v-list-item-title style="font-size: 1.2rem" class="py-3">
             {{ item.title }}
           </v-list-item-title>
         </v-list-item>
@@ -48,7 +48,7 @@
       </div>
     </template>
   </v-navigation-drawer>
-  <v-app-bar color="background" elevation="0" height="100">
+  <v-app-bar  elevation="0" height="80" density="compact" :color="store.isDark?'#181818':'white'">
     <v-app-bar-nav-icon
       v-if="showDrawerBtn"
       @click.stop="drawer = !drawer"
@@ -64,14 +64,16 @@
       flat
       hide-details
       class="ml-10"
-      variant="outlined"
+      density="compact"
+      variant="solo-filled"
+      :bg-color="store.isDark?'#232323':'#f4f4f4'"
     ></v-text-field>
     <v-spacer></v-spacer>
 
     <v-btn
       variant="text"
-      :icon="isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
-      @click="toggleTheme"
+      :icon="store.isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"
+      @click="store.toggleTheme"
     ></v-btn>
 
     <v-badge :content="notifCount" color="error" v-model="showCount">
@@ -97,7 +99,7 @@ import { useAppStore } from '@/store/app';
 
 import { getUserInfo } from '@/service/users';
 
-import lightLogo from '@/assets/light_logo.png';
+import lightLogo from '@/assets/light_logo_blue.png';
 import darkLogo from '@/assets/dark_logo.png';
 
 const store = useAppStore();
@@ -135,13 +137,6 @@ const showDrawerBtn: ComputedRef<boolean> = computed(() => {
 const search: Ref<string> = ref('');
 const searchLoading: Ref<boolean> = ref(false);
 
-const isDark: ComputedRef<boolean> = computed(
-  () => theme.global.current.value.dark,
-);
-
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
-}
 
 const showCount: ComputedRef<boolean> = computed(() => notifCount.value > 0);
 const notifCount: Ref<number> = ref(0);
@@ -153,11 +148,5 @@ const logout = () => {
 </script>
 
 <style scoped>
-.dark-drawer {
-  background: #181818;
-}
-.light-drawer {
-  /* background: linear-gradient(-70deg, #d2e3fc, #87b5fa,#3481f5); */
-  background: #5496f6;
-}
+
 </style>

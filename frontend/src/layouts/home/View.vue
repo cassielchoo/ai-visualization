@@ -1,5 +1,5 @@
 <template>
-  <v-main style="background-color: 'background'">
+  <v-main>
     <Home />
   </v-main>
 </template>

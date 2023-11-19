@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="selected pa-1" rounded="xl" v-if="getSelectedNodes.length>0" theme="dark">
+  <v-sheet class="selected pa-1" rounded="xl" v-if="getSelectedNodes.length>0" >
     <v-chip
       style="margin: 1px"
       v-for="node of getSelectedNodes"

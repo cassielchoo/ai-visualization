@@ -1,11 +1,21 @@
 // Utilities
 import { defineStore } from 'pinia';
-import { Ref, ref } from 'vue';
+import { ComputedRef, Ref, computed, ref } from 'vue';
 import { User } from '@/types/user';
-
+import vuetify from '@/plugins/vuetify';
 
 export const useAppStore = defineStore('app', () => {
   const token: Ref<string> = ref(localStorage.getItem('TOKEN') ?? '');
+
+  const isDark: ComputedRef<boolean> = computed(
+    () => vuetify.theme.global.current.value.dark,
+  );
+
+  const toggleTheme = () => {
+    vuetify.theme.global.name.value = vuetify.theme.global.current.value.dark
+      ? 'light'
+      : 'dark';
+  };
 
   const saveLoginInfo = (t: string) => {
     token.value = t;
@@ -42,5 +52,7 @@ export const useAppStore = defineStore('app', () => {
     showSnackBar,
     token,
     user,
+    isDark,
+    toggleTheme,
   };
 });

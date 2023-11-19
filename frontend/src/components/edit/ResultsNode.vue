@@ -1,12 +1,18 @@
 <template>
-  <v-card color="background" rounded="xl" class="node-results" variant="flat" theme="dark">
+  <v-card
+    color="#fafafa"
+    rounded="xl"
+    class="node-results"
+    variant="flat"
+    elevation="4"
+  >
     <div v-if="projStore.isReady">
       <v-card-title>训练结果</v-card-title>
       <v-card-text class="my-2">
         <div style="height: 16rem" v-if="hasLoss">
           <div id="chart1" style="width: 100%; height: 100%"></div>
         </div>
-        <v-sheet class="pa-3" rounded="lg">
+        <v-sheet class="pa-5" rounded="xl" color="#e9e9e9">
           <v-row>
             <v-col cols="12" v-for="(val, key) in data.performance" :key="key">
               <span>
@@ -50,9 +56,11 @@ import {
 } from '@/types/model';
 import { useProjectStore } from '@/store/project';
 import { computed } from 'vue';
+import { handleSaveModel } from './save-model';
 
 const projStore = useProjectStore();
 
+const { toObject } = useVueFlow();
 const props = defineProps<{
   data:
     | kMeansModelResData
@@ -114,10 +122,14 @@ const init = () => {
 onMounted(() => {
   watch(
     () => projStore.isReady,
-    (isReady) => {
+    async (isReady) => {
       if (isReady) {
         if (hasLoss.value) {
           init();
+          await handleSaveModel(
+            projStore.modelInfo.modelId,
+            JSON.stringify(toObject() ?? {}),
+          );
         }
         stop();
       }

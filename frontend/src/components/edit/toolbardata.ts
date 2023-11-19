@@ -21,7 +21,8 @@ export const toolbardata: ToolClass[] = [
     type: 'input',
     title: '数据导入',
     icon: 'mdi-file-download-outline',
-    color: '#519f9e',
+    // color: '#519f9e',
+    color: '#73d1d0',
     accentColor: '#376c6b',
     children: [
       {
@@ -43,7 +44,9 @@ export const toolbardata: ToolClass[] = [
     type: 'default',
     title: '数据预处理',
     icon: 'mdi-folder-outline',
-    color: '#9d80bb',
+    // color: '#9d80bb',
+    color: '#af9dd3',
+
     accentColor: '#725d87',
     children: [
       {
@@ -89,7 +92,9 @@ export const toolbardata: ToolClass[] = [
     type: 'default',
     title: '特征工程',
     icon: 'mdi-check-all',
-    color: '#c6577a',
+    // color: '#c6577a',
+    color: '#ed7c98',
+
     accentColor: '#93405a',
     children: [
       {
@@ -135,7 +140,9 @@ export const toolbardata: ToolClass[] = [
     type: 'default',
     title: '模型选择',
     icon: 'mdi-memory',
-    color: '#c39949',
+    // color: '#c39949',
+    color: '#dac06b',
+
     accentColor: '#907035',
     children: [
       {
@@ -245,7 +252,9 @@ export const toolbardata: ToolClass[] = [
     type: 'output',
     title: '评估指标',
     icon: 'mdi-chart-line',
-    color: '#6cbc55',
+    // color: '#6cbc55',
+    color: '#81c06b',
+
     accentColor: '#4e893d',
     children: [
       {

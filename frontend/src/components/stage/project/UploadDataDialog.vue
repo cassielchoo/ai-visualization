@@ -1,6 +1,13 @@
 <template>
   <div class="text-center">
-    <v-btn style="font-size: 1rem" variant="outlined" block size="large">
+    <v-btn
+      style="font-size: 1rem"
+      block
+      size="large"
+      variant="flat"
+      class="btn"
+      elevation="3"
+    >
       上传数据
       <template v-slot:append>
         <v-icon>mdi-plus-circle-outline</v-icon>
@@ -146,4 +153,9 @@ const fileToBase64 = (): Promise<string> => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn:hover {
+  background-color: #71a8f8;
+  color: white;
+}
+</style>

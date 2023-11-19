@@ -1,6 +1,14 @@
 <template>
   <div class="text-center">
-    <v-btn style="font-size: 1rem" variant="outlined" block size="large">
+    <v-btn
+      style="font-size: 1rem"
+      block
+      size="large"
+      class="btn"
+      variant="flat"
+
+      elevation="3"
+    >
       创建新的项⽬
       <template v-slot:append>
         <v-icon>mdi-plus-circle-outline</v-icon>
@@ -92,3 +100,10 @@ const submit = async () => {
   }
 };
 </script>
+
+<style scoped>
+.btn:hover {
+  background-color: #71a8f8;
+  color: white;
+}
+</style>

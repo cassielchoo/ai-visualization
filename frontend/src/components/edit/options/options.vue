@@ -1,7 +1,6 @@
 <template>
   <aside style="z-index: 99">
     <v-card
-      color="background"
       rounded="xl"
       style="
         overflow: auto;
@@ -10,9 +9,8 @@
         width: 20rem;
         position: fixed;
       "
-      variant="flat"
-      theme="dark"
-      
+      variant="flat"      
+      elevation="4"
     >
 
       <div v-if="selectedNodes.length > 0">

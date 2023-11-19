@@ -21,7 +21,7 @@ export function onContextMenu(
   ) {
     items.push({
       label: '删除所选元素',
-      onClick: async() => {
+      onClick: async () => {
         flow.removeNodes(flow.getSelectedNodes.value);
         flow.removeEdges(flow.getSelectedEdges.value);
         await handleSaveModel(

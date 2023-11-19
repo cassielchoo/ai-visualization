@@ -1,45 +1,63 @@
 <template>
-  <v-tabs v-model="selectedTab" class="mx-10">
-    <v-tab
-      v-for="tab of tabs"
-      :key="tab.value"
-      :value="tab.value"
-      variant="plain"
-      slider-color="primary"
-      style="font-size: 1.1rem"
-    >
-      {{ tab.name }}
-    </v-tab>
-  </v-tabs>
-
-  <v-container class="pa-8">
-    <v-row>
-      <v-col cols="12" sm="4">
-        <create-project-dialog v-model="showCreateProjectDialog" />
-      </v-col>
-      <v-col cols="12" sm="4">
-        <create-with-template-dialog v-model="showCreateWithTemplateDialog" />
-      </v-col>
-      <v-col cols="12" sm="4">
-        <upload-data-dialog v-model="showUploadDataDialog" />
-      </v-col>
-    </v-row>
-    <v-row class="mt-5">
-      <v-col
-        cols="12"
-        sm="6"
-        lg="4"
-        xl="3"
-        v-for="proj of projs"
-        :key="proj.modelId"
+  <v-app-bar density="compact"  color="background">
+    <v-tabs v-model="selectedTab" class="mx-10">
+      <v-tab
+        v-for="tab of tabs"
+        :key="tab.value"
+        :value="tab.value"
+        variant="plain"
+        slider-color="primary"
+        style="font-size: 1.1rem"
       >
-        <model-card
-          :proj="proj"
-          @togglefavorite="toggleFavorite(proj)"
-          @handledel="handleDel(proj.modelId)"
-        ></model-card>
-      </v-col>
-      <!-- <v-col
+        {{ tab.name }}
+      </v-tab>
+    </v-tabs>
+
+    <v-spacer></v-spacer>
+
+    <v-btn-toggle v-model="sortType" density="compact" class="mx-2">
+      <v-btn>
+        升序
+        <v-icon>mdi-sort-ascending</v-icon>
+      </v-btn>
+
+      <v-btn>
+        降序
+        <v-icon>mdi-sort-descending</v-icon>
+      </v-btn>
+    </v-btn-toggle>
+
+  </v-app-bar>
+
+  <v-main style="background-color: rgb(var(--v-theme-background-content))">
+    <v-container class="pa-8" >
+      <v-row>
+        <v-col cols="12" sm="4">
+          <create-project-dialog v-model="showCreateProjectDialog" />
+        </v-col>
+        <v-col cols="12" sm="4">
+          <create-with-template-dialog v-model="showCreateWithTemplateDialog" />
+        </v-col>
+        <v-col cols="12" sm="4">
+          <upload-data-dialog v-model="showUploadDataDialog" />
+        </v-col>
+      </v-row>
+      <v-row class="mt-5">
+        <v-col
+          cols="12"
+          sm="6"
+          lg="4"
+          xl="3"
+          v-for="proj of projs"
+          :key="proj.modelId"
+        >
+          <model-card
+            :proj="proj"
+            @togglefavorite="toggleFavorite(proj)"
+            @handledel="handleDel(proj.modelId)"
+          ></model-card>
+        </v-col>
+        <!-- <v-col
         cols="12"
         sm="6"
         lg="4"
@@ -49,8 +67,9 @@
       >
         <dataset-card :dataset="dataset"></dataset-card>
       </v-col> -->
-    </v-row>
-  </v-container>
+      </v-row>
+    </v-container>
+  </v-main>
 </template>
 
 <script lang="ts" setup>
@@ -65,6 +84,9 @@ import { BriefModel } from '@/types/model';
 import { BriefDataset } from '@/types/request';
 import { getDatasetList } from '@/service/user-dataset';
 import DatasetCard from '@/components/stage/project/DatasetCard.vue';
+import { useAppStore } from '@/store/app';
+
+const appStore=useAppStore()
 
 interface Tab {
   name: string;
@@ -91,6 +113,10 @@ const tabs: Ref<Tab[]> = ref([
     value: 2,
   },
 ]);
+
+const sortType: Ref<number> = ref(0);
+const projType: Ref<number> = ref(0);
+
 
 const projs: Ref<BriefModel[]> = ref([]);
 const datasets: Ref<BriefDataset[]> = ref([]);

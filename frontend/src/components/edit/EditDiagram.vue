@@ -5,8 +5,12 @@
     :oncontextmenu="openContextMenu"
     id="diagram"
   >
-    <VueFlow @dragover="onDragOver" fit-view-on-init :style="{ background: 'black' }">
-      <Background :variant="patternVariant" :patternColor="patternColor" />
+    <VueFlow @dragover="onDragOver" fit-view-on-init>
+      <Background
+        :variant="patternVariant"
+        :patternColor="patternColor"
+        :gap="60"
+      />
       <template #node-results="{ data }">
         <results-node :data="data.results"></results-node>
       </template>
@@ -26,19 +30,18 @@ import {
   Ref,
   onMounted,
 } from 'vue';
-import { useTheme } from 'vuetify';
 import { Background, BackgroundVariant } from '@vue-flow/background';
 import { onContextMenu } from './contextMenu/context-menu';
 import { useProjectStore } from '@/store/project';
 import { getModelById } from '@/service/user-model';
 import { handleSaveModel } from './save-model';
 import { useRoute } from 'vue-router';
-const theme = useTheme();
-const store = useProjectStore();
-
-const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Dots);
+import { useAppStore } from '@/store/app';
+const projStore = useProjectStore();
+const appStore = useAppStore();
+const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Lines);
 const patternColor: ComputedRef<string> = computed(() => {
-  let color = theme.global.current.value.dark ? '#818181' : '#828282';
+  let color = appStore.isDark ? '#818181' : '#828282';
   if (patternVariant.value === BackgroundVariant.Lines) color += '80';
   return color;
 });
@@ -69,7 +72,7 @@ const {
 } = flow;
 
 const openContextMenu = (e: MouseEvent) => {
-  onContextMenu(e, flow, theme.global.current.value.dark);
+  onContextMenu(e, flow, appStore.isDark);
 };
 
 onPaneReady((instance: typeof VueFlow) => {
@@ -85,6 +88,7 @@ onDragOver.value = function (event: DragEvent) {
 };
 
 onConnect((params: GraphEdge) => {
+  console.log(params);
   // edge连接规则
   const handleRules = [
     () => params.source !== params.target,
@@ -95,11 +99,14 @@ onConnect((params: GraphEdge) => {
   const judger = handleRules.every((rule) => rule());
   if (judger) {
     addEdges([params]);
-    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+    handleSaveModel(
+      projStore.modelInfo.modelId,
+      JSON.stringify(toObject() ?? {}),
+    );
   }
 });
 
-const onDrop = (event: DragEvent) => {
+const onDrop = async (event: DragEvent) => {
   const category = event.dataTransfer!.getData('category');
   const type = event.dataTransfer!.getData('type');
   const color = event.dataTransfer!.getData('color');
@@ -148,18 +155,22 @@ const onDrop = (event: DragEvent) => {
         };
       },
     });
-    handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
 
     nextTick(() => {
       const node = findNode((nodes.value.length - 1).toString())!;
       const stop = watch(
         () => node.dimensions,
-        (dimensions) => {
+        async (dimensions) => {
           if (dimensions.width > 0 && dimensions.height > 0) {
             node.position = {
               x: node.position.x - node.dimensions.width / 2,
               y: node.position.y - node.dimensions.height / 2,
             };
+            await handleSaveModel(
+              projStore.modelInfo.modelId,
+              JSON.stringify(toObject() ?? {}),
+            );
+
             stop();
           }
         },
@@ -172,11 +183,11 @@ const onDrop = (event: DragEvent) => {
 const route = useRoute();
 
 onMounted(async () => {
-  store.modelInfo.modelId = route.params.id as string;
+  projStore.modelInfo.modelId = route.params.id as string;
 
-  const res = await getModelById(store.modelInfo.modelId);
+  const res = await getModelById(projStore.modelInfo.modelId);
 
-  store.modelInfo = res.data!;
+  projStore.modelInfo = res.data!;
 
   const flow = JSON.parse(res.data!.dataJson);
 

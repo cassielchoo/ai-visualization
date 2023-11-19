@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="background" elevation="0" height="45" theme="dark">
+  <v-app-bar elevation="2" height="45">
     <template v-slot:prepend>
       <v-app-bar-nav-icon
         class="mr-1"
@@ -81,7 +81,14 @@
           {{ projStore.cloudStatusText }}
         </span>
       </v-btn>
-
+      <v-btn
+        variant="text"
+        density="comfortable"
+        :icon="
+          appStore.isDark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'
+        "
+        @click="appStore.toggleTheme"
+      ></v-btn>
       <v-list-item
         density="compact"
         :prepend-avatar="appStore.user.userPhoto"
@@ -114,7 +121,6 @@ import {
 import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { handleSaveModel } from '@/components/edit/save-model';
 
-
 const { nodes, toObject, addNodes, findNode } = useVueFlow();
 
 const router = useRouter();
@@ -143,7 +149,6 @@ const submit = async () => {
       data: {
         hasOptions: false,
         category: 'results',
-        color: '#474747',
         results: {},
       },
       label: '训练结果',

@@ -4,8 +4,8 @@
       max-width="500"
       min-width="224"
       class="rounded-xl"
-      variant="outlined"
       v-bind="props"
+      elevation="6"
     >
       <v-img
         v-if="proj.thumbnailUrl"
