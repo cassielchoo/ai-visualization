@@ -25,8 +25,8 @@ public class UserModelServiceImpl implements UserModelService {
     }
 
     @Override
-    public TemplateModel GetTemplateModelByName(String modelName) {
-        return userModelMapper.GetTemplateModelByName(modelName);
+    public TemplateModel GetTemplateModelByName(String tModelName) {
+        return userModelMapper.GetTemplateModelByName(tModelName);
     }
 
     @Override

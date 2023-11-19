@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserModelService {
     List<UserModel> GetModelByUserId(String userId);
     UserModel GetModelByModelId(String modelId);
-    TemplateModel GetTemplateModelByName(String modelName);
+    TemplateModel GetTemplateModelByName(String tModelName);
     int InsertModel(UserModel model);
     int UpdateModel(UserModel model);
     int DeleteModel(String modelId);

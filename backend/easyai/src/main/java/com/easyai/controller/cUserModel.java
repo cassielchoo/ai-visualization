@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
 import com.easyai.bean.CommonResult;
+import com.easyai.bean.TemplateModel;
 import com.easyai.bean.UserModel;
 import com.easyai.service.UserModelService;
 import com.easyai.service.UserService;
@@ -60,7 +61,8 @@ public class cUserModel {
                 String dataJson = "";
                 if (params.containsKey("templateModelName")){
                     String templateModelName = params.get("templateModelName").toString().trim();
-                    dataJson = userModelService.GetTemplateModelByName(templateModelName).getTDataJson();;
+                    TemplateModel tmodel = userModelService.GetTemplateModelByName(templateModelName);
+                    dataJson = tmodel.getTDataJson();
                 }
                 String modelURL = "";
                 String thumbnailUrl = "";

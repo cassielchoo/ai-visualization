@@ -18,8 +18,8 @@ public interface UserModelMapper {
     @Insert("insert into dbModelInfo(modelId,modelName,userId,dataJson,modelURL,lastEditTime,creatTime,thumbnailUrl,isFavourite) values (#{modelId},#{modelName},#{userId},#{dataJson},#{modelURL},#{lastEditTime},#{creatTime},#{thumbnailUrl},#{isFavourite});")
     int InsertModel(UserModel model);
 
-    @Select("select * from dbTemplateModel where tName = #{modelName};")
-    TemplateModel GetTemplateModelByName(@Param("modelName")String modelName);
+    @Select("select * from dbTemplateModel where tName = #{tModelName};")
+    TemplateModel GetTemplateModelByName(@Param("tModelName")String tModelName);
 
     @Update("update dbModelInfo set modelName=#{modelName},userId=#{userId},dataJson=#{dataJson},modelURL=#{modelURL},lastEditTime=#{lastEditTime},creatTime=#{creatTime},thumbnailUrl=#{thumbnailUrl},isFavourite=#{isFavourite} where modelId = #{modelId}")
     int UpdateModel(UserModel model);
