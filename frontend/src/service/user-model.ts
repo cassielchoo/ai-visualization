@@ -6,7 +6,6 @@ const store = useAppStore();
 const { handleGlobalMessaging } = store;
 
 import {
-  CreateModelResData,
   ResponseData,
   SetModelFavProps,
   SaveModelProps,
@@ -14,12 +13,16 @@ import {
 import { BriefModel, Model } from '@/types/model';
 
 //创建项目
-export const createModel = async (modelName: string) => {
-  const res: ResponseData<CreateModelResData> = await axios({
+export const createModel = async (
+  modelName: string,
+  templateModelName?: string,
+) => {
+  const res: ResponseData<{ modelId :string}> = await axios({
     method: 'post',
     url: `/usermodel/creat`,
     data: {
       modelName,
+      templateModelName,
     },
   });
 

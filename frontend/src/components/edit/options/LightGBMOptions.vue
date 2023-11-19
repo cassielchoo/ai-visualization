@@ -13,7 +13,7 @@
   ></v-text-field>
   <v-text-field
     type="number"
-    label="最大深度 Max Depth (0为不设限)"
+    label="最大深度 Max Depth"
     variant="underlined"
     v-model="options.depth"
   ></v-text-field>

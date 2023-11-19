@@ -16,12 +16,12 @@
     <v-spacer></v-spacer>
 
     <v-btn-toggle v-model="sortType" density="compact" class="mx-2">
-      <v-btn>
+      <v-btn rounded="false">
         升序
         <v-icon>mdi-sort-ascending</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn rounded="false">
         降序
         <v-icon>mdi-sort-descending</v-icon>
       </v-btn>

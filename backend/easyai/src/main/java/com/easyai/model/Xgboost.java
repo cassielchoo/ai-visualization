@@ -48,7 +48,7 @@ public class Xgboost {
             }
 
         Map<String,Double> per_model = new HashMap<>();
-        per_model.put("pecision",all_per[0]);
+        per_model.put("precision",all_per[0]);
         per_model.put("recall",all_per[1]);
         per_model.put("f1score",all_per[2]);
 

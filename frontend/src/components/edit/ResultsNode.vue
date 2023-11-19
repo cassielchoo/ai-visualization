@@ -126,12 +126,12 @@ onMounted(() => {
       if (isReady) {
         if (hasLoss.value) {
           init();
-          await handleSaveModel(
-            projStore.modelInfo.modelId,
-            JSON.stringify(toObject() ?? {}),
-          );
         }
         stop();
+        await handleSaveModel(
+          projStore.modelInfo.modelId,
+          JSON.stringify(toObject() ?? {}),
+        );
       }
     },
     { deep: true, flush: 'post', immediate: true },

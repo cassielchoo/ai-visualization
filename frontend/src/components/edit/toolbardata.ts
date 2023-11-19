@@ -164,7 +164,7 @@ export const toolbardata: ToolClass[] = [
         options: {
           learningRate: 0.001,
           nEstimators: 50,
-          depth: 0,
+          depth: 6,
           objFunc: '',
         },
       },
@@ -175,8 +175,8 @@ export const toolbardata: ToolClass[] = [
           '一种强大的机器学习算法，特别用于解决回归和分类问题。它是一种集成学习算法，通过组合多个决策树模型来提高预测性能。',
         options: {
           eta: 0.001,
-          depth: 50,
-          nEstimators: 0,
+          depth: 6,
+          nEstimators: 50,
           objFunc: '',
         },
       },
@@ -188,7 +188,7 @@ export const toolbardata: ToolClass[] = [
         options: {
           eta: 0.001,
           nEstimators: 50,
-          depth: 0,
+          depth: 6,
           objFunc: '',
         },
       },

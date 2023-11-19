@@ -24,9 +24,26 @@
           <v-form @submit.prevent="submit" v-model="isValid">
             <p class="mb-5" style="font-size: x-large">使用模板创建新的项⽬</p>
 
-            <v-text-field variant="underlined" :rules="nonEmptyRule">
+            <v-text-field variant="underlined" :rules="nonEmptyRule" v-model="form.name">
               <template v-slot:prepend>项目名称</template>
             </v-text-field>
+
+            <v-select
+              label="选择模板"
+              :items="[
+                'fullconnect',
+                'randomforest',
+                'lightgbm',
+                'xgboost',
+                'catboost',
+                'k-means',
+                'cnn',
+                'rnn'
+              ]"
+              variant="underlined"
+              v-model="form.template"
+              :rules="nonEmptyRule"
+            ></v-select>
 
             <v-radio-group v-model="form.type" inline>
               <v-row>
@@ -62,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+import { createModel } from '@/service/user-model';
 import { Ref, ref } from 'vue';
 
 const dialog = ref(false);
@@ -69,6 +87,7 @@ const loading = ref(false);
 
 interface Form {
   name: string;
+  template: string;
   type: 's' | 't';
 }
 
@@ -81,6 +100,7 @@ const nonEmptyRule = [
 
 const form: Ref<Form> = ref({
   name: '',
+  template:'',
   type: 's',
 });
 
@@ -89,6 +109,7 @@ const isValid: Ref<boolean> = ref(false);
 const submit = async () => {
   if (isValid.value) {
     loading.value = true;
+    await createModel(form.value.name,form.value.template);
     loading.value = false;
   }
 };
@@ -98,4 +119,5 @@ const submit = async () => {
 .btn:hover {
   background-color: #71a8f8;
   color: white;
-}</style>
+}
+</style>
