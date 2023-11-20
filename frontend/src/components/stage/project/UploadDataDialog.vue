@@ -26,11 +26,21 @@
 
             <v-text-field
               variant="underlined"
-              :rules="nonEmptyRule"
+              :rules="rules.nonEmptyRule"
               v-model="form.name"
             >
               <template v-slot:prepend>数据集名称</template>
             </v-text-field>
+
+            <v-textarea
+              variant="underlined"
+              :rules="rules.lengthLimitRule"
+              v-model="form.des"
+              counter="20"
+              no-resize
+            >
+              <template v-slot:prepend>描述</template>
+            </v-textarea>
 
             <v-file-input
               class="my-3"
@@ -39,7 +49,7 @@
               variant="filled"
               accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
               v-model="form.files"
-              :rules="nonEmptyRule"
+              :rules="rules.nonEmptyRule"
             >
               <template v-slot:selection="{ fileNames }">
                 <template
@@ -101,20 +111,31 @@ const { handleGlobalMessaging } = store;
 const dialog = ref(false);
 const loading = ref(false);
 
-const nonEmptyRule = [
-  (value: File[]) => {
-    if (value?.length > 0) return true;
-    return '不能为空';
-  },
-];
 
+const rules = {
+  lengthLimitRule: [
+    (value: string) => {
+      if (value?.length === 0) return '不能为空';
+      if (value?.length > 20) return '长度不能超过20字符';
+      return true;
+    },
+  ],
+  nonEmptyRule: [
+    (value: File[]) => {
+      if (value?.length > 0) return true;
+      return '不能为空';
+    },
+  ],
+};
 interface Form {
   name: string;
+  des: string;
   files: File[];
 }
 
 const form: Ref<Form> = ref({
   name: '',
+  des: '',
   files: [],
 });
 
@@ -126,6 +147,7 @@ const submit = async () => {
     const base64String = await fileToBase64();
     await createDataset({
       dataName: form.value.name,
+      dataDescribe: form.value.des,
       dataURL: base64String,
     });
     loading.value = false;

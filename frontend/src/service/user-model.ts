@@ -9,6 +9,7 @@ import {
   ResponseData,
   SetModelFavProps,
   SaveModelProps,
+  SetModelSharedProps,
 } from '../types/request';
 import { BriefModel, Model } from '@/types/model';
 
@@ -48,11 +49,46 @@ export const getModelList = async () => {
   return res;
 };
 
+//获取已收藏模型列表
+export const getFavModelList = async () => {
+  const res: ResponseData<BriefModel[]> = await axios({
+    method: 'post',
+    url: `/usermodel/getfavouritemodelbyuserid`,
+  });
+
+  return res;
+};
+
+//获取已分享模型列表
+export const getSharedModelList = async () => {
+  const res: ResponseData<BriefModel[]> = await axios({
+    method: 'post',
+    url: `/usermodel/getallsharedmodel`,
+  });
+
+  return res;
+};
+
 //设置模型收藏
 export const setModelFav = async (data: SetModelFavProps) => {
   const res: ResponseData = await axios({
     method: 'post',
     url: `/usermodel/setfavourite`,
+    data,
+  });
+
+  if (res.code !== 200) {
+    handleGlobalMessaging('设置失败');
+  }
+
+  return res;
+};
+
+//设置模型分享
+export const setModelShared = async (data: SetModelSharedProps) => {
+  const res: ResponseData = await axios({
+    method: 'post',
+    url: `/usermodel/setshare`,
     data,
   });
 

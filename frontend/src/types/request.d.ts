@@ -26,6 +26,11 @@ export interface SetModelFavProps {
   isFavourite: '0' | '1';
 }
 
+export interface SetModelSharedProps {
+  modelId: string;
+  isShared: '0' | '1';
+}
+
 export interface SaveModelProps {
   modelId: string;
   datajson: string;
@@ -35,6 +40,7 @@ export interface SaveModelProps {
 export interface CreateDatasetProps {
   dataName: string;
   dataURL: string;
+  dataDescribe:string;
 }
 
 export interface SetDatasetFavProps {
@@ -42,10 +48,16 @@ export interface SetDatasetFavProps {
   isFavourite: '0' | '1';
 }
 
+export interface SetDatasetSharedProps {
+  dataId: string;
+  isShared: '0' | '1';
+}
+
 export interface BriefDataset {
-  dataSetId: string;
-  dataSetName: string;
+  dataId: string;
+  dataName: string;
   isFavourite: '0' | '1';
+  dataDescribe:string;
 }
 
 export interface Dataset {
@@ -53,5 +65,6 @@ export interface Dataset {
   dataName: string;
   dataURL: string;
   isFavourite: '0' | '1';
+  dataDescribe:string;
   userId: string;
 }

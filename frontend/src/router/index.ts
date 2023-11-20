@@ -26,7 +26,16 @@ const routes = [
           title: '我的收藏',
           icon: 'mdi-star-circle',
         },
-        component: () => import('@/views/Project.vue'),
+        component: () => import('@/views/Fav.vue'),
+      },
+      {
+        path: 'shop',
+        name: 'shop',
+        meta: {
+          title: '分享社区',
+          icon: 'mdi-shopping',
+        },
+        component: () => import('@/views/Shop.vue'),
       },
       {
         path: 'team',

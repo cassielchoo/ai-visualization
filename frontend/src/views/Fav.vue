@@ -74,7 +74,6 @@
       <v-sheet class="pa-4 mt-8" elevation="2" rounded="lg">
         <v-row v-for="(dataset, i) in datasets" :key="dataset.dataId">
           <v-col class="mx-3 my-auto">{{ dataset.dataName }}</v-col>
-          <v-col>{{ dataset.dataDescribe }}</v-col>
           <v-col class="justify-end d-flex">
             <v-btn
               icon
@@ -112,10 +111,10 @@ import CreateProjectDialog from '@/components/stage/project/CreateProjectDialog.
 import CreateWithTemplateDialog from '@/components/stage/project/CreateWithTemplateDialog.vue';
 import UploadDataDialog from '@/components/stage/project/UploadDataDialog.vue';
 import { onMounted } from 'vue';
-import { delModel, getModelList, setModelFav } from '@/service/user-model';
+import { delModel, getFavModelList, setModelFav } from '@/service/user-model';
 import { BriefModel } from '@/types/model';
 import { BriefDataset } from '@/types/request';
-import { getDatasetList, setDatasetFav } from '@/service/user-dataset';
+import { getFavDatasetList, setDatasetFav } from '@/service/user-dataset';
 import { useAppStore } from '@/store/app';
 import * as papa from "papaparse"
 
@@ -173,8 +172,8 @@ const handleDel = async (modelId: string) => {
 };
 
 onMounted(async () => {
-  const md = await getModelList();
-  const ds = await getDatasetList();
+  const md = await getFavModelList();
+  const ds = await getFavDatasetList();
   projs.value = md.data ?? [];
   datasets.value = ds.data ?? [];
 });

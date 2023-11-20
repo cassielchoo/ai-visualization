@@ -17,7 +17,7 @@
 
     <v-list nav class="my-8" mandatory v-model:selected="currentRoute" >
       <div v-for="(item, i) in items" :key="i">
-        <v-divider v-if="i === 2" class="mx-10 my-5"></v-divider>
+        <v-divider v-if="i === 3" class="mx-10 my-5"></v-divider>
         <v-list-item
           class="pl-8 ma-3"
           :value="item.title"
@@ -25,6 +25,7 @@
           :prepend-icon="item.icon"
           variant="flat"
           base-color="background"
+          @click="pushRouter(item.path)"
         >
           <v-list-item-title style="font-size: 1.2rem" class="py-3">
             {{ item.title }}
@@ -138,6 +139,10 @@ const items: Ref<Item[]> = ref([]);
 const showDrawerBtn: ComputedRef<boolean> = computed(() => {
   return mobile.value;
 });
+
+const pushRouter = (path:string) => {
+    router.push(path)
+}
 
 const search: Ref<string> = ref('');
 const searchLoading: Ref<boolean> = ref(false);

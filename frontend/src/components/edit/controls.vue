@@ -5,7 +5,13 @@
     style="position: fixed; right: 1.6rem; bottom: 1.8rem"
     class="d-flex justify-space-between"
   >
-  <v-btn @click="fitView({ duration: 1000, padding: 1 })" variant="plain" icon="mdi-fullscreen" density="comfortable"></v-btn>
+    <v-btn variant="plain" density="comfortable" icon="mdi-share-outline"></v-btn>
+    <v-btn
+      @click="fitView({ duration: 1000, padding: 1 })"
+      variant="plain"
+      icon="mdi-fullscreen"
+      density="comfortable"
+    ></v-btn>
     <v-btn @click="zoomOut" variant="plain">-</v-btn>
     <v-btn @click="setDefaultZoom" variant="plain">
       {{ (currentViewport.zoom * 100).toFixed(0) }}%
@@ -18,7 +24,7 @@
 import { ViewportTransform, useVueFlow } from '@vue-flow/core';
 import { ComputedRef, computed } from 'vue';
 
-const { setViewport, getViewport, zoomIn, zoomOut,fitView } = useVueFlow();
+const { setViewport, getViewport, zoomIn, zoomOut, fitView } = useVueFlow();
 
 const currentViewport: ComputedRef<ViewportTransform> = computed(() =>
   getViewport(),

@@ -33,14 +33,6 @@
     v-if="selectedTab === 0"
   >
     <v-container class="pa-8">
-      <v-row>
-        <v-col cols="12" sm="3">
-          <create-project-dialog v-model="showCreateProjectDialog" />
-        </v-col>
-        <v-col cols="12" sm="3">
-          <create-with-template-dialog v-model="showCreateWithTemplateDialog" />
-        </v-col>
-      </v-row>
       <v-row class="mt-5">
         <v-col
           cols="12"
@@ -56,7 +48,6 @@
             @handledel="handleDel(proj.modelId)"
           ></model-card>
         </v-col>
-
       </v-row>
     </v-container>
   </v-main>
@@ -66,15 +57,9 @@
     v-if="selectedTab === 1"
   >
     <v-container class="pa-8">
-      <v-row>
-        <v-col cols="12" sm="3">
-          <upload-data-dialog v-model="showUploadDataDialog" />
-        </v-col>
-      </v-row>
       <v-sheet class="pa-4 mt-8" elevation="2" rounded="lg">
         <v-row v-for="(dataset, i) in datasets" :key="dataset.dataId">
           <v-col class="mx-3 my-auto">{{ dataset.dataName }}</v-col>
-          <v-col>{{ dataset.dataDescribe }}</v-col>
           <v-col class="justify-end d-flex">
             <v-btn
               icon
@@ -112,15 +97,15 @@ import CreateProjectDialog from '@/components/stage/project/CreateProjectDialog.
 import CreateWithTemplateDialog from '@/components/stage/project/CreateWithTemplateDialog.vue';
 import UploadDataDialog from '@/components/stage/project/UploadDataDialog.vue';
 import { onMounted } from 'vue';
-import { delModel, getModelList, setModelFav } from '@/service/user-model';
+import { delModel, getFavModelList, getSharedModelList, setModelFav } from '@/service/user-model';
 import { BriefModel } from '@/types/model';
 import { BriefDataset } from '@/types/request';
-import { getDatasetList, setDatasetFav } from '@/service/user-dataset';
+import { getFavDatasetList, getSharedDatasetList, setDatasetFav } from '@/service/user-dataset';
 import { useAppStore } from '@/store/app';
-import * as papa from "papaparse"
+import * as papa from 'papaparse';
 
 const parseCSV = () => {
-  console.log(papa)
+  console.log(papa);
 };
 
 const appStore = useAppStore();
@@ -132,17 +117,13 @@ interface Tab {
 
 const selectedTab: Ref<number> = ref(0);
 
-const showCreateProjectDialog = ref(false);
-const showCreateWithTemplateDialog = ref(false);
-const showUploadDataDialog = ref(false);
-
 const tabs: Ref<Tab[]> = ref([
   {
-    name: '我的模型',
+    name: '模型',
     value: 0,
   },
   {
-    name: '我的数据',
+    name: '数据集',
     value: 1,
   },
 ]);
@@ -173,8 +154,8 @@ const handleDel = async (modelId: string) => {
 };
 
 onMounted(async () => {
-  const md = await getModelList();
-  const ds = await getDatasetList();
+  const md = await getSharedModelList();
+  const ds = await getSharedDatasetList();
   projs.value = md.data ?? [];
   datasets.value = ds.data ?? [];
 });

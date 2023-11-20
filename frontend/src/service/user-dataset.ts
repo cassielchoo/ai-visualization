@@ -11,6 +11,7 @@ import {
   Dataset,
   ResponseData,
   SetDatasetFavProps,
+  SetDatasetSharedProps,
 } from '../types/request';
 
 //创建数据集
@@ -70,13 +71,28 @@ export const setDatasetFav = async (data: SetDatasetFavProps) => {
   return res;
 };
 
+//设置数据集分享
+export const setDatasetShared = async (data: SetDatasetSharedProps) => {
+  const res: ResponseData = await axios({
+    method: 'post',
+    url: `/dataset/setshare`,
+    data,
+  });
+
+  if (res.code !== 200) {
+    handleGlobalMessaging('设置失败');
+  }
+
+  return res;
+};
+
 //根据datasetid获取数据集详细信息
-export const getDatasetById = async (dataSetId: string) => {
+export const getDatasetById = async (dataId: string) => {
   const res: ResponseData<Dataset> = await axios({
     method: 'post',
-    url: `/dataset/getdatasetydatasetid`,
+    url: `/dataset/getdatasetydataid`,
     data: {
-      dataSetId,
+      dataId,
     },
   });
   return res;
@@ -87,6 +103,26 @@ export const getDatasetList = async () => {
   const res: ResponseData<BriefDataset[]> = await axios({
     method: 'post',
     url: `/dataset/getdatasetbyuserid`,
+  });
+
+  return res;
+};
+
+//获取已收藏数据集列表
+export const getFavDatasetList = async () => {
+  const res: ResponseData<BriefDataset[]> = await axios({
+    method: 'post',
+    url: `/dataset/getfavouritedatasetbyuserid`,
+  });
+
+  return res;
+};
+
+//获取已分享数据集列表
+export const getSharedDatasetList = async () => {
+  const res: ResponseData<BriefDataset[]> = await axios({
+    method: 'post',
+    url: `/dataset/getallshareddataset`,
   });
 
   return res;

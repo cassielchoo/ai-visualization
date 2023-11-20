@@ -81,6 +81,7 @@
           {{ projStore.cloudStatusText }}
         </span>
       </v-btn>
+
       <v-btn
         variant="text"
         density="comfortable"
