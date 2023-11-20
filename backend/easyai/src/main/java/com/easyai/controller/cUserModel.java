@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
 import com.easyai.bean.CommonResult;
 import com.easyai.bean.TemplateModel;
+import com.easyai.bean.UserDataSet;
 import com.easyai.bean.UserModel;
 import com.easyai.service.UserModelService;
 import com.easyai.service.UserService;
@@ -263,6 +264,61 @@ public class cUserModel {
         }
         return JSON.toJSONString(result);
     }
+
+    /**
+     * 获取所有已分享模型 接口
+     *
+     * @return
+     */
+    @PostMapping("/getallsharedmodel")
+    public String getAllSharedModel() {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+
+            String userId = StpUtil.getLoginId().toString().trim();
+            String userName = userService.GetUserByUserId(userId).get(0).getUserName();
+            Map<String,Map> returnMap = new HashMap<>();
+            Map<String,String> modelDetailJson;
+            List<UserModel> modelList = userModelService.GetSharedModel();
+            int index = 0;
+            for (UserModel usermomdel : modelList) {
+                modelDetailJson = new HashMap<>() ;
+                modelDetailJson.put("UserName", userName);
+                modelDetailJson.put("modelId", usermomdel.getModelId());
+                modelDetailJson.put("modelName", usermomdel.getModelName());
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String sd = sdf.format(new Date(Long.parseLong(String.valueOf(usermomdel.getLastEditTime()))));
+                modelDetailJson.put("lastEditTime", sd);
+                modelDetailJson.put("isFavourite", String.valueOf(usermomdel.getIsFavourite()));
+                modelDetailJson.put("thumbnailUrl", usermomdel.getThumbnailUrl());
+                modelDetailJson.put("isShare", String.valueOf(usermomdel.getIsShare()));
+                returnMap.put("model" + index, modelDetailJson);
+                index++;
+            }
+            result.setMsg("OK");
+            result.setCode(200);
+            result.setData(returnMap);
+            log.info("/usermodel/getallsharedmodel执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/usermodel/getallsharedmodel执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+
+        return JSON.toJSONString(result);
+    }
+
+
 
     /**
      * 设置Favourite 接口
