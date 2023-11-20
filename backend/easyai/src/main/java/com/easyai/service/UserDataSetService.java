@@ -19,4 +19,5 @@ public interface UserDataSetService {
     int UpdateDataSet(UserDataSet dataSet);
 
     int DeleteDataSet(String dataId);
+    List<UserDataSet> GetAllSharedDataSet();
 }

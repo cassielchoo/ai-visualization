@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TemplateModel {
-    String tName;
-    String tDataJson;
+    private String tName;
+    private String tDataJson;
 }

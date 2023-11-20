@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModel {
-    String modelId;
-    String modelName;
-    String userId;
-    String dataJson;
-    String modelURL;
-    String lastEditTime;
-    String creatTime;
-    String thumbnailUrl;
-    int isFavourite;
+    private String modelId;
+    private String modelName;
+    private String userId;
+    private String dataJson;
+    private String modelURL;
+    private String lastEditTime;
+    private String creatTime;
+    private String thumbnailUrl;
+    private int isFavourite;
+    private int isShare;
 }

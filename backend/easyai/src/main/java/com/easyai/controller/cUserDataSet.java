@@ -57,8 +57,10 @@ public class cUserDataSet {
                 String dataName = params.get("dataName").toString().trim();
                 String userId = StpUtil.getLoginId().toString().trim();
                 String dataURL = params.get("dataURL").toString().trim();
+                String dataDescribe = params.get("dataDescribe").toString().trim();
+                int isShare = 0;
                 int isFavourite = 0;
-                UserDataSet newDataSet = new UserDataSet(dataId, dataName, userId, dataURL, isFavourite);
+                UserDataSet newDataSet = new UserDataSet(dataId, dataName, userId, dataURL,dataDescribe, isFavourite,isShare);
                 int i = userDataSetService.InsertDataSet(newDataSet);
                 Map<String, String> resultMap = new HashMap<>();
                 resultMap.put("dataId", dataId);
@@ -156,6 +158,53 @@ public class cUserDataSet {
     }
 
     /**
+     * 设置Share接口
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("/setshare")
+    public String setShare(@RequestBody Map<String, Object> params) {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String, String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+            if (params != null) {
+                String dataId = params.get("dataId").toString().trim();
+                UserDataSet originDataSet = userDataSetService.GetDataSetByDataSetId(dataId);
+                if (!originDataSet.getUserId().equals(StpUtil.getLoginId().toString().trim())) {
+                    result.setCode(500);
+                    result.setMsg("Error");
+                    Map<String, String> returnJson = new HashMap<>();
+                    returnJson.put("Error", "Not Your DataSet!");
+                    result.setData(returnJson);
+                    return JSON.toJSONString(result);
+                }
+                String userId = originDataSet.getUserId();
+                int isFavourite = Integer.valueOf(params.get("isShare").toString().trim());
+                UserDataSet newUserDataSet = originDataSet;
+                newUserDataSet.setIsFavourite(isFavourite);
+                int i = userDataSetService.UpdateDataSet(newUserDataSet);
+                result.setMsg("OK");
+                result.setCode(200);
+                log.info("/dataset/setfavourite执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+            }
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/dataset/setfavourite执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+        return JSON.toJSONString(result);
+    }
+
+    /**
      * 获取指定用户数据集 接口
      *
      * @return
@@ -185,6 +234,8 @@ public class cUserDataSet {
                 dataSetDetailJson.put("dataId", userDataSet.getDataId());
                 dataSetDetailJson.put("dataName", userDataSet.getDataName());
                 dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
+                dataSetDetailJson.put("isShare", String.valueOf(userDataSet.getIsShare()));
+                dataSetDetailJson.put("dataDescribe", String.valueOf(userDataSet.getDataDescribe()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;
             }
@@ -231,6 +282,56 @@ public class cUserDataSet {
                 dataSetDetailJson.put("dataId", userDataSet.getDataId());
                 dataSetDetailJson.put("dataName", userDataSet.getDataName());
                 dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
+                dataSetDetailJson.put("isShare", String.valueOf(userDataSet.getIsShare()));
+                dataSetDetailJson.put("dataDescribe", String.valueOf(userDataSet.getDataDescribe()));
+                returnMap.put("userDataSet" + index, dataSetDetailJson);
+                index++;
+            }
+            result.setMsg("OK");
+            result.setCode(200);
+            result.setData(returnMap);
+            log.info("/dataset/getdatabyuserid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/dataset/getdatabyuserid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+
+        return JSON.toJSONString(result);
+    }
+
+    /**
+     * 获取所有已分享数据集 接口
+     *
+     * @return
+     */
+    @PostMapping("/getallshareddataset")
+    public String getAllSharedDataSet() {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String, String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+
+            String userId = StpUtil.getLoginId().toString().trim();
+            Map<String, Map> returnMap = new HashMap<>();
+            Map<String, String> dataSetDetailJson;
+            List<UserDataSet> dataSetList = userDataSetService.GetAllSharedDataSet();
+            int index = 0;
+            for (UserDataSet userDataSet : dataSetList) {
+                dataSetDetailJson = new HashMap<>();
+                dataSetDetailJson.put("dataId", userDataSet.getDataId());
+                dataSetDetailJson.put("dataName", userDataSet.getDataName());
+                dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
+                dataSetDetailJson.put("isShare", String.valueOf(userDataSet.getIsShare()));
+                dataSetDetailJson.put("dataDescribe", String.valueOf(userDataSet.getDataDescribe()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;
             }

@@ -1,5 +1,6 @@
 package com.easyai.service.impl;
 
+import com.easyai.bean.User;
 import com.easyai.bean.UserDataSet;
 import com.easyai.bean.UserModel;
 import com.easyai.mapper.UserDataSetMap;
@@ -42,5 +43,10 @@ public class UserDataSetImpl implements UserDataSetService {
     @Override
     public int DeleteDataSet(String dataId) {
         return UserDataSetMap.DeleteDataSet(dataId);
+    }
+
+    @Override
+    public List<UserDataSet> GetAllSharedDataSet() {
+        return UserDataSetMap.GetAllSharedDataSet();
     }
 }
