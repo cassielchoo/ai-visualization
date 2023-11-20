@@ -67,9 +67,10 @@ public class cUserModel {
                 String modelURL = "";
                 String thumbnailUrl = "";
                 int isFavourite = 0;
+                int isShare = 0;
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 String creatTime = String.valueOf(System.currentTimeMillis());
-                UserModel newUserModel = new UserModel(modelId, modelName, userId, dataJson, modelURL, lastEditTime, creatTime, thumbnailUrl, isFavourite);
+                UserModel newUserModel = new UserModel(modelId, modelName, userId, dataJson, modelURL, lastEditTime, creatTime, thumbnailUrl, isFavourite,isShare);
                 int i = userModelService.InsertModel(newUserModel);
                 Map<String,String> resultMap = new HashMap<>();
                 resultMap.put("modelId",modelId);
@@ -124,6 +125,7 @@ public class cUserModel {
                 modelDetailJson.put("lastEditTime", sd);
                 modelDetailJson.put("isFavourite", String.valueOf(usermomdel.getIsFavourite()));
                 modelDetailJson.put("thumbnailUrl", usermomdel.getThumbnailUrl());
+                modelDetailJson.put("isShare", String.valueOf(usermomdel.getIsShare()));
                 returnMap.put("model" + index, modelDetailJson);
                 index++;
             }
@@ -176,6 +178,7 @@ public class cUserModel {
                 modelDetailJson.put("lastEditTime", sd);
                 modelDetailJson.put("isFavourite", String.valueOf(usermomdel.getIsFavourite()));
                 modelDetailJson.put("thumbnailUrl", usermomdel.getThumbnailUrl());
+                modelDetailJson.put("isShare", String.valueOf(usermomdel.getIsShare()));
                 returnMap.put("model" + index, modelDetailJson);
                 index++;
             }
@@ -311,6 +314,58 @@ public class cUserModel {
         }
         return JSON.toJSONString(result);
     }
+
+    /**
+     * 设置Sare接口
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("/setshare")
+    public String setShare(@RequestBody Map<String, Object> params) {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+            if (params != null) {
+                String modelId = params.get("modelId").toString().trim();
+                UserModel originModel = userModelService.GetModelByModelId(modelId);
+                String modelName = originModel.getModelName();
+                if(!originModel.getUserId().equals(StpUtil.getLoginId().toString().trim())){
+                    result.setCode(500);
+                    result.setMsg("Error");
+                    Map<String,String> returnJson = new HashMap<>();
+                    returnJson.put("Error", "Not Your Model!");
+                    result.setData(returnJson);
+                    return JSON.toJSONString(result);
+                }
+                String userId = originModel.getUserId();
+                int isShare = Integer.valueOf(params.get("isShare").toString().trim());
+                String lastEditTime = String.valueOf(System.currentTimeMillis());
+                UserModel newUserModel = originModel;
+                newUserModel.setIsShare(isShare);
+                newUserModel.setLastEditTime(lastEditTime);
+                int i = userModelService.UpdateModel(newUserModel);
+                Map<String,String> resultMap = new HashMap<>();
+                result.setMsg("OK");
+                result.setCode(200);
+                log.info("/usermodel/setshare执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+            }
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/usermodel/setshare执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+        return JSON.toJSONString(result);
+    }
+
 
     /**
      * 保存模型 接口

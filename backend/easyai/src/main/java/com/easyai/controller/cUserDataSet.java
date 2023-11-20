@@ -189,17 +189,17 @@ public class cUserDataSet {
                     return JSON.toJSONString(result);
                 }
                 String userId = originDataSet.getUserId();
-                int isFavourite = Integer.valueOf(params.get("isShare").toString().trim());
+                int isShare = Integer.valueOf(params.get("isShare").toString().trim());
                 UserDataSet newUserDataSet = originDataSet;
-                newUserDataSet.setIsFavourite(isFavourite);
+                newUserDataSet.setIsShare(isShare);
                 int i = userDataSetService.UpdateDataSet(newUserDataSet);
                 result.setMsg("OK");
                 result.setCode(200);
-                log.info("/dataset/setfavourite执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+                log.info("/dataset/setshare执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result = Constants.setResult(result);
-            log.error("/dataset/setfavourite执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+            log.error("/dataset/setshare执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
         return JSON.toJSONString(result);
     }

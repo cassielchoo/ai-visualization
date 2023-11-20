@@ -22,4 +22,5 @@ public interface UserModelService {
     int DeleteModel(String modelId);
 
     List<UserModel> GetFavouriteModelByUserId(String userId);
+    List<UserModel> GetSharedModel();
 }
