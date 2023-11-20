@@ -16,6 +16,6 @@ public class UserModel {
     private String lastEditTime;
     private String creatTime;
     private String thumbnailUrl;
-    private int isFavourite;
-    private int isShare;
+    private String isFavourite;
+    private String isShare;
 }

@@ -67,8 +67,8 @@ public class cUserModel {
                 }
                 String modelURL = "";
                 String thumbnailUrl = "";
-                int isFavourite = 0;
-                int isShare = 0;
+                String isFavourite = "0";
+                String isShare = "0";
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 String creatTime = String.valueOf(System.currentTimeMillis());
                 UserModel newUserModel = new UserModel(modelId, modelName, userId, dataJson, modelURL, lastEditTime, creatTime, thumbnailUrl, isFavourite,isShare);
@@ -353,7 +353,7 @@ public class cUserModel {
                     return JSON.toJSONString(result);
                 }
                 String userId = originModel.getUserId();
-                int isFavourite = Integer.valueOf(params.get("isFavourite").toString().trim());
+                String isFavourite = params.get("isFavourite").toString().trim();
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 UserModel newUserModel = originModel;
                 newUserModel.setIsFavourite(isFavourite);
@@ -404,7 +404,7 @@ public class cUserModel {
                     return JSON.toJSONString(result);
                 }
                 String userId = originModel.getUserId();
-                int isShare = Integer.valueOf(params.get("isShare").toString().trim());
+                String isShare = params.get("isShare").toString().trim();
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 UserModel newUserModel = originModel;
                 newUserModel.setIsShare(isShare);

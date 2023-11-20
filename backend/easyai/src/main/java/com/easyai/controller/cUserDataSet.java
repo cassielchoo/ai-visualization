@@ -58,8 +58,8 @@ public class cUserDataSet {
                 String userId = StpUtil.getLoginId().toString().trim();
                 String dataURL = params.get("dataURL").toString().trim();
                 String dataDescribe = params.get("dataDescribe").toString().trim();
-                int isShare = 0;
-                int isFavourite = 0;
+                String isShare = "0";
+                String isFavourite = "0";
                 UserDataSet newDataSet = new UserDataSet(dataId, dataName, userId, dataURL,dataDescribe, isFavourite,isShare);
                 int i = userDataSetService.InsertDataSet(newDataSet);
                 Map<String, String> resultMap = new HashMap<>();
@@ -142,7 +142,7 @@ public class cUserDataSet {
                     return JSON.toJSONString(result);
                 }
                 String userId = originDataSet.getUserId();
-                int isFavourite = Integer.valueOf(params.get("isFavourite").toString().trim());
+                String isFavourite = params.get("isFavourite").toString().trim();
                 UserDataSet newUserDataSet = originDataSet;
                 newUserDataSet.setIsFavourite(isFavourite);
                 int i = userDataSetService.UpdateDataSet(newUserDataSet);
@@ -189,7 +189,7 @@ public class cUserDataSet {
                     return JSON.toJSONString(result);
                 }
                 String userId = originDataSet.getUserId();
-                int isShare = Integer.valueOf(params.get("isShare").toString().trim());
+                String isShare = params.get("isShare").toString().trim();
                 UserDataSet newUserDataSet = originDataSet;
                 newUserDataSet.setIsShare(isShare);
                 int i = userDataSetService.UpdateDataSet(newUserDataSet);

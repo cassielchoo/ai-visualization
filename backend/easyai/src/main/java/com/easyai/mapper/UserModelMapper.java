@@ -28,6 +28,6 @@ public interface UserModelMapper {
 
     @Delete("delete from dbModelInfo where modelId = #{modelId};")
     int DeleteModel(String modelId);
-    @Select("select * from dbModelInfo where isShare = 1;")
+    @Select("select * from dbModelInfo where isShare = '1';")
     List<UserModel> GetSharedModel();
 }
