@@ -182,8 +182,8 @@ public class cUserDataSet {
             int index = 0;
             for (UserDataSet userDataSet : dataSetList) {
                 dataSetDetailJson = new HashMap<>();
-                dataSetDetailJson.put("dataSetId", userDataSet.getDataId());
-                dataSetDetailJson.put("dataSetName", userDataSet.getDataName());
+                dataSetDetailJson.put("dataId", userDataSet.getDataId());
+                dataSetDetailJson.put("dataName", userDataSet.getDataName());
                 dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;
@@ -202,13 +202,59 @@ public class cUserDataSet {
     }
 
     /**
+     * 获取指定用户Favourite数据集 接口
+     *
+     * @return
+     */
+    @PostMapping("/getfavouritedatasetbyuserid")
+    public String getFavouriteDataByUserId() {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String, String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+
+            String userId = StpUtil.getLoginId().toString().trim();
+            Map<String, Map> returnMap = new HashMap<>();
+            Map<String, String> dataSetDetailJson;
+            List<UserDataSet> dataSetList = userDataSetService.GetFavouriteDataSetByUserId(userId);
+            int index = 0;
+            for (UserDataSet userDataSet : dataSetList) {
+                dataSetDetailJson = new HashMap<>();
+                dataSetDetailJson.put("dataId", userDataSet.getDataId());
+                dataSetDetailJson.put("dataName", userDataSet.getDataName());
+                dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
+                returnMap.put("userDataSet" + index, dataSetDetailJson);
+                index++;
+            }
+            result.setMsg("OK");
+            result.setCode(200);
+            result.setData(returnMap);
+            log.info("/dataset/getdatabyuserid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/dataset/getdatabyuserid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+
+        return JSON.toJSONString(result);
+    }
+
+    /**
      * 获取指定数据集 接口
      *
      * @param params
      * @return
      */
-    @PostMapping("/getdatasetydatasetid")
-    public String getDataSetByDataSetId(@RequestBody Map<String, Object> params) {
+    @PostMapping("/getdatasetydataid")
+    public String getDataSetByDataId(@RequestBody Map<String, Object> params) {
         CommonResult result = new CommonResult();
         try {
             StpUtil.checkLogin();
@@ -222,16 +268,16 @@ public class cUserDataSet {
         }
         try {
             String userId = StpUtil.getLoginId().toString().trim();
-            String dataSetId = params.get("dataSetId").toString().trim();
+            String dataSetId = params.get("dataId").toString().trim();
             UserDataSet theDataSet = userDataSetService.GetDataSetByDataSetId(dataSetId);
             result.setMsg("OK");
             result.setCode(200);
             result.setData(theDataSet);
-            log.info("/dataset/getdatasetydatasetid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+            log.info("/dataset/getdatasetydataid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
 
         } catch (Exception e) {
             result = Constants.setResult(result);
-            log.error("/dataset/getdatasetydatasetid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+            log.error("/dataset/getdatasetydataid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
         return JSON.toJSONString(result);
     }

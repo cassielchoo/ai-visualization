@@ -73,6 +73,8 @@ public class cUserModel {
                 int i = userModelService.InsertModel(newUserModel);
                 Map<String,String> resultMap = new HashMap<>();
                 resultMap.put("modelId",modelId);
+                resultMap.put("lastEditTime",lastEditTime);
+                resultMap.put("isFavourite", "0");
                 result.setMsg("OK");
                 result.setCode(200);
                 result.setData(resultMap);
@@ -111,6 +113,58 @@ public class cUserModel {
             Map<String,Map> returnMap = new HashMap<>();
             Map<String,String> modelDetailJson;
             List<UserModel> modelList = userModelService.GetModelByUserId(userId);
+            int index = 0;
+            for (UserModel usermomdel : modelList) {
+                modelDetailJson = new HashMap<>() ;
+                modelDetailJson.put("UserName", userName);
+                modelDetailJson.put("modelId", usermomdel.getModelId());
+                modelDetailJson.put("modelName", usermomdel.getModelName());
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String sd = sdf.format(new Date(Long.parseLong(String.valueOf(usermomdel.getLastEditTime()))));
+                modelDetailJson.put("lastEditTime", sd);
+                modelDetailJson.put("isFavourite", String.valueOf(usermomdel.getIsFavourite()));
+                modelDetailJson.put("thumbnailUrl", usermomdel.getThumbnailUrl());
+                returnMap.put("model" + index, modelDetailJson);
+                index++;
+            }
+            result.setMsg("OK");
+            result.setCode(200);
+            result.setData(returnMap);
+            log.info("/usermodel/getmodelbyuserid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/usermodel/getmodelbyuserid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+
+        return JSON.toJSONString(result);
+    }
+
+    /**
+     * 获取指定用户Fovourite模型 接口
+     *
+     * @return
+     */
+    @PostMapping("/getfavouritemodelbyuserid")
+    public String getFavouriteModelByUserId() {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+
+            String userId = StpUtil.getLoginId().toString().trim();
+            String userName = userService.GetUserByUserId(userId).get(0).getUserName();
+            Map<String,Map> returnMap = new HashMap<>();
+            Map<String,String> modelDetailJson;
+            List<UserModel> modelList = userModelService.GetFavouriteModelByUserId(userId);
             int index = 0;
             for (UserModel usermomdel : modelList) {
                 modelDetailJson = new HashMap<>() ;

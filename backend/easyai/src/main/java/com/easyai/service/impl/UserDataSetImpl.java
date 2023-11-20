@@ -1,4 +1,5 @@
 package com.easyai.service.impl;
+
 import com.easyai.bean.UserDataSet;
 import com.easyai.bean.UserModel;
 import com.easyai.mapper.UserDataSetMap;
@@ -7,13 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserDataSetImpl implements UserDataSetService {
     @Autowired
     UserDataSetMap UserDataSetMap;
+
     @Override
     public List<UserDataSet> GetDataSetByUserId(String userId) {
         return UserDataSetMap.GetDataSetByUserId(userId);
+    }
+
+    @Override
+    public List<UserDataSet> GetFavouriteDataSetByUserId(String userId) {
+        return UserDataSetMap.GetFavouriteDataSetByUserId(userId);
     }
 
     @Override

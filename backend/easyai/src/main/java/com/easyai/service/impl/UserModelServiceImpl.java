@@ -43,4 +43,10 @@ public class UserModelServiceImpl implements UserModelService {
     public int DeleteModel(String modelId) {
         return userModelMapper.DeleteModel(modelId);
     }
+
+    @Override
+    public List<UserModel> GetFavouriteModelByUserId(String userId) {
+        return userModelMapper.GetFavouriteModelByUserId(userId);
+    }
+
 }

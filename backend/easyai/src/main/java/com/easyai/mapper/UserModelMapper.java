@@ -11,6 +11,8 @@ import java.util.List;
 public interface UserModelMapper {
     @Select("select * from dbModelInfo where userId = #{userId};")
     List<UserModel> GetModelByUserId(@Param("userId") String userId);
+    @Select("select * from dbModelInfo where userId = #{userId} and isFavourite = 1;")
+    List<UserModel> GetFavouriteModelByUserId(@Param("userId") String userId);
 
     @Select("select * from dbModelInfo where modelId = #{modelId};")
     UserModel GetModelByModelId(@Param("modelId") String modelId);
