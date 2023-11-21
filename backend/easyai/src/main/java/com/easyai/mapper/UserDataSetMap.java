@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 @Mapper
 public interface UserDataSetMap {
-    @Select("select * from dbData where userId = #{userId};")
+    @Select("select dataId,dataName,isFavourite,isShared,dataDescribe from dbData where userId = #{userId};")
     List<UserDataSet> GetDataSetByUserId(String userId);
-    @Select("select * from dbData where userId = #{userId} and isFavourite = 1;")
+    @Select("select dataId,dataName,isFavourite,isShared,dataDescribe from dbData where userId = #{userId} and isFavourite = 1;")
     List<UserDataSet> GetFavouriteDataSetByUserId(String userId);
     @Select("select * from dbData where dataId = #{dataId};")
     UserDataSet GetDataSetByDataSetId(String dataId);
@@ -18,6 +18,6 @@ public interface UserDataSetMap {
     int UpdateDataSet(UserDataSet dataSet);
     @Delete("delete from dbData where dataId = #{dataId};")
     int DeleteDataSet(String dataId);
-    @Select("select * from dbData where isShared = '1'")
+    @Select("select dataId,dataName,isFavourite,isShared,dataDescribe from dbData where isShared = '1'")
     List<UserDataSet> GetAllSharedDataSet();
 }
