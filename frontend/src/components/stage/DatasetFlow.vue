@@ -50,12 +50,13 @@ import {
   setDatasetShared,
 } from '@/service/user-dataset';
 import * as papa from 'papaparse';
+import { useRoute } from 'vue-router';
+const route = useRoute();
 
 const parseCSV = () => {
   console.log(papa);
 };
 
-const props = defineProps<{ type?: 'fav' | 'shared' }>();
 
 const datasets: Ref<BriefDataset[]> = ref([]);
 
@@ -82,7 +83,7 @@ const handleShare = async (dataset: BriefDataset) => {
 };
 
 onMounted(async () => {
-  const ds = await getDatasetList(props.type);
+  const ds = await getDatasetList(route.meta.type as 'fav'|'shared'|undefined);
   datasets.value = ds.data ?? [];
 });
 </script>

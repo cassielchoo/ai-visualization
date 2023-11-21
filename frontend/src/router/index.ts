@@ -19,7 +19,7 @@ const routes = [
           title: '我的文件',
           icon: 'mdi-folder-outline',
         },
-        component: () => import('@/views/Project/index.vue'),
+        component: () => import('@/views/Project.vue'),
         children: [
           {
             path: 'model',
@@ -48,7 +48,7 @@ const routes = [
           title: '我的收藏',
           icon: 'mdi-star-circle',
         },
-        component: () => import('@/views/Fav/index.vue'),
+        component: () => import('@/views/Fav.vue'),
         children: [
           {
             path: 'model',
@@ -78,7 +78,7 @@ const routes = [
           title: '分享社区',
           icon: 'mdi-shopping',
         },
-        component: () => import('@/views/Shop/index.vue'),
+        component: () => import('@/views/Shop.vue'),
         children: [
           {
             path: 'model',
@@ -107,7 +107,7 @@ const routes = [
           title: '我的团队',
           icon: 'mdi-account-group-outline',
         },
-        component: () => import('@/views/Project/index.vue'),
+        component: () => import('@/views/Project.vue'),
       },
       {
         path: 'newteam',
@@ -116,7 +116,7 @@ const routes = [
           title: '创建团队',
           icon: 'mdi-account-multiple-plus-outline',
         },
-        component: () => import('@/views/Project/index.vue'),
+        component: () => import('@/views/Project.vue'),
       },
       {
         path: 'settings',
@@ -125,7 +125,7 @@ const routes = [
           title: '设置',
           icon: 'mdi-cog',
         },
-        component: () => import('@/views/Project/index.vue'),
+        component: () => import('@/views/Project.vue'),
       },
     ],
   },

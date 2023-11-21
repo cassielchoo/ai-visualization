@@ -27,8 +27,8 @@ import { onMounted } from 'vue';
 import { delModel, getModelList, setModelFav } from '@/service/user-model';
 import { BriefModel } from '@/types/model';
 
-
-const props = defineProps<{ type?: 'fav' | 'shared' }>();
+import { useRoute } from 'vue-router';
+const route = useRoute();
 
 const projs: Ref<BriefModel[]> = ref([]);
 
@@ -45,7 +45,9 @@ const handleDel = async (modelId: string) => {
 };
 
 onMounted(async () => {
-  const md = await getModelList(props.type);
+  const md = await getModelList(
+    route.meta.type as 'fav' | 'shared' | undefined,
+  );
   projs.value = md.data ?? [];
 });
 </script>
