@@ -382,4 +382,48 @@ public class cUserDataSet {
         }
         return JSON.toJSONString(result);
     }
+
+    /**
+     * 复制数据集 接口
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("/copydatasetbyid")
+    public String copyDataSetById(@RequestBody Map<String, Object> params) {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String, String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+            if (params != null) {
+                String dataId = String.valueOf(UUID.randomUUID());
+                String orignDataId = params.get("dataId").toString().trim();
+                String userId = StpUtil.getLoginId().toString().trim();
+                UserDataSet newDataSet = userDataSetService.GetDataSetByDataSetId(orignDataId);
+                newDataSet.setDataId(dataId);
+                newDataSet.setUserId(userId);
+                newDataSet.setIsShared("0");
+                newDataSet.setIsFavourite("0");
+                int i = userDataSetService.InsertDataSet(newDataSet);
+                Map<String, String> resultMap = new HashMap<>();
+                resultMap.put("dataId", dataId);
+                result.setMsg("OK");
+                result.setCode(200);
+                result.setData(resultMap);
+                log.info("/dataset/copydatasetbyid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+            }
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/dataset/copydatasetbyid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+        return JSON.toJSONString(result);
+    }
 }

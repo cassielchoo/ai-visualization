@@ -498,10 +498,9 @@ public class cUserModel {
                 String userId = StpUtil.getLoginId().toString().trim();
                 String orginModelId = params.get("modelId").toString().trim();
                 String modelId = String.valueOf(UUID.randomUUID());
-                UserModel orginModel = userModelService.GetModelByModelId(orginModelId);
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 String creatTime = String.valueOf(System.currentTimeMillis());
-                UserModel newUserModel = orginModel;
+                UserModel newUserModel = userModelService.GetModelByModelId(orginModelId);
                 newUserModel.setModelId(modelId);
                 newUserModel.setUserId(userId);
                 newUserModel.setCreatTime(creatTime);
