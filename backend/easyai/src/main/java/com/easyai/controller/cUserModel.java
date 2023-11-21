@@ -68,10 +68,10 @@ public class cUserModel {
                 String modelURL = "";
                 String thumbnailUrl = "";
                 String isFavourite = "0";
-                String isShare = "0";
+                String isShared = "0";
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 String creatTime = String.valueOf(System.currentTimeMillis());
-                UserModel newUserModel = new UserModel(modelId, modelName, userId, dataJson, modelURL, lastEditTime, creatTime, thumbnailUrl, isFavourite,isShare);
+                UserModel newUserModel = new UserModel(modelId, modelName, userId, dataJson, modelURL, lastEditTime, creatTime, thumbnailUrl, isFavourite,isShared);
                 int i = userModelService.InsertModel(newUserModel);
                 Map<String,String> resultMap = new HashMap<>();
                 resultMap.put("modelId",modelId);
@@ -126,7 +126,7 @@ public class cUserModel {
                 modelDetailJson.put("lastEditTime", sd);
                 modelDetailJson.put("isFavourite", String.valueOf(usermomdel.getIsFavourite()));
                 modelDetailJson.put("thumbnailUrl", usermomdel.getThumbnailUrl());
-                modelDetailJson.put("isShare", String.valueOf(usermomdel.getIsShare()));
+                modelDetailJson.put("isShared", String.valueOf(usermomdel.getIsShared()));
                 returnMap.put("model" + index, modelDetailJson);
                 index++;
             }
@@ -179,7 +179,7 @@ public class cUserModel {
                 modelDetailJson.put("lastEditTime", sd);
                 modelDetailJson.put("isFavourite", String.valueOf(usermomdel.getIsFavourite()));
                 modelDetailJson.put("thumbnailUrl", usermomdel.getThumbnailUrl());
-                modelDetailJson.put("isShare", String.valueOf(usermomdel.getIsShare()));
+                modelDetailJson.put("isShared", String.valueOf(usermomdel.getIsShared()));
                 returnMap.put("model" + index, modelDetailJson);
                 index++;
             }
@@ -301,7 +301,7 @@ public class cUserModel {
                 modelDetailJson.put("lastEditTime", sd);
                 modelDetailJson.put("isFavourite", String.valueOf(usermomdel.getIsFavourite()));
                 modelDetailJson.put("thumbnailUrl", usermomdel.getThumbnailUrl());
-                modelDetailJson.put("isShare", String.valueOf(usermomdel.getIsShare()));
+                modelDetailJson.put("isShared", String.valueOf(usermomdel.getIsShared()));
                 returnMap.put("model" + index, modelDetailJson);
                 index++;
             }
@@ -404,10 +404,10 @@ public class cUserModel {
                     return JSON.toJSONString(result);
                 }
                 String userId = originModel.getUserId();
-                String isShare = params.get("isShare").toString().trim();
+                String isShared = params.get("isShared").toString().trim();
                 String lastEditTime = String.valueOf(System.currentTimeMillis());
                 UserModel newUserModel = originModel;
-                newUserModel.setIsShare(isShare);
+                newUserModel.setIsShared(isShared);
                 newUserModel.setLastEditTime(lastEditTime);
                 int i = userModelService.UpdateModel(newUserModel);
                 Map<String,String> resultMap = new HashMap<>();

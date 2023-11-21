@@ -12,12 +12,12 @@ public interface UserDataSetMap {
     List<UserDataSet> GetFavouriteDataSetByUserId(String userId);
     @Select("select * from dbData where dataId = #{dataId};")
     UserDataSet GetDataSetByDataSetId(String dataId);
-    @Insert("insert into dbData(dataId,dataName,userId,dataURL,dataDescribe,isFavourite,isShare) values (#{dataId},#{dataName},#{userId},#{dataURL},#{dataDescribe},#{isFavourite},#{isShare});")
+    @Insert("insert into dbData(dataId,dataName,userId,dataURL,dataDescribe,isFavourite,isShared) values (#{dataId},#{dataName},#{userId},#{dataURL},#{dataDescribe},#{isFavourite},#{isShared});")
     int InsertDataSet(UserDataSet dataSet);
-    @Update("update dbData set dataId=#{dataId},dataName=#{dataName},userId=#{userId},dataURL=#{dataURL},dataDescribe=#{dataDescribe},isFavourite=#{isFavourite},isShare=#{isShare} where dataId = #{dataId}")
+    @Update("update dbData set dataId=#{dataId},dataName=#{dataName},userId=#{userId},dataURL=#{dataURL},dataDescribe=#{dataDescribe},isFavourite=#{isFavourite},isShared=#{isShared} where dataId = #{dataId}")
     int UpdateDataSet(UserDataSet dataSet);
     @Delete("delete from dbData where dataId = #{dataId};")
     int DeleteDataSet(String dataId);
-    @Select("select * from dbData where isShare = '1'")
+    @Select("select * from dbData where isShared = '1'")
     List<UserDataSet> GetAllSharedDataSet();
 }

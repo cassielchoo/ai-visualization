@@ -58,9 +58,9 @@ public class cUserDataSet {
                 String userId = StpUtil.getLoginId().toString().trim();
                 String dataURL = params.get("dataURL").toString().trim();
                 String dataDescribe = params.get("dataDescribe").toString().trim();
-                String isShare = "0";
+                String isShared = "0";
                 String isFavourite = "0";
-                UserDataSet newDataSet = new UserDataSet(dataId, dataName, userId, dataURL,dataDescribe, isFavourite,isShare);
+                UserDataSet newDataSet = new UserDataSet(dataId, dataName, userId, dataURL,dataDescribe, isFavourite,isShared);
                 int i = userDataSetService.InsertDataSet(newDataSet);
                 Map<String, String> resultMap = new HashMap<>();
                 resultMap.put("dataId", dataId);
@@ -189,9 +189,9 @@ public class cUserDataSet {
                     return JSON.toJSONString(result);
                 }
                 String userId = originDataSet.getUserId();
-                String isShare = params.get("isShare").toString().trim();
+                String isShared = params.get("isShared").toString().trim();
                 UserDataSet newUserDataSet = originDataSet;
-                newUserDataSet.setIsShare(isShare);
+                newUserDataSet.setIsShared(isShared);
                 int i = userDataSetService.UpdateDataSet(newUserDataSet);
                 result.setMsg("OK");
                 result.setCode(200);
@@ -234,7 +234,7 @@ public class cUserDataSet {
                 dataSetDetailJson.put("dataId", userDataSet.getDataId());
                 dataSetDetailJson.put("dataName", userDataSet.getDataName());
                 dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
-                dataSetDetailJson.put("isShare", String.valueOf(userDataSet.getIsShare()));
+                dataSetDetailJson.put("isShared", String.valueOf(userDataSet.getIsShared()));
                 dataSetDetailJson.put("dataDescribe", String.valueOf(userDataSet.getDataDescribe()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;
@@ -282,7 +282,7 @@ public class cUserDataSet {
                 dataSetDetailJson.put("dataId", userDataSet.getDataId());
                 dataSetDetailJson.put("dataName", userDataSet.getDataName());
                 dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
-                dataSetDetailJson.put("isShare", String.valueOf(userDataSet.getIsShare()));
+                dataSetDetailJson.put("isShared", String.valueOf(userDataSet.getIsShared()));
                 dataSetDetailJson.put("dataDescribe", String.valueOf(userDataSet.getDataDescribe()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;
@@ -330,7 +330,7 @@ public class cUserDataSet {
                 dataSetDetailJson.put("dataId", userDataSet.getDataId());
                 dataSetDetailJson.put("dataName", userDataSet.getDataName());
                 dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
-                dataSetDetailJson.put("isShare", String.valueOf(userDataSet.getIsShare()));
+                dataSetDetailJson.put("isShared", String.valueOf(userDataSet.getIsShared()));
                 dataSetDetailJson.put("dataDescribe", String.valueOf(userDataSet.getDataDescribe()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;

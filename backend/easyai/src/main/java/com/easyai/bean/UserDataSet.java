@@ -13,5 +13,5 @@ public class UserDataSet {
     private String dataURL;
     private String dataDescribe;
     private String isFavourite;
-    private String isShare;
+    private String isShared;
 }
