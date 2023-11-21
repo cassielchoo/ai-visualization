@@ -346,7 +346,6 @@ public class cUserModel {
             if (params != null) {
                 String modelId = params.get("modelId").toString().trim();
                 UserModel originModel = userModelService.GetModelByModelId(modelId);
-                String modelName = originModel.getModelName();
                 if(!originModel.getUserId().equals(StpUtil.getLoginId().toString().trim())){
                     result.setCode(500);
                     result.setMsg("Error");
@@ -362,7 +361,6 @@ public class cUserModel {
                 newUserModel.setIsFavourite(isFavourite);
                 newUserModel.setLastEditTime(lastEditTime);
                 int i = userModelService.UpdateModel(newUserModel);
-                Map<String,String> resultMap = new HashMap<>();
                 result.setMsg("OK");
                 result.setCode(200);
                 log.info("/usermodel/setfavourite执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
@@ -472,6 +470,57 @@ public class cUserModel {
         } catch (Exception e) {
             result = Constants.setResult(result);
             log.error("/usermodel/save执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+        }
+        return JSON.toJSONString(result);
+    }
+
+    /**
+     * 复制模型 接口
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping("/copymodelbyid")
+    public String copyModelById(@RequestBody Map<String, Object> params) {
+        CommonResult result = new CommonResult();
+        try {
+            StpUtil.checkLogin();
+        } catch (Exception e) {
+            result.setCode(403);
+            result.setMsg("Error");
+            Map<String,String> returnMap = new HashMap<>();
+            returnMap.put("Error", e.getMessage());
+            result.setData(returnMap);
+            return JSON.toJSONString(result);
+        }
+        try {
+            if (params != null) {
+                String userId = StpUtil.getLoginId().toString().trim();
+                String orginModelId = params.get("modelId").toString().trim();
+                String modelId = String.valueOf(UUID.randomUUID());
+                UserModel orginModel = userModelService.GetModelByModelId(orginModelId);
+                String lastEditTime = String.valueOf(System.currentTimeMillis());
+                String creatTime = String.valueOf(System.currentTimeMillis());
+                UserModel newUserModel = orginModel;
+                newUserModel.setModelId(modelId);
+                newUserModel.setUserId(userId);
+                newUserModel.setCreatTime(creatTime);
+                newUserModel.setLastEditTime(lastEditTime);
+                newUserModel.setIsFavourite("0");
+                newUserModel.setIsShared("0");
+                int i = userModelService.InsertModel(newUserModel);
+                Map<String,String> resultMap = new HashMap<>();
+                resultMap.put("modelId",modelId);
+                resultMap.put("lastEditTime",lastEditTime);
+                resultMap.put("isFavourite", "0");
+                result.setMsg("OK");
+                result.setCode(200);
+                result.setData(resultMap);
+                log.info("/usermodel/creat执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+            }
+        } catch (Exception e) {
+            result = Constants.setResult(result);
+            log.error("/usermodel/creat执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
         return JSON.toJSONString(result);
     }
