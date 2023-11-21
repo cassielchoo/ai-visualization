@@ -144,7 +144,6 @@
         "
         class="d-flex align-start flex-column align-center"
         variant="flat"
-        theme="dark"
       >
         <v-btn icon variant="plain">
           <v-icon icon="mdi-menu"></v-icon>

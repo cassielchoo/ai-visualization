@@ -6,7 +6,7 @@ const { handleGlobalMessaging, deleteLoginInfo } = useAppStore();
 
 const instance = axios.create({
   baseURL: '/api',
-  timeout: 4000,
+  timeout: 8000,
 
   params: {
     //重试次数

@@ -13,6 +13,7 @@ export const useProjectStore = defineStore('project', () => {
     modelId: '',
     lastEditTime: '',
     isFavourite: '0',
+    isShared:'0',
     thumbnailUrl: '',
     modelName: '',
     userId: '',

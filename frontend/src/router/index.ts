@@ -27,6 +27,24 @@ const routes = [
           icon: 'mdi-star-circle',
         },
         component: () => import('@/views/Fav.vue'),
+        children: [
+          {
+            path: 'model',
+            name: 'favmodel',
+            meta: {
+              title: '我的模型',
+            },
+            component: () => import('@/views/.vue'),
+          },
+          {
+            path: 'dataset',
+            name: 'favdataset',
+            meta: {
+              title: '我的数据集',
+            },
+            component: () => import('@/views/Project.vue'),
+          },
+        ],
       },
       {
         path: 'shop',

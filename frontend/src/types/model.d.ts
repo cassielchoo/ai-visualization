@@ -5,7 +5,7 @@ export interface BriefModel {
   isFavourite: '0' | '1';
   thumbnailUrl: string;
   modelName: string;
-  isShare:'0'|'1';
+  isShared:'0'|'1';
 }
 
 export interface Model extends BriefModel {
