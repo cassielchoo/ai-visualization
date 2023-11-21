@@ -284,16 +284,18 @@ public class cUserModel {
             return JSON.toJSONString(result);
         }
         try {
-
-            String userId = StpUtil.getLoginId().toString().trim();
-            String userName = userService.GetUserByUserId(userId).get(0).getUserName();
             Map<String,Map> returnMap = new HashMap<>();
             Map<String,String> modelDetailJson;
             List<UserModel> modelList = userModelService.GetSharedModel();
             int index = 0;
             for (UserModel usermomdel : modelList) {
                 modelDetailJson = new HashMap<>() ;
+                String userId = usermomdel.getUserId();
+                String userName = userService.GetUserByUserId(userId).get(0).getUserName();
                 modelDetailJson.put("UserName", userName);
+                String userPhoto = userService.GetUserByUserId(userId).get(0).getUserPhoto();
+                modelDetailJson.put("UserName", userName);
+                modelDetailJson.put("UserPhoto", userPhoto);
                 modelDetailJson.put("modelId", usermomdel.getModelId());
                 modelDetailJson.put("modelName", usermomdel.getModelName());
                 SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -308,6 +310,7 @@ public class cUserModel {
             result.setMsg("OK");
             result.setCode(200);
             result.setData(returnMap);
+            String userId = StpUtil.getLoginId().toString().trim();
             log.info("/usermodel/getallsharedmodel执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
 
         } catch (Exception e) {
