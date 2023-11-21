@@ -1,9 +1,10 @@
 import axios from './axios';
 import { useAppStore } from '@/store/app';
 import router from '@/router';
-const store = useAppStore();
+const appStore = useAppStore();
+const projStore = useProjectStore();
 
-const { handleGlobalMessaging } = store;
+const { handleGlobalMessaging } = appStore;
 
 import {
   ResponseData,
@@ -12,13 +13,14 @@ import {
   SetModelSharedProps,
 } from '../types/request';
 import { BriefModel, Model } from '@/types/model';
+import { useProjectStore } from '@/store/project';
 
 //创建项目
 export const createModel = async (
   modelName: string,
   templateModelName?: string,
 ) => {
-  const res: ResponseData<{ modelId :string}> = await axios({
+  const res: ResponseData<{ modelId: string }> = await axios({
     method: 'post',
     url: `/usermodel/creat`,
     data: {
@@ -40,33 +42,25 @@ export const createModel = async (
 };
 
 //获取模型列表
-export const getModelList = async () => {
-  const res: ResponseData<BriefModel[]> = await axios({
-    method: 'post',
-    url: `/usermodel/getmodelbyuserid`,
-  });
-
-  return res;
-};
-
-//获取已收藏模型列表
-export const getFavModelList = async () => {
-  const res: ResponseData<BriefModel[]> = await axios({
-    method: 'post',
-    url: `/usermodel/getfavouritemodelbyuserid`,
-  });
-
-  return res;
-};
-
-//获取已分享模型列表
-export const getSharedModelList = async () => {
-  const res: ResponseData<BriefModel[]> = await axios({
-    method: 'post',
-    url: `/usermodel/getallsharedmodel`,
-  });
-
-  return res;
+export const getModelList = async (
+  type?:  'fav' | 'shared',
+): Promise<ResponseData<BriefModel[]>> => {
+  if (type === 'fav') {
+    return await axios({
+      method: 'post',
+      url: `/usermodel/getfavouritemodelbyuserid`,
+    });
+  } else if (type === 'shared') {
+    return await axios({
+      method: 'post',
+      url: `/usermodel/getallsharedmodel`,
+    });
+  } else {
+    return await axios({
+      method: 'post',
+      url: `/usermodel/getmodelbyuserid`,
+    });
+  }
 };
 
 //设置模型收藏
@@ -92,7 +86,9 @@ export const setModelShared = async (data: SetModelSharedProps) => {
     data,
   });
 
-  if (res.code !== 200) {
+  if (res.code === 200) {
+    projStore.modelInfo.isShared = data.isShared;
+  } else {
     handleGlobalMessaging('设置失败');
   }
 

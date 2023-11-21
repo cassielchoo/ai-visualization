@@ -40,7 +40,7 @@ export interface SaveModelProps {
 export interface CreateDatasetProps {
   dataName: string;
   dataURL: string;
-  dataDescribe:string;
+  dataDescribe: string;
 }
 
 export interface SetDatasetFavProps {
@@ -57,14 +57,11 @@ export interface BriefDataset {
   dataId: string;
   dataName: string;
   isFavourite: '0' | '1';
-  dataDescribe:string;
+  isShared: '0' | '1';
+  dataDescribe: string;
 }
 
-export interface Dataset {
-  dataId: string;
-  dataName: string;
+export interface Dataset extends BriefDataset {
   dataURL: string;
-  isFavourite: '0' | '1';
-  dataDescribe:string;
   userId: string;
 }

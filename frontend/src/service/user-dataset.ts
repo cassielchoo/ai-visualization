@@ -99,31 +99,23 @@ export const getDatasetById = async (dataId: string) => {
 };
 
 //获取数据集列表
-export const getDatasetList = async () => {
-  const res: ResponseData<BriefDataset[]> = await axios({
-    method: 'post',
-    url: `/dataset/getdatasetbyuserid`,
-  });
-
-  return res;
-};
-
-//获取已收藏数据集列表
-export const getFavDatasetList = async () => {
-  const res: ResponseData<BriefDataset[]> = await axios({
-    method: 'post',
-    url: `/dataset/getfavouritedatasetbyuserid`,
-  });
-
-  return res;
-};
-
-//获取已分享数据集列表
-export const getSharedDatasetList = async () => {
-  const res: ResponseData<BriefDataset[]> = await axios({
-    method: 'post',
-    url: `/dataset/getallshareddataset`,
-  });
-
-  return res;
+export const getDatasetList = async (
+  type?:  'fav' | 'shared',
+): Promise<ResponseData<BriefDataset[]>> => {
+  if (type === 'fav') {
+    return await axios({
+      method: 'post',
+      url: `/dataset/getfavouritedatasetbyuserid`,
+    });
+  } else if (type === 'shared') {
+    return await axios({
+      method: 'post',
+      url: `/dataset/getallshareddataset`,
+    });
+  } else {
+    return await axios({
+      method: 'post',
+      url: `/dataset/getdatasetbyuserid`,
+    });
+  }
 };
