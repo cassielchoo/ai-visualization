@@ -516,11 +516,11 @@ public class cUserModel {
                 result.setMsg("OK");
                 result.setCode(200);
                 result.setData(resultMap);
-                log.info("/usermodel/creat执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
+                log.info("/usermodel/copymodelbyid执行,userId:{},现在时间:{},port:{}", userId, DateUtil.now(), serverPort);
             }
         } catch (Exception e) {
             result = Constants.setResult(result);
-            log.error("/usermodel/creat执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
+            log.error("/usermodel/copymodelbyid执行出现错误,error:{},现在时间是:{},port:{}", e.getMessage(), DateUtil.now(), serverPort);
         }
         return JSON.toJSONString(result);
     }
