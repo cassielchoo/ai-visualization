@@ -57,14 +57,7 @@ export const toolbardata: ToolClass[] = [
         name: '异常值处理',
         hasOptions: false,
       },
-      {
-        name: '数据筛选',
-        hasOptions: false,
-      },
-      {
-        name: '增删数据',
-        hasOptions: false,
-      },
+
       {
         name: '数据合并',
         hasOptions: false,
@@ -78,7 +71,7 @@ export const toolbardata: ToolClass[] = [
         hasOptions: false,
       },
       {
-        name: '图像分割',
+        name: '图像裁剪',
         hasOptions: false,
       },
       {

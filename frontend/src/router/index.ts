@@ -13,15 +13,37 @@ const routes = [
       {
         path: 'project',
         name: 'project',
+        redirect: '/project/model',
+
         meta: {
           title: '我的文件',
           icon: 'mdi-folder-outline',
         },
         component: () => import('@/views/Project.vue'),
+        children: [
+          {
+            path: 'model',
+            name: 'model',
+            meta: {
+              title: '我的文件',
+            },
+            component: () => import('@/components/stage/ModelFlow.vue'),
+          },
+          {
+            path: 'dataset',
+            name: 'dataset',
+            meta: {
+              title: '我的文件',
+            },
+            component: () => import('@/components/stage/DatasetFlow.vue'),
+          },
+        ],
       },
       {
         path: 'fav',
         name: 'fav',
+        redirect: '/fav/model',
+
         meta: {
           title: '我的收藏',
           icon: 'mdi-star-circle',
@@ -32,28 +54,51 @@ const routes = [
             path: 'model',
             name: 'favmodel',
             meta: {
-              title: '我的模型',
+              title: '我的收藏',
+              type: 'fav',
             },
-            component: () => import('@/views/.vue'),
+            component: () => import('@/components/stage/ModelFlow.vue'),
           },
           {
             path: 'dataset',
             name: 'favdataset',
             meta: {
-              title: '我的数据集',
+              title: '我的收藏',
+              type: 'fav',
             },
-            component: () => import('@/views/Project.vue'),
+            component: () => import('@/components/stage/DatasetFlow.vue'),
           },
         ],
       },
       {
         path: 'shop',
         name: 'shop',
+        redirect: '/shop/model',
         meta: {
           title: '分享社区',
           icon: 'mdi-shopping',
         },
         component: () => import('@/views/Shop.vue'),
+        children: [
+          {
+            path: 'model',
+            name: 'sharedmodel',
+            meta: {
+              title: '分享社区',
+              type: 'shared',
+            },
+            component: () => import('@/components/stage/ModelFlow.vue'),
+          },
+          {
+            path: 'dataset',
+            name: 'shareddataset',
+            meta: {
+              title: '分享社区',
+              type: 'shared',
+            },
+            component: () => import('@/components/stage/DatasetFlow.vue'),
+          },
+        ],
       },
       {
         path: 'team',
@@ -105,7 +150,6 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-
 
 router.beforeEach((to, from) => {
   document.title = typeof to.meta.title === 'string' ? to.meta.title : 'EasyAI';

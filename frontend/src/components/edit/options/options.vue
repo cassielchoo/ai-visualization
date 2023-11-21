@@ -21,6 +21,10 @@
           </v-tabs>
         </v-card-title>
         <v-card-text class="my-2">
+          <import-from-zip v-if="selectedNode.label === '非结构化数据导入'"></import-from-zip>
+          <import-from-DB-Options
+            v-if="selectedNode.label === '从数据库导入'"
+          ></import-from-DB-Options>
           <import-options
             v-if="selectedNode.label === '从 csv/excel 导入'"
             :options="selectedNode.data.options"
@@ -73,7 +77,7 @@
 
 <script lang="ts" setup>
 import { GraphNode, useVueFlow } from '@vue-flow/core';
-import ImportOptions from './ImportOptions.vue';
+import ImportOptions from './ImportFromTableOptions.vue';
 import KmeansOptions from './KMeansOptions.vue';
 import GNNOptions from './CNNOptions.vue';
 import FullConnectOptions from './FullConnectOptions.vue';
@@ -82,6 +86,8 @@ import RNNOptions from './RNNOptions.vue';
 import CatBoostOptions from './CatBoostOptions.vue';
 import XgBoostOptions from './XgBoostOptions.vue';
 import LightGBM from './LightGBMOptions.vue';
+import ImportFromDBOptions from './ImportFromDBOptions.vue';
+import ImportFromZip from '@/components/edit/options/ImportFromZip.vue'
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 import { handleSaveModel } from '../save-model';
 import { useProjectStore } from '@/store/project';
@@ -99,11 +105,8 @@ const selectedNode: Ref<GraphNode> = ref(selectedNodes.value[0]);
 
 const saveOptions = (options: any) => {
   selectedNode.value.data.options = options;
-  handleSaveModel(
-    store.modelInfo.modelId,
-    JSON.stringify(toObject() ?? {}),
-  );
-    handleGlobalMessaging('保存成功');
+  handleSaveModel(store.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+  handleGlobalMessaging('保存成功');
 };
 
 watch(
