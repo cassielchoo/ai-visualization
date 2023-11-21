@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface UserModelMapper {
-    @Select("select UserName,modelId,modelName,lastEditTime,isFavourite,thumbnailUrl,isShared from dbModelInfo where userId = #{userId};")
+    @Select("select modelId,modelName,lastEditTime,isFavourite,thumbnailUrl,isShared from dbModelInfo where userId = #{userId};")
     List<UserModel> GetModelByUserId(@Param("userId") String userId);
-    @Select("select UserName,modelId,modelName,lastEditTime,isFavourite,thumbnailUrl,isShared from dbModelInfo where userId = #{userId} and isFavourite = 1;")
+    @Select("select modelId,modelName,lastEditTime,isFavourite,thumbnailUrl,isShared from dbModelInfo where userId = #{userId} and isFavourite = 1;")
     List<UserModel> GetFavouriteModelByUserId(@Param("userId") String userId);
 
     @Select("select * from dbModelInfo where modelId = #{modelId};")
@@ -28,6 +28,6 @@ public interface UserModelMapper {
 
     @Delete("delete from dbModelInfo where modelId = #{modelId};")
     int DeleteModel(String modelId);
-    @Select("select UserName,modelId,modelName,lastEditTime,isFavourite,thumbnailUrl,isShared from dbModelInfo where isShared = '1';")
+    @Select("select modelId,modelName,lastEditTime,isFavourite,thumbnailUrl,isShared from dbModelInfo where isShared = '1';")
     List<UserModel> GetSharedModel();
 }
