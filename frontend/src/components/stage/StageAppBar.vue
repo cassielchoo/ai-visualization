@@ -15,7 +15,7 @@
       ></v-img>
     </template>
 
-    <v-list nav class="my-8" mandatory v-model:selected="currentRoute" >
+    <v-list nav class="my-8" mandatory v-model:selected="currentRoute">
       <div v-for="(item, i) in items" :key="i">
         <v-divider v-if="i === 3" class="mx-10 my-5"></v-divider>
         <v-list-item
@@ -25,7 +25,7 @@
           :prepend-icon="item.icon"
           variant="flat"
           base-color="background"
-          @click="pushRouter(item.path)"
+          @click="pushRouter(item.name)"
         >
           <v-list-item-title style="font-size: 1.2rem" class="py-3">
             {{ item.title }}
@@ -49,7 +49,12 @@
       </div>
     </template>
   </v-navigation-drawer>
-  <v-app-bar  elevation="0" height="80" density="compact" :color="store.isDark?'#181818':'white'">
+  <v-app-bar
+    elevation="0"
+    height="80"
+    density="compact"
+    :color="store.isDark ? '#181818' : 'white'"
+  >
     <v-app-bar-nav-icon
       v-if="showDrawerBtn"
       @click.stop="drawer = !drawer"
@@ -67,7 +72,7 @@
       class="ml-10"
       density="compact"
       variant="solo-filled"
-      :bg-color="store.isDark?'#232323':'#f4f4f4'"
+      :bg-color="store.isDark ? '#232323' : '#f4f4f4'"
     ></v-text-field>
     <v-spacer></v-spacer>
 
@@ -94,8 +99,8 @@
 
 <script lang="ts" setup>
 import { Ref, computed, ref, ComputedRef, onMounted } from 'vue';
-import { useRouter,useRoute } from 'vue-router';
-import { useDisplay, useTheme } from 'vuetify';
+import { useRouter, useRoute } from 'vue-router';
+import { useDisplay } from 'vuetify';
 import { useAppStore } from '@/store/app';
 
 import { getUserInfo } from '@/service/users';
@@ -105,31 +110,33 @@ import darkLogo from '@/assets/dark_logo.png';
 
 const store = useAppStore();
 const router = useRouter();
-const route=useRoute()
+const route = useRoute();
 
 const { mobile } = useDisplay();
 
 onMounted(async () => {
   const Router = useRouter().options.routes[0].children;
-  for (const route of Router!) {
+
+  for (const router of Router!) {
     items.value.push({
-      title: typeof route.meta?.title === 'string' ? route.meta?.title : '',
-      path: route.path,
-      icon: typeof route.meta?.icon === 'string' ? route.meta?.icon : '',
+      title: typeof router.meta?.title === 'string' ? router.meta?.title : '',
+      name: typeof router.name === 'string' ? router.name : '',
+      icon: typeof router.meta?.icon === 'string' ? router.meta?.icon : '',
     });
   }
 
   const res = await getUserInfo();
   store.user = res.data!;
 
-  currentRoute.value=[route.meta.title as string]
+  console.log(route)
+  currentRoute.value = [route.meta.title as string];
 });
 
-const currentRoute:Ref<[string]>=ref([''])
+const currentRoute: Ref<[string]> = ref(['我的模型']);
 
 interface Item {
   title: string;
-  path: string;
+  name: string;
   icon: string;
 }
 
@@ -140,13 +147,12 @@ const showDrawerBtn: ComputedRef<boolean> = computed(() => {
   return mobile.value;
 });
 
-const pushRouter = (path:string) => {
-    router.push(path)
-}
+const pushRouter = (name: string) => {
+  router.push({ name });
+};
 
 const search: Ref<string> = ref('');
 const searchLoading: Ref<boolean> = ref(false);
-
 
 const showCount: ComputedRef<boolean> = computed(() => notifCount.value > 0);
 const notifCount: Ref<number> = ref(0);
@@ -157,6 +163,4 @@ const logout = () => {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

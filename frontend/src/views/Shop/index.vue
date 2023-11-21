@@ -8,6 +8,7 @@
         variant="plain"
         slider-color="primary"
         style="font-size: 1.1rem"
+        :to="{ name: tab.to }"
       >
         {{ tab.name }}
       </v-tab>
@@ -28,30 +29,18 @@
     </v-btn-toggle>
   </v-app-bar>
 
-  <v-main
-    style="background-color: rgb(var(--v-theme-background-content))"
-    v-if="selectedTab === 0"
-  >
-    <model-flow type="shared"></model-flow>
-  </v-main>
-
-  <v-main
-    style="background-color: rgb(var(--v-theme-background-content))"
-    v-if="selectedTab === 1"
-  >
-    <dataset-flow type="shared"></dataset-flow>
+  <v-main style="background-color: rgb(var(--v-theme-background-content))">
+    <router-view></router-view>
   </v-main>
 </template>
 
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
 
-import ModelFlow from '@/components/stage/ModelFlow.vue';
-import DatasetFlow from '@/components/stage/DatasetFlow.vue';
-
 interface Tab {
   name: string;
   value: number;
+  to: string;
 }
 
 const selectedTab: Ref<number> = ref(0);
@@ -60,10 +49,12 @@ const tabs: Ref<Tab[]> = ref([
   {
     name: '模型',
     value: 0,
+    to: 'sharedmodel',
   },
   {
     name: '数据集',
     value: 1,
+    to: 'shareddataset',
   },
 ]);
 

@@ -13,47 +13,92 @@ const routes = [
       {
         path: 'project',
         name: 'project',
+        redirect: '/project/model',
+
         meta: {
           title: '我的文件',
           icon: 'mdi-folder-outline',
         },
-        component: () => import('@/views/Project.vue'),
+        component: () => import('@/views/Project/index.vue'),
+        children: [
+          {
+            path: 'model',
+            name: 'model',
+            meta: {
+              title: '我的文件',
+            },
+            component: () => import('@/components/stage/ModelFlow.vue'),
+          },
+          {
+            path: 'dataset',
+            name: 'dataset',
+            meta: {
+              title: '我的文件',
+            },
+            component: () => import('@/components/stage/DatasetFlow.vue'),
+          },
+        ],
       },
       {
         path: 'fav',
         name: 'fav',
+        redirect: '/fav/model',
+
         meta: {
           title: '我的收藏',
           icon: 'mdi-star-circle',
         },
-        component: () => import('@/views/Fav.vue'),
+        component: () => import('@/views/Fav/index.vue'),
         children: [
           {
             path: 'model',
             name: 'favmodel',
             meta: {
-              title: '我的模型',
+              title: '我的收藏',
+              type: 'fav',
             },
-            component: () => import('@/views/.vue'),
+            component: () => import('@/components/stage/ModelFlow.vue'),
           },
           {
             path: 'dataset',
             name: 'favdataset',
             meta: {
-              title: '我的数据集',
+              title: '我的收藏',
+              type: 'fav',
             },
-            component: () => import('@/views/Project.vue'),
+            component: () => import('@/components/stage/DatasetFlow.vue'),
           },
         ],
       },
       {
         path: 'shop',
         name: 'shop',
+        redirect: '/shop/model',
         meta: {
           title: '分享社区',
           icon: 'mdi-shopping',
         },
-        component: () => import('@/views/Shop.vue'),
+        component: () => import('@/views/Shop/index.vue'),
+        children: [
+          {
+            path: 'model',
+            name: 'sharedmodel',
+            meta: {
+              title: '分享社区',
+              type: 'shared',
+            },
+            component: () => import('@/components/stage/ModelFlow.vue'),
+          },
+          {
+            path: 'dataset',
+            name: 'shareddataset',
+            meta: {
+              title: '分享社区',
+              type: 'shared',
+            },
+            component: () => import('@/components/stage/DatasetFlow.vue'),
+          },
+        ],
       },
       {
         path: 'team',
@@ -62,7 +107,7 @@ const routes = [
           title: '我的团队',
           icon: 'mdi-account-group-outline',
         },
-        component: () => import('@/views/Project.vue'),
+        component: () => import('@/views/Project/index.vue'),
       },
       {
         path: 'newteam',
@@ -71,7 +116,7 @@ const routes = [
           title: '创建团队',
           icon: 'mdi-account-multiple-plus-outline',
         },
-        component: () => import('@/views/Project.vue'),
+        component: () => import('@/views/Project/index.vue'),
       },
       {
         path: 'settings',
@@ -80,7 +125,7 @@ const routes = [
           title: '设置',
           icon: 'mdi-cog',
         },
-        component: () => import('@/views/Project.vue'),
+        component: () => import('@/views/Project/index.vue'),
       },
     ],
   },
@@ -105,7 +150,6 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-
 
 router.beforeEach((to, from) => {
   document.title = typeof to.meta.title === 'string' ? to.meta.title : 'EasyAI';
