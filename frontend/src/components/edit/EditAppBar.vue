@@ -67,6 +67,20 @@
         <v-icon>mdi-close</v-icon>
       </template>
     </v-btn>
+
+    <v-btn variant="text" color="success" class="mx-1" density="comfortable" @click="editStatus=2" v-if="editStatus===1">
+      <v-icon>mdi-hand-back-right</v-icon>
+      申请编辑
+    </v-btn>
+
+    <v-btn variant="flat" color="success" class="mx-1" density="comfortable" @click="editStatus=1" v-if="editStatus===2">
+      正在编辑
+    </v-btn>
+
+    <v-btn variant="flat" color="error" class="mx-1" density="comfortable" v-if="editStatus===-1">
+      不可申请编辑
+    </v-btn>
+
     <v-spacer></v-spacer>
     <template v-slot:append>
       <v-btn
@@ -131,6 +145,8 @@ const appStore = useAppStore();
 const showStatusText: Ref<boolean> = ref(true);
 
 const showTrainDialog: Ref<boolean> = ref(false);
+
+const editStatus = ref(1);
 
 const submit = async () => {
   showTrainDialog.value = false;

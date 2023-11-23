@@ -128,7 +128,6 @@ onMounted(async () => {
   const res = await getUserInfo();
   store.user = res.data!;
 
-  console.log(route)
   currentRoute.value = [route.meta.title as string];
 });
 

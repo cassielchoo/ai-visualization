@@ -56,6 +56,14 @@
               </v-row>
             </v-radio-group>
 
+              <v-select
+            clearable
+              placeholder="点击选择团队"
+              variant="underlined"
+              :items="['冷面小青龙', '银河球棒侠', '开拓者小队', '星穹列车组']"
+              v-if="form.type==='t'"
+            ></v-select>
+            
             <v-divider class="mb-4"></v-divider>
 
             <div class="text-end">

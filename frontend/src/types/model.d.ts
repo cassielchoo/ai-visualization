@@ -5,7 +5,8 @@ export interface BriefModel {
   isFavourite: '0' | '1';
   thumbnailUrl: string;
   modelName: string;
-  isShared:'0'|'1';
+  isShared: '0' | '1';
+  UserPhoto?: string;
 }
 
 export interface Model extends BriefModel {
@@ -76,7 +77,7 @@ export interface CNNModelProps {
     height: number;
     width: number;
   };
-  activFunc:string;
+  activFunc: string;
 }
 
 export interface CNNResData {
@@ -128,7 +129,7 @@ export interface RNNProps {
   nEpochs: number;
   numHiddenNodes: number;
   numHiddenLayers: number;
-  activFunc:string;
+  activFunc: string;
 }
 
 export interface RNNResData {

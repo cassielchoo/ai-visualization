@@ -100,7 +100,7 @@ export const getDatasetById = async (dataId: string) => {
 
 //获取数据集列表
 export const getDatasetList = async (
-  type?:  'fav' | 'shared',
+  type?: 'fav' | 'shared',
 ): Promise<ResponseData<BriefDataset[]>> => {
   if (type === 'fav') {
     return await axios({
@@ -118,4 +118,24 @@ export const getDatasetList = async (
       url: `/dataset/getdatasetbyuserid`,
     });
   }
+};
+
+//fork分享的模型
+export const forkDataset = async (dataId: string) => {
+  const res: ResponseData<{
+    dataId: string;
+  }> = await axios({
+    method: 'post',
+    url: `/usermodel/copymodelbyid`,
+    data: {
+      dataId,
+    },
+  });
+
+  if (res.code === 200) {
+    handleGlobalMessaging('添加成功');
+  } else {
+    handleGlobalMessaging('添加失败');
+  }
+  return res;
 };

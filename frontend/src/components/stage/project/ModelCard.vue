@@ -53,7 +53,8 @@
               <v-icon
                 :icon="
                   proj.isFavourite === '0' ? 'mdi-heart-outline' : 'mdi-heart'
-                " color="error"
+                "
+                color="error"
               ></v-icon>
             </v-btn>
           </template>
@@ -151,9 +152,9 @@ const store = useAppStore();
 
 const emit = defineEmits(['togglefavorite', 'handledel']);
 
-const showToolTip=ref(false)
+const showToolTip = ref(false);
 const toEdit = () => {
-  showToolTip.value=false
+  showToolTip.value = false;
   router.push('/edit/' + props.proj.modelId);
 };
 

@@ -43,7 +43,7 @@ export const createModel = async (
 
 //获取模型列表
 export const getModelList = async (
-  type?:  'fav' | 'shared',
+  type?: 'fav' | 'shared',
 ): Promise<ResponseData<BriefModel[]>> => {
   if (type === 'fav') {
     return await axios({
@@ -135,5 +135,28 @@ export const delModel = async (modelId: string) => {
   } else {
     handleGlobalMessaging('删除失败');
   }
+  return res;
+};
+
+//fork分享的模型
+export const forkModel = async (modelId: string) => {
+  const res: ResponseData<{
+    modelId: string;
+    lastEditTime: string;
+    isFavourite: '0' | '1';
+  }> = await axios({
+    method: 'post',
+    url: `/usermodel/copymodelbyid`,
+    data: {
+      modelId,
+    },
+  });
+
+  if (res.code === 200) {
+    handleGlobalMessaging('添加成功');
+  } else {
+    handleGlobalMessaging('添加失败');
+  }
+
   return res;
 };

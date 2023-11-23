@@ -88,7 +88,6 @@ onDragOver.value = function (event: DragEvent) {
 };
 
 onConnect((params: GraphEdge) => {
-  console.log(params);
   // edge连接规则
   const handleRules = [
     () => params.source !== params.target,

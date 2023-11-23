@@ -28,9 +28,22 @@
 
           <v-btn icon variant="text"><v-icon>mdi-download</v-icon></v-btn>
 
-          <v-btn icon variant="text" @click="parseCSV">
-            <v-icon>mdi-eye</v-icon>
-          </v-btn>
+          <v-dialog width="800" persistent>
+            <template v-slot:activator="{ props }">
+              <v-btn
+                icon
+                v-bind="props"
+                variant="text"
+                
+              >
+                <v-icon>mdi-eye</v-icon>
+              </v-btn>
+            </template>
+
+            <template v-slot:default="{ isActive }">
+              <PreviewCSV :dataId="dataset.dataId"  @close="isActive.value=false"></PreviewCSV>
+            </template>
+          </v-dialog>
         </v-col>
 
         <v-divider></v-divider>
@@ -45,18 +58,14 @@ import { Ref, ref } from 'vue';
 import { onMounted } from 'vue';
 import { BriefDataset } from '@/types/request';
 import {
+  getDatasetById,
   getDatasetList,
   setDatasetFav,
   setDatasetShared,
 } from '@/service/user-dataset';
-import * as papa from 'papaparse';
+import PreviewCSV from './PreviewCSV.vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
-
-const parseCSV = () => {
-  console.log(papa);
-};
-
 
 const datasets: Ref<BriefDataset[]> = ref([]);
 
@@ -83,7 +92,9 @@ const handleShare = async (dataset: BriefDataset) => {
 };
 
 onMounted(async () => {
-  const ds = await getDatasetList(route.meta.type as 'fav'|'shared'|undefined);
+  const ds = await getDatasetList(
+    route.meta.type as 'fav' | 'shared' | undefined,
+  );
   datasets.value = ds.data ?? [];
 });
 </script>

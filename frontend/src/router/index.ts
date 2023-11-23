@@ -96,7 +96,7 @@ const routes = [
               title: '分享社区',
               type: 'shared',
             },
-            component: () => import('@/components/stage/DatasetFlow.vue'),
+            component: () => import('@/components/stage/SharedDatasetFlow.vue'),
           },
         ],
       },

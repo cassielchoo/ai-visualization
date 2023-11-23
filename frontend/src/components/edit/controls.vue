@@ -4,6 +4,7 @@
     width="250"
     style="position: fixed; right: 1.6rem; bottom: 1.8rem"
     class="d-flex justify-space-between"
+    elevation="2"
   >
     <v-tooltip :text="projStore.modelInfo.isShared==='1'?'取消分享':'分享模型'" location="top">
       <template v-slot:activator="{ props }">

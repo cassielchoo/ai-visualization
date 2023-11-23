@@ -1,6 +1,21 @@
 <template>
   <v-container class="pa-8 pt-0">
-    <v-row class="mt-5">
+    <v-row class="mt-5" v-if="route.meta.type === 'shared'">
+      <v-col
+        cols="12"
+        sm="6"
+        lg="4"
+        xl="3"
+        v-for="sharedProj of sharedProjs"
+        :key="sharedProj.modelId"
+      >
+        <shared-model-card
+          :sharedproj="sharedProj"
+          v-if="route.meta.type === 'shared'"
+        ></shared-model-card>
+      </v-col>
+    </v-row>
+    <v-row class="mt-5" v-else>
       <v-col
         cols="12"
         sm="6"
@@ -22,15 +37,17 @@
 <script lang="ts" setup>
 import { Ref, ref } from 'vue';
 import ModelCard from '@/components/stage/project/ModelCard.vue';
-
+import SharedModelCard from '@/components/stage/SharedModelCard.vue';
 import { onMounted } from 'vue';
 import { delModel, getModelList, setModelFav } from '@/service/user-model';
 import { BriefModel } from '@/types/model';
+import { sortByTime } from '@/utils/sort'
 
 import { useRoute } from 'vue-router';
 const route = useRoute();
 
 const projs: Ref<BriefModel[]> = ref([]);
+const sharedProjs: Ref<BriefModel[]> = ref([]);
 
 const toggleFavorite = async (proj: BriefModel) => {
   proj.isFavourite = proj.isFavourite === '1' ? '0' : '1';
@@ -48,6 +65,13 @@ onMounted(async () => {
   const md = await getModelList(
     route.meta.type as 'fav' | 'shared' | undefined,
   );
-  projs.value = md.data ?? [];
+  if (route.meta.type === 'shared') {
+    sharedProjs.value =
+      (Object.values(md.data as Object) as BriefModel[]) ?? [];
+      sharedProjs.value=sortByTime(sharedProjs.value)
+  } else {
+    projs.value = (Object.values(md.data as Object) as BriefModel[]) ?? [];
+    projs.value=sortByTime(projs.value)
+  }
 });
 </script>

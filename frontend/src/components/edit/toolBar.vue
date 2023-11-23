@@ -100,13 +100,10 @@
             activator="parent"
             open-delay="200"
             style="color:aquamarine;color"
-            theme="light"
           >
             <v-sheet
               class="py-3"
               rounded="xl"
-              theme="dark"
-              color="#212121"
               style="line-height: 2rem"
             >
               <!-- <video
@@ -114,7 +111,7 @@
                 width="550"
                 autoplay
               ></video> -->
-              <v-row><v-img :src="demoGif" width="300"></v-img></v-row>
+              <v-row><v-img :src="demoGif_light" width="300"></v-img></v-row>
               <div class="px-3 mt-4">
                 <v-row>1.从左侧工具目录内选择相应模块</v-row>
                 <v-row>2.将所选择的模块进行连线</v-row>
@@ -176,7 +173,7 @@
 </template>
 
 <script lang="ts" setup>
-import demoGif from '@/assets/howtouse_demo.gif';
+import demoGif_light from '@/assets/howtouse_demo_light.gif';
 import demoMp4 from '@/assets/howtouse_demo.mp4';
 
 import { GraphNode, useVueFlow } from '@vue-flow/core';
@@ -251,7 +248,7 @@ const addNode = async(toolclass: ToolClass, tool: Tool) => {
       },
     });
 
-    await handleSaveModel(projStore.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+    handleSaveModel(projStore.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
   }
 };
 
@@ -296,7 +293,7 @@ const expandTool = (value?: string) => {
   border-style: solid;
 }
 
-#v-tooltip-36 {
-  --v-theme-surface-variant: 33, 33, 33 !important;
+#v-tooltip-325 {
+  --v-theme-surface-variant: 255,255,255 !important;
 }
 </style>
