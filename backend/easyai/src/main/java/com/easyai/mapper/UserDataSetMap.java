@@ -18,6 +18,6 @@ public interface UserDataSetMap {
     int UpdateDataSet(UserDataSet dataSet);
     @Delete("delete from dbData where dataId = #{dataId};")
     int DeleteDataSet(String dataId);
-    @Select("select dataId,dataName,isFavourite,isShared,dataDescribe from dbData where isShared = '1'")
+    @Select("select dataId,dataName,isFavourite,isShared,dataDescribe,userId from dbData where isShared = '1'")
     List<UserDataSet> GetAllSharedDataSet();
 }
