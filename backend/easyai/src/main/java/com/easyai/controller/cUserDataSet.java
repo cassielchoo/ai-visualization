@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
 import com.easyai.bean.CommonResult;
+import com.easyai.bean.User;
 import com.easyai.bean.UserDataSet;
 import com.easyai.service.UserDataSetService;
 import com.easyai.service.UserService;
@@ -327,10 +328,11 @@ public class cUserDataSet {
             int index = 0;
             for (UserDataSet userDataSet : dataSetList) {
                 dataSetDetailJson = new HashMap<>();
+                User theUser = userService.GetUserByUserId(userDataSet.getUserId()).get(0);
+                dataSetDetailJson.put("userName", theUser.getUserName());
+                dataSetDetailJson.put("userPhoto", theUser.getUserPhoto());
                 dataSetDetailJson.put("dataId", userDataSet.getDataId());
                 dataSetDetailJson.put("dataName", userDataSet.getDataName());
-                dataSetDetailJson.put("isFavourite", String.valueOf(userDataSet.getIsFavourite()));
-                dataSetDetailJson.put("isShared", String.valueOf(userDataSet.getIsShared()));
                 dataSetDetailJson.put("dataDescribe", String.valueOf(userDataSet.getDataDescribe()));
                 returnMap.put("userDataSet" + index, dataSetDetailJson);
                 index++;
