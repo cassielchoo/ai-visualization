@@ -22,7 +22,7 @@
         </v-card-title>
         <v-card-subtitle>
           <v-text-field
-          :bg-color="appStore.isDark?'#232323':'#f4f4f4'"
+            :bg-color="appStore.isDark ? '#232323' : '#f4f4f4'"
             hide-details
             v-model="search"
             :clearable="true"
@@ -42,7 +42,7 @@
         class="cards"
         variant="flat"
       >
-        <v-list v-model:opened="open" >
+        <v-list v-model:opened="open">
           <v-list-group
             v-for="toolclass of toolbardata"
             :key="toolclass.value"
@@ -100,12 +100,9 @@
             activator="parent"
             open-delay="200"
             style="color:aquamarine;color"
+            id="tooltip"
           >
-            <v-sheet
-              class="py-3"
-              rounded="xl"
-              style="line-height: 2rem"
-            >
+            <v-sheet class="py-3" rounded="xl" style="line-height: 2rem">
               <!-- <video
                 :src="demoMp4"
                 width="550"
@@ -183,7 +180,7 @@ import { useProjectStore } from '@/store/project';
 import { useAppStore } from '@/store/app';
 import { handleSaveModel } from './save-model';
 const projStore = useProjectStore();
-const appStore=useAppStore()
+const appStore = useAppStore();
 let mini: Ref<boolean> = ref(false);
 
 let open: Ref<string[]> = ref([]);
@@ -209,7 +206,7 @@ let searchLoading: Ref<boolean> = ref(false);
 
 const { addNodes, nodes, dimensions, toObject } = useVueFlow();
 
-const addNode = async(toolclass: ToolClass, tool: Tool) => {
+const addNode = async (toolclass: ToolClass, tool: Tool) => {
   if (
     toolclass.value !== 'model' ||
     nodes.value.filter((node: GraphNode) => node.data.category === 'model')
@@ -248,7 +245,10 @@ const addNode = async(toolclass: ToolClass, tool: Tool) => {
       },
     });
 
-    handleSaveModel(projStore.modelInfo.modelId, JSON.stringify(toObject() ?? {}));
+    handleSaveModel(
+      projStore.modelInfo.modelId,
+      JSON.stringify(toObject() ?? {}),
+    );
   }
 };
 
@@ -293,7 +293,7 @@ const expandTool = (value?: string) => {
   border-style: solid;
 }
 
-#v-tooltip-325 {
-  --v-theme-surface-variant: 255,255,255 !important;
+#tooltip {
+  --v-theme-surface-variant: 255, 255, 255 !important;
 }
 </style>
