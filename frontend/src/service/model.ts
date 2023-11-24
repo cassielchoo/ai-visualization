@@ -103,6 +103,7 @@ export const RNNModel = async (data: RNNProps) => {
     method: 'post',
     url: `/model/RNN`,
     data,
+    timeout: 0,
   });
   if (res.code === 500) handleGlobalMessaging('训练出现错误');
 

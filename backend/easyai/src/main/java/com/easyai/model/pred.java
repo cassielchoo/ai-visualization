@@ -42,14 +42,18 @@ public class pred {
         while (matcher.find()) {
             lastNumber = Integer.parseInt(matcher.group());
         }
-
+        try{
+            Thread.sleep(1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return lastNumber;
     }
 
 
     public static void main(String[] args) {
 //        System.out.println(get_flowerclass(5,2.3,3.3,1));
-//        System.out.println(is_river("Red River"));
-        System.out.println(get_num("minst 5"));
+        System.out.println(is_river("Red River"));
+//        System.out.println(get_num("minst 5"));
     }
 }

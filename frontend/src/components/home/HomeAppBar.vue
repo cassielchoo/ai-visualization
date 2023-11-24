@@ -69,10 +69,7 @@ function toggleTheme() {
 const toDetail = (id: string) => {
   const scrollDom = document.getElementById(id);
   if (scrollDom) {
-    scrollDom.scrollIntoView({
-      behavior: 'smooth', // 平滑过渡
-      block: 'center', // 上边框与视窗顶部平齐。默认值
-    });
+    scrollDom.scrollIntoView();
   }
 };
 

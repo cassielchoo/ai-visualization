@@ -4,7 +4,7 @@
   <options />
   <pred />
   <controls />
-  <edit-status />
+  <!-- <edit-status /> -->
   <selected-node-chips />
 </template>
 

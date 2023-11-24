@@ -48,18 +48,21 @@
       {{ Math.floor(slider) }}
     </template>
   </v-slider>
-  <v-btn block variant="tonal" color="primary">导入</v-btn>
+  <v-btn block variant="tonal" color="primary" @click="save">导入</v-btn>
 </template>
 
 <script setup lang="ts">
 import { useVueFlow } from '@vue-flow/core';
 import { Ref, ref } from 'vue';
+import { useAppStore } from '@/store/app';
 
-
-
+const appStore=useAppStore()
 const files: Ref<File[]> = ref([]);
 const radios: Ref<number> = ref(1);
 const slider: Ref<number> = ref(50);
+const save = () => {
+  appStore.handleGlobalMessaging('导入成功')
+}
 </script>
 
 <style scoped></style>

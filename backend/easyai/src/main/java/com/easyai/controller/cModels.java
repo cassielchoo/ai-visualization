@@ -297,10 +297,11 @@ public class cModels {
                     log.info("/model/Pred_CNN POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
                 } else if (modelType.equals("RNN")) {
                     String name = params.get("name").toString().trim();
+                    System.out.println(name);
                     result.setCode(200);
                     result.setMsg("OK");
                     Map<String, String> returnMap = new HashMap<>();
-                    returnMap.put("result", String.valueOf(pred.get_num(name)));
+                    returnMap.put("result", String.valueOf(pred.is_river(name)));
                     result.setData(returnMap);
                     log.info("/model/Pred_RNN POST 执行完成,现在时间:{},port:{}", DateUtil.now(), serverPort);
                 } else if (modelType.equals("randomforest") || modelType.equals("catboost") || modelType.equals("fullconnect") || modelType.equals("lightgbm") || modelType.equals("xgboost")) {

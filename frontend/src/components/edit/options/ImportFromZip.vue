@@ -5,8 +5,9 @@
     label="上传文件"
     variant="underlined"
     hide-details
-    accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    accept=".zip"
     v-model="files"
+    class="my-4"
   >
     <template v-slot:selection="{ fileNames }">
       <template v-for="(fileName, index) in fileNames" :key="fileName">
@@ -28,18 +29,21 @@
         </span>
       </template>
     </template>
-    <template v-slot:append>
-      <v-btn block variant="tonal" color="primary">预览</v-btn>
-    </template>
   </v-file-input>
 
-  <v-btn block variant="tonal" color="primary">导入</v-btn>
+  <v-btn block variant="tonal" color="primary" @click="save">导入</v-btn>
 </template>
 
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
+import { useAppStore } from '@/store/app';
 
+const appStore=useAppStore()
 const files: Ref<File[]> = ref([]);
+
+const save = () => {
+  appStore.handleGlobalMessaging('导入成功')
+}
 </script>
 
 <style scoped></style>

@@ -37,6 +37,10 @@ export const toolbardata: ToolClass[] = [
         name: '非结构化数据导入',
         hasOptions: true,
       },
+      {
+        name: '从本地导入',
+        hasOptions: true,
+      },
     ],
   },
   {
@@ -72,7 +76,11 @@ export const toolbardata: ToolClass[] = [
       },
       {
         name: '图像裁剪',
-        hasOptions: false,
+        hasOptions: true,
+        options: {
+          height: 26,
+          width: 26,
+        },
       },
       {
         name: '灰度处理',
@@ -201,7 +209,7 @@ export const toolbardata: ToolClass[] = [
         options: {
           learningRate: 0.001,
           batchSize: 12,
-          nEpochs: 10,
+          nEpochs: 50,
           numHiddenLayers: 1,
           numHiddenNodes: 50,
           activFunc: '',
@@ -215,7 +223,7 @@ export const toolbardata: ToolClass[] = [
         options: {
           learningRate: 0.001,
           batchSize: 12,
-          nEpochs: 10,
+          nEpochs: 50,
           numHiddenNodes: 50,
           numHiddenLayers: 1,
           kernelSize: {

@@ -68,7 +68,7 @@
       </template>
     </v-btn>
 
-    <v-btn variant="text" color="success" class="mx-1" density="comfortable" @click="editStatus=2" v-if="editStatus===1">
+    <!-- <v-btn variant="text" color="success" class="mx-1" density="comfortable" @click="editStatus=2" v-if="editStatus===1">
       <v-icon>mdi-hand-back-right</v-icon>
       申请编辑
     </v-btn>
@@ -79,7 +79,7 @@
 
     <v-btn variant="flat" color="error" class="mx-1" density="comfortable" v-if="editStatus===-1">
       不可申请编辑
-    </v-btn>
+    </v-btn> -->
 
     <v-spacer></v-spacer>
     <template v-slot:append>
@@ -160,12 +160,13 @@ const submit = async () => {
       id: nodes.value.length.toString(),
       type: 'results',
       position: {
-        x: node.position.x + 400,
-        y: node.position.y,
+        x: node.position.x + 500,
+        y: node.position.y-300,
       },
       data: {
         hasOptions: false,
         category: 'results',
+
         results: {},
       },
       label: '训练结果',

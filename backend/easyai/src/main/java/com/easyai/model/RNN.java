@@ -92,6 +92,11 @@ public class RNN {
         pre_model.put("recall",all[1]);
         pre_model.put("f1score",all[2]);
         System.out.println(pre_model);
+        try{
+            Thread.sleep(10000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         Map<String,Map> returnJson = new HashMap<>();
         returnJson.put("loss",loss);

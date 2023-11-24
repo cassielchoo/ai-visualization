@@ -133,13 +133,13 @@ const init = () => {
 onMounted(() => {
   watch(
     () => projStore.isReady,
-    async (isReady) => {
+    (isReady) => {
       if (isReady) {
         if (hasLoss.value) {
           init();
         }
         stop();
-        await handleSaveModel(
+        handleSaveModel(
           projStore.modelInfo.modelId,
           JSON.stringify(toObject() ?? {}),
         );
