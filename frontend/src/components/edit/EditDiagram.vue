@@ -105,6 +105,13 @@ onConnect((params: GraphEdge) => {
   }
 });
 
+setInterval(() => {
+  handleSaveModel(
+    projStore.modelInfo.modelId,
+    JSON.stringify(toObject() ?? {}),
+  );
+}, 2000);
+
 const onDrop = async (event: DragEvent) => {
   const category = event.dataTransfer!.getData('category');
   const type = event.dataTransfer!.getData('type');

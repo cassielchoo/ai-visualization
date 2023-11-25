@@ -4,7 +4,7 @@
     class="align-center justify-center"
     id="0"
   >
-    <v-col cols="5">
+    <v-col cols="6">
       <v-img :src="logo" width="400"></v-img>
       <v-card-title style="font-size: 2.7rem">
         基于拖拉拽建模的可视化AI模型开发平台

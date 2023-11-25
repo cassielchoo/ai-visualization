@@ -35,11 +35,11 @@
           <template v-slot:prepend>
             <v-avatar
               color="grey-darken-3"
-              :image="store.user.userPhoto"
+              :image="proj.modelName !== 'cnn'?store.user.userPhoto:'https://gamepress.gg/grandorder/sites/grandorder/files/fgo-icon.jpg'"
             ></v-avatar>
           </template>
 
-          <v-list-item-title>{{ proj.UserName }}</v-list-item-title>
+          <v-list-item-title>{{ proj.modelName === 'cnn' ? '冷面小青龙' : proj.UserName }}</v-list-item-title>
 
           <v-list-item-subtitle>{{ proj.lastEditTime }}</v-list-item-subtitle>
 

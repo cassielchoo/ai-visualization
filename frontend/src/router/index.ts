@@ -107,7 +107,7 @@ const routes = [
           title: '我的团队',
           icon: 'mdi-account-group-outline',
         },
-        component: () => import('@/views/Project.vue'),
+        component: () => import('@/views/Team.vue'),
       },
       {
         path: 'newteam',

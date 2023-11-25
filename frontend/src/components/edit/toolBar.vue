@@ -2,123 +2,140 @@
   <!-- 普通大小工具栏 -->
   <transition name="narrow">
     <aside v-if="!mini" style="z-index: 99">
-      <v-card
-        rounded="xl"
-        class="cards"
-        style="overflow: auto; top: 4.5rem; bottom: 1.8rem; position: fixed"
-        variant="flat"
-        elevation="4"
-      >
-        <v-card-title class="d-flex justify-space-between">
-          <span class="mt-1">
-            <v-btn icon variant="plain">
-              <v-icon class="mb-1 mx-1" icon="mdi-menu"></v-icon>
+      <div v-if="projStore.editStatus === 2">
+        <v-card
+          rounded="xl"
+          class="cards"
+          style="overflow: auto; top: 4.5rem; bottom: 1.8rem; position: fixed"
+          variant="flat"
+          elevation="4"
+        >
+          <v-card-title class="d-flex justify-space-between">
+            <span class="mt-1">
+              <v-btn icon variant="plain">
+                <v-icon class="mb-1 mx-1" icon="mdi-menu"></v-icon>
+              </v-btn>
+              工具目录
+            </span>
+            <v-btn icon variant="plain" @click="narrowTool">
+              <v-icon
+                class="mt-1"
+                icon="mdi-arrow-left-circle-outline"
+              ></v-icon>
             </v-btn>
-            工具目录
-          </span>
-          <v-btn icon variant="plain" @click="narrowTool">
-            <v-icon class="mt-1" icon="mdi-arrow-left-circle-outline"></v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-subtitle>
-          <v-text-field
-            :bg-color="appStore.isDark ? '#232323' : '#f4f4f4'"
-            hide-details
-            v-model="search"
-            :clearable="true"
-            :flat="true"
-            :loading="searchLoading"
-            density="compact"
-            placeholder="搜索项目"
-            prepend-inner-icon="mdi-magnify"
-            rounded
-            variant="solo-filled"
-          ></v-text-field>
-        </v-card-subtitle>
-      </v-card>
-      <v-card
-        rounded="xl"
-        style="overflow: auto; top: 12rem; bottom: 6.5rem; position: fixed"
-        class="cards"
-        variant="flat"
-      >
-        <v-list v-model:opened="open">
-          <v-list-group
-            v-for="toolclass of toolbardata"
-            :key="toolclass.value"
-            :value="toolclass.value"
-          >
-            <template v-slot:activator="{ props }">
-              <v-list-item
-                :prepend-icon="toolclass.icon"
-                :title="toolclass.title"
-                v-bind="props"
-                variant="plain"
-                tabindex="-1"
-              ></v-list-item>
-            </template>
+          </v-card-title>
+          <v-card-subtitle>
+            <v-text-field
+              :bg-color="appStore.isDark ? '#232323' : '#f4f4f4'"
+              hide-details
+              v-model="search"
+              :clearable="true"
+              :flat="true"
+              :loading="searchLoading"
+              density="compact"
+              placeholder="搜索项目"
+              prepend-inner-icon="mdi-magnify"
+              rounded
+              variant="solo-filled"
+            ></v-text-field>
+          </v-card-subtitle>
+        </v-card>
+        <v-card
+          rounded="xl"
+          style="overflow: auto; top: 12rem; bottom: 6.5rem; position: fixed"
+          class="cards"
+          variant="flat"
+        >
+          <v-list v-model:opened="open">
+            <v-list-group
+              v-for="toolclass of toolbardata"
+              :key="toolclass.value"
+              :value="toolclass.value"
+            >
+              <template v-slot:activator="{ props }">
+                <v-list-item
+                  :prepend-icon="toolclass.icon"
+                  :title="toolclass.title"
+                  v-bind="props"
+                  variant="plain"
+                  tabindex="-1"
+                ></v-list-item>
+              </template>
 
-            <div class="px-7">
-              <v-sheet
-                @dragstart="onDragStart($event, toolclass, tool)"
-                :draggable="true"
-                v-for="tool in toolclass.children"
-                :key="tool.name"
-                :value="tool.name"
-                style="padding-inline-start: 2rem !important; cursor: grab"
-                class="px-7 d-flex justify-center align-center my-2"
-                @click="addNode(toolclass, tool)"
-                height="50"
-                rounded
-                :color="toolclass.color"
-              >
-                <v-tooltip
-                  activator="parent"
-                  open-delay="1000"
-                  max-width="250"
-                  v-if="tool.descr"
+              <div class="px-7">
+                <v-sheet
+                  @dragstart="onDragStart($event, toolclass, tool)"
+                  :draggable="true"
+                  v-for="tool in toolclass.children"
+                  :key="tool.name"
+                  :value="tool.name"
+                  style="padding-inline-start: 2rem !important; cursor: grab"
+                  class="px-7 d-flex justify-center align-center my-2"
+                  @click="addNode(toolclass, tool)"
+                  height="50"
+                  rounded
+                  :color="toolclass.color"
                 >
-                  {{ tool.descr }}
-                </v-tooltip>
+                  <v-tooltip
+                    activator="parent"
+                    open-delay="1000"
+                    max-width="250"
+                    v-if="tool.descr"
+                  >
+                    {{ tool.descr }}
+                  </v-tooltip>
 
-                <span style="color: white">{{ tool.name }}</span>
-              </v-sheet>
-            </div>
-          </v-list-group>
-        </v-list>
-      </v-card>
-      <v-card
-        class="pa-3 cards"
-        rounded="xl"
-        style="bottom: 1.8rem; position: fixed"
-        variant="flat"
-      >
-        <v-divider class="mx-8 my-3"></v-divider>
-        <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
-          怎么使用
-          <v-tooltip
-            activator="parent"
-            open-delay="200"
-            style="color:aquamarine;color"
-            id="tooltip"
-          >
-            <v-sheet class="py-3" rounded="xl" style="line-height: 2rem">
-              <!-- <video
+                  <span style="color: white">{{ tool.name }}</span>
+                </v-sheet>
+              </div>
+            </v-list-group>
+          </v-list>
+        </v-card>
+        <v-card
+          class="pa-3 cards"
+          rounded="xl"
+          style="bottom: 1.8rem; position: fixed"
+          variant="flat"
+        >
+          <v-divider class="mx-8 my-3"></v-divider>
+          <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
+            怎么使用
+            <v-tooltip
+              activator="parent"
+              open-delay="200"
+              style="color:aquamarine;color"
+              id="tooltip"
+            >
+              <v-sheet class="py-3" rounded="xl" style="line-height: 2rem">
+                <!-- <video
                 :src="demoMp4"
                 width="550"
                 autoplay
               ></video> -->
-              <v-row><v-img :src="demoGif_light" width="300"></v-img></v-row>
-              <div class="px-3 mt-4">
-                <v-row>1.从左侧工具目录内选择相应模块</v-row>
-                <v-row>2.将所选择的模块进行连线</v-row>
-                <v-row>3.点击相应模块来设置相关参数</v-row>
-                <v-row>4.点击相应按钮进行模型训练预测</v-row>
-              </div>
-            </v-sheet>
-          </v-tooltip>
-        </v-btn>
-      </v-card>
+                <v-row><v-img :src="demoGif_light" width="300"></v-img></v-row>
+                <div class="px-3 mt-4">
+                  <v-row>1.从左侧工具目录内选择相应模块</v-row>
+                  <v-row>2.将所选择的模块进行连线</v-row>
+                  <v-row>3.点击相应模块来设置相关参数</v-row>
+                  <v-row>4.点击相应按钮进行模型训练预测</v-row>
+                </div>
+              </v-sheet>
+            </v-tooltip>
+          </v-btn>
+        </v-card>
+      </div>
+      <div v-else>
+        <v-card
+          rounded="xl"
+          class="cards d-flex justify-center align-center"
+          style="overflow: auto; top: 4.5rem; bottom: 1.8rem; position: fixed"
+          variant="flat"
+          elevation="4"
+        >
+          <v-icon>mdi-lock</v-icon>
+          <div>当前不能编辑</div>
+        </v-card>
+      </div>
     </aside>
   </transition>
 

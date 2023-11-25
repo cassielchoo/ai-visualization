@@ -21,6 +21,7 @@
           </v-tabs>
         </v-card-title>
         <v-card-text class="my-2">
+          <import-from-local v-if="selectedNode.label === '从本地导入'"></import-from-local>
           <import-from-zip v-if="selectedNode.label === '非结构化数据导入'"></import-from-zip>
           <import-from-DB-Options
             v-if="selectedNode.label === '从数据库导入'"
@@ -88,6 +89,7 @@ import XgBoostOptions from './XgBoostOptions.vue';
 import LightGBM from './LightGBMOptions.vue';
 import ImportFromDBOptions from './ImportFromDBOptions.vue';
 import ImportFromZip from '@/components/edit/options/ImportFromZip.vue'
+import ImportFromLocal from './ImportFromLocal.vue';
 import { ComputedRef, Ref, computed, ref, watch } from 'vue';
 import { handleSaveModel } from '../save-model';
 import { useProjectStore } from '@/store/project';

@@ -68,16 +68,84 @@
       </template>
     </v-btn>
 
-    <!-- <v-btn variant="text" color="success" class="mx-1" density="comfortable" @click="editStatus=2" v-if="editStatus===1">
-      <v-icon>mdi-hand-back-right</v-icon>
-      申请编辑
-    </v-btn>
+    <!-- <v-dialog width="500" transition="dialog-top-transition">
+      <template v-slot:activator="{ props }">
+        <v-btn
+          v-bind="props"
+          variant="text"
+          color="success"
+          class="mx-1"
+          density="comfortable"
+          v-if="projStore.editStatus === 1"
+        >
+          <v-icon>mdi-hand-back-right</v-icon>
+          申请编辑
+        </v-btn>
+      </template>
 
-    <v-btn variant="flat" color="success" class="mx-1" density="comfortable" @click="editStatus=1" v-if="editStatus===2">
-      正在编辑
-    </v-btn>
+      <template v-slot:default="{ isActive }">
+        <v-card title="是否申请编辑">
+          <v-card-text>点击确定将进入编辑状态，其他人将无法编辑。</v-card-text>
 
-    <v-btn variant="flat" color="error" class="mx-1" density="comfortable" v-if="editStatus===-1">
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn @click="isActive.value = false">取消</v-btn>
+            <v-btn
+              @click="
+                (projStore.editStatus = 2),
+                  (isActive.value = false),
+                  setActive()
+              "
+            >
+              确定
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </v-dialog>
+
+    <v-dialog width="500" transition="dialog-top-transition">
+      <template v-slot:activator="{ props }">
+        <v-btn
+          v-bind="props"
+          variant="flat"
+          color="success"
+          class="mx-1"
+          density="comfortable"
+          v-if="projStore.editStatus === 2"
+        >
+          正在编辑
+        </v-btn>
+      </template>
+
+      <template v-slot:default="{ isActive }">
+        <v-card title="是否退出编辑模式">
+          <v-card-text>退出编辑模式后，其他人将可以自由申请编辑</v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn @click="isActive.value = false">取消</v-btn>
+            <v-btn
+              @click="
+                (projStore.editStatus = 1), (isActive.value = false), deactive()
+              "
+            >
+              确定
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </v-dialog>
+
+    <v-btn
+      variant="flat"
+      color="error"
+      class="mx-1"
+      density="comfortable"
+      v-if="projStore.editStatus === -1"
+    >
       不可申请编辑
     </v-btn> -->
 
@@ -123,6 +191,7 @@ import { computed, onMounted, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProjectStore } from '@/store/project';
 import { useAppStore } from '@/store/app';
+
 import {
   kMeansModel,
   randomForestModel,
@@ -146,8 +215,6 @@ const showStatusText: Ref<boolean> = ref(true);
 
 const showTrainDialog: Ref<boolean> = ref(false);
 
-const editStatus = ref(1);
-
 const submit = async () => {
   showTrainDialog.value = false;
   projStore.isReady = false;
@@ -161,7 +228,7 @@ const submit = async () => {
       type: 'results',
       position: {
         x: node.position.x + 500,
-        y: node.position.y-300,
+        y: node.position.y - 300,
       },
       data: {
         hasOptions: false,
@@ -251,8 +318,60 @@ const goBack = () => {
   });
 };
 
+const setActive = () => {
+  projStore.setActive('zhuyu');
+};
+
+const deactive = () => {
+  projStore.setActive('无人');
+  projStore.editStatus = 1;
+};
+
 onMounted(async () => {
   const res = await getUserInfo();
   appStore.user = res.data!;
+
+  // setTimeout(() => {
+  //   projStore.setActive('哆嗦熊');
+  //   projStore.editStatus = -1;
+  // }, 2000);
+
+  // setTimeout(() => {
+  //   addNodes({
+  //     id: nodes.value.length.toString(),
+  //     type: 'default',
+  //     position: {
+  //       x: 134,
+  //       y: 280,
+  //     },
+  //     data: {
+  //       color: '#73d1d0',
+  //       accentColor: '#376c6b',
+  //       hasOptions: false,
+  //     },
+  //     label: '从csv/excel导入',
+  //     style: (el: GraphNode) => {
+  //       if (el.selected)
+  //         return {
+  //           '--vf-node-text': 'white',
+  //           '--vf-node-bg': '#73d1d0',
+  //           '--vf-node-color': '#73d1d0',
+  //           'border-color': '#376c6b' + '!important',
+  //           'font-size': '1.5rem',
+  //         };
+  //       return {
+  //         '--vf-node-text': 'white',
+  //         '--vf-node-bg': '#73d1d0',
+  //         '--vf-node-color': '#73d1d0',
+  //         'font-size': '1.5rem',
+  //       };
+  //     },
+  //   });
+  // }, 4000);
+
+  // setTimeout(() => {
+  //   projStore.setActive('无人');
+  //   projStore.editStatus = 1;
+  // }, 6000);
 });
 </script>

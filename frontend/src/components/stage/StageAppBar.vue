@@ -50,7 +50,7 @@
     </template>
   </v-navigation-drawer>
   <v-app-bar
-    elevation="0"
+    :elevation="route.name==='team'?2:0"
     height="80"
     density="compact"
     :color="store.isDark ? '#181818' : 'white'"
