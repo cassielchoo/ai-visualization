@@ -126,10 +126,10 @@ export const toolbardata: ToolClass[] = [
         name: '词向量转化',
         hasOptions: false,
       },
-      {
-        name: '相似度计算',
-        hasOptions: false,
-      },
+      // {
+      //   name: '相似度计算',
+      //   hasOptions: false,
+      // },
       {
         name: '图像增强',
         hasOptions: false,
