@@ -2,6 +2,7 @@
   <aside style="z-index: 99">
     <v-card
       color="background"
+      elevation="4"
       rounded="xl"
       style="
         overflow: auto;

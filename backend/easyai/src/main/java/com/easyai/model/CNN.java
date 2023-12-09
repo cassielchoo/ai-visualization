@@ -78,24 +78,24 @@ public class CNN {
 
 //        System.out.println("/////////");
         Map<String,Double> loss = new HashMap<>();
-//        for(int i = 0;i<nEpochs;i++) {
-//            model.fit(trainIter);
-//            double score = model.score();
-////            System.out.println("1111");
-//            System.out.println(score);
-////            System.out.println("2222");
-//            loss.put(String.valueOf(i),score);
-//        }
-        loss.put("0",0.9496787170923265);
-        loss.put("1",0.6435622057314153);
-        loss.put("2",0.3212697289010697);
-        loss.put("3",0.1349094882130219);
-        loss.put("4",0.11536054065807165);
-        loss.put("5",0.10968860683796018);
-        loss.put("6",0.10448528757790224);
-        loss.put("7",0.09946532741568317);
-        loss.put("8",0.0948047293546529);
-        loss.put("9",0.09126898598596202);
+        for(int i = 0;i<nEpochs;i++) {
+            model.fit(trainIter);
+            double score = model.score();
+//            System.out.println("1111");
+            System.out.println(score);
+//            System.out.println("2222");
+            loss.put(String.valueOf(i),score);
+        }
+//        loss.put("0",0.9496787170923265);
+//        loss.put("1",0.6435622057314153);
+//        loss.put("2",0.3212697289010697);
+//        loss.put("3",0.1349094882130219);
+//        loss.put("4",0.11536054065807165);
+//        loss.put("5",0.10968860683796018);
+//        loss.put("6",0.10448528757790224);
+//        loss.put("7",0.09946532741568317);
+//        loss.put("8",0.0948047293546529);
+//        loss.put("9",0.09126898598596202);
 
 
         System.out.println(loss.toString());
@@ -137,11 +137,6 @@ public class CNN {
         Map<String,Map> returnJson = new HashMap<>();
         returnJson.put("loss",loss);
         returnJson.put("performance",performance);
-        try{
-            Thread.sleep(10000);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
         return returnJson;
     }
 

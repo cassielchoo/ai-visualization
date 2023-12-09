@@ -60,7 +60,6 @@ import {
 } from '@/types/model';
 import { useProjectStore } from '@/store/project';
 import { computed } from 'vue';
-import { handleSaveModel } from './save-model';
 import { useAppStore } from '@/store/app';
 const projStore = useProjectStore();
 const appStore = useAppStore();
@@ -139,10 +138,6 @@ onMounted(() => {
           init();
         }
         stop();
-        handleSaveModel(
-          projStore.modelInfo.modelId,
-          JSON.stringify(toObject() ?? {}),
-        );
       }
     },
     { deep: true, flush: 'post', immediate: true },

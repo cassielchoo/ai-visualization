@@ -1,20 +1,24 @@
 import { saveModel } from '@/service/user-model';
+import { Model } from '@/types/model';
+import { ResponseData } from '@/types/request';
 import html2canvas from 'html2canvas';
 
-export const handleSaveModel = (modelId: string, dataJson: string) => {
-  setTimeout(async () => {
-    const canvas = (
-      await html2canvas(document.getElementById('diagram')!, {
-        backgroundColor: '#f9f9f9', //画出来的图片有白色的边框,不要可设置背景为透明色（null）
-        useCORS: true, //支持图片跨域
-        scale: 1, //设置放大的倍数});
-      })
-    ).toDataURL('image/png');
+export const handleSaveModel = async (
+  modelId: string,
+  dataJson: string,
+): Promise<ResponseData<Model>> => {
+  const canvas = (
+    await html2canvas(document.getElementById('diagram')!, {
+      backgroundColor: '#f9f9f9', //画出来的图片有白色的边框,不要可设置背景为透明色（null）
+      useCORS: true, //支持图片跨域
+      scale: 1, //设置放大的倍数});
+    })
+  ).toDataURL('image/png');
 
-    await saveModel({
-      modelId,
-      datajson: dataJson,
-      thumbnailUrl: canvas,
-    });
-  }, 1000);
+  const res = await saveModel({
+    modelId,
+    datajson: dataJson,
+    thumbnailUrl: canvas,
+  });
+  return res;
 };

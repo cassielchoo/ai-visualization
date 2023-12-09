@@ -62,6 +62,27 @@ export const useProjectStore = defineStore('project', () => {
     })
   }
 
+  const $reset = () => {
+    isReady.value = true;
+    modelType.value='';
+    modelInfo.value = {
+      UserName: '',
+      modelId: '',
+      lastEditTime: '',
+      isFavourite: '0',
+      isShared: '0',
+      thumbnailUrl: '',
+      modelName: '',
+      userId: '',
+      dataJson: '',
+      creatTime: '',
+      modelURL: '',
+    };
+    cloudStatusText.value = '已保存';
+    currentEditing.value = '无人';
+    editStatus.value=2;
+  }
+
   return {
     cloudStatusText,
     modelInfo,
@@ -71,5 +92,6 @@ export const useProjectStore = defineStore('project', () => {
     currentEditing,
     setActive,
     editStatus,
+    $reset,
   };
 });

@@ -19,8 +19,16 @@
 </template>
 
 <script lang="ts" setup>
-import { GraphEdge, GraphNode, VueFlow, useVueFlow } from '@vue-flow/core';
+import {
+  Connection,
+  GraphEdge,
+  GraphNode,
+  VueFlow,
+  useVueFlow,
+} from '@vue-flow/core';
 import ResultsNode from './ResultsNode.vue';
+import { nanoid } from 'nanoid';
+
 import {
   nextTick,
   watch,
@@ -29,6 +37,7 @@ import {
   computed,
   Ref,
   onMounted,
+  onDeactivated,
 } from 'vue';
 import { Background, BackgroundVariant } from '@vue-flow/background';
 import { onContextMenu } from './contextMenu/context-menu';
@@ -37,6 +46,8 @@ import { getModelById } from '@/service/user-model';
 import { handleSaveModel } from './save-model';
 import { useRoute } from 'vue-router';
 import { useAppStore } from '@/store/app';
+import { validate } from './rules';
+
 const projStore = useProjectStore();
 const appStore = useAppStore();
 const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Lines);
@@ -67,17 +78,15 @@ const {
   vueFlowRef,
   onPaneReady,
   nodes,
+  edges,
   fromObject,
   toObject,
+  fitView,
 } = flow;
 
 const openContextMenu = (e: MouseEvent) => {
   onContextMenu(e, flow, appStore.isDark);
 };
-
-onPaneReady((instance: typeof VueFlow) => {
-  instance.fitView();
-});
 
 const onDragOver = ref();
 onDragOver.value = function (event: DragEvent) {
@@ -87,7 +96,7 @@ onDragOver.value = function (event: DragEvent) {
   }
 };
 
-onConnect((params: GraphEdge) => {
+onConnect((params: Connection) => {
   // edge连接规则
   const handleRules = [
     () => params.source !== params.target,
@@ -98,19 +107,8 @@ onConnect((params: GraphEdge) => {
   const judger = handleRules.every((rule) => rule());
   if (judger) {
     addEdges([params]);
-    handleSaveModel(
-      projStore.modelInfo.modelId,
-      JSON.stringify(toObject() ?? {}),
-    );
   }
 });
-
-setInterval(() => {
-  handleSaveModel(
-    projStore.modelInfo.modelId,
-    JSON.stringify(toObject() ?? {}),
-  );
-}, 2000);
 
 const onDrop = async (event: DragEvent) => {
   const category = event.dataTransfer!.getData('category');
@@ -127,13 +125,11 @@ const onDrop = async (event: DragEvent) => {
     y: event.clientY - top,
   });
 
-  if (
-    category !== 'model' ||
-    nodes.value.filter((node: GraphNode) => node.data.category === 'model')
-      .length === 0
-  ) {
+  const id = nanoid();
+  const validated = validate(name, category, flow);
+  if (validated) {
     addNodes({
-      id: nodes.value.length.toString(),
+      id,
       type,
       position,
       label: name,
@@ -163,7 +159,7 @@ const onDrop = async (event: DragEvent) => {
     });
 
     nextTick(() => {
-      const node = findNode((nodes.value.length - 1).toString())!;
+      const node = findNode(id)!;
       const stop = watch(
         () => node.dimensions,
         async (dimensions) => {
@@ -172,10 +168,6 @@ const onDrop = async (event: DragEvent) => {
               x: node.position.x - node.dimensions.width / 2,
               y: node.position.y - node.dimensions.height / 2,
             };
-            await handleSaveModel(
-              projStore.modelInfo.modelId,
-              JSON.stringify(toObject() ?? {}),
-            );
 
             stop();
           }
@@ -189,6 +181,7 @@ const onDrop = async (event: DragEvent) => {
 const route = useRoute();
 
 onMounted(async () => {
+  projStore.$reset();
   projStore.modelInfo.modelId = route.params.id as string;
 
   const res = await getModelById(projStore.modelInfo.modelId);

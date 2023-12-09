@@ -154,7 +154,7 @@
           position: fixed;
         "
         class="d-flex align-start flex-column align-center"
-        variant="flat"
+        elevation="4"
       >
         <v-btn icon variant="plain">
           <v-icon icon="mdi-menu"></v-icon>
@@ -189,13 +189,13 @@
 <script lang="ts" setup>
 import demoGif_light from '@/assets/howtouse_demo_light.gif';
 import demoMp4 from '@/assets/howtouse_demo.mp4';
+import { nanoid } from 'nanoid';
 
 import { GraphNode, useVueFlow } from '@vue-flow/core';
 import { ref, Ref } from 'vue';
 import { toolbardata, Tool, ToolClass } from './toolbardata';
 import { useProjectStore } from '@/store/project';
 import { useAppStore } from '@/store/app';
-import { handleSaveModel } from './save-model';
 const projStore = useProjectStore();
 const appStore = useAppStore();
 let mini: Ref<boolean> = ref(false);
@@ -230,7 +230,7 @@ const addNode = async (toolclass: ToolClass, tool: Tool) => {
       .length === 0
   ) {
     addNodes({
-      id: nodes.value.length.toString(),
+      id: nanoid(),
       type: toolclass.type,
       position: {
         x: dimensions.value.width / 2,
@@ -262,10 +262,7 @@ const addNode = async (toolclass: ToolClass, tool: Tool) => {
       },
     });
 
-    handleSaveModel(
-      projStore.modelInfo.modelId,
-      JSON.stringify(toObject() ?? {}),
-    );
+
   }
 };
 

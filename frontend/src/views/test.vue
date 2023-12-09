@@ -1,39 +1,222 @@
 <template>
-  <v-btn :block="true" prepend-icon="mdi-help" variant="plain">
-    怎么使用
-    <v-tooltip
-      activator="parent"
-      open-delay="200"
-      style="color:aquamarine;color"
-      v-model="show"
-    >
-      <v-sheet class="py-3" rounded="xl" theme="dark" style="line-height: 2rem">
-        <!-- <video
-                :src="demoMp4"
-                width="550"
-                autoplay
-              ></video> -->
-        <v-row><v-img :src="demoGif" width="300"></v-img></v-row>
-        <v-row>1.从左侧工具目录内选择相应模块</v-row>
-        <v-row>2.将所选择的模块进行连线</v-row>
-        <v-row>3.点击相应模块来设置相关参数</v-row>
-        <v-row>4.点击相应按钮进行模型训练预测</v-row>
-      </v-sheet>
-    </v-tooltip>
-  </v-btn>
+  <div
+    style="
+      border-color: rgb(var(--v-theme-primary));
+      border-style: solid;
+      height: 30rem;
+      width: 100%;
+      border-radius: 8px;
+    "
+  >
+    <VueFlow :nodes="initialNodes" :edges="initialEdges" fit-view-on-init>
+      <template #node-card="{ data }">
+        <v-card class="card-node pa-5" rounded="lg" color="#42b983">
+          <v-card-title class="d-flex justify-center" style="font-size: 2rem">
+            {{ data.title }}
+          </v-card-title>
+          <v-card-text
+            style="
+              width: 100%;
+              text-align: center;
+              font-size: 1.4rem;
+              line-height: 1.7rem;
+            "
+          >
+            {{ data.text }}
+          </v-card-text>
+        </v-card>
+        <Handle
+          id="b"
+          type="source"
+          :position="Position.Bottom"
+          style="width: 60px; height: 10px; border-radius: 3px"
+        />
+      </template>
+
+      <Background
+        :variant="patternVariant"
+        :patternColor="patternColor"
+        :gap="80"
+      />
+    </VueFlow>
+  </div>
+  <v-btn @click="deleteNode">删除</v-btn>
+  <v-btn @click="addNode">添加节点</v-btn>
 </template>
 
 <script lang="ts" setup>
-import demoMp4 from '@/assets/howtouse_demo.mp4';
+import { VueFlow, useVueFlow, Handle, Position } from '@vue-flow/core';
+import { ref, ComputedRef, computed, Ref } from 'vue';
+import { useTheme } from 'vuetify';
+import '@vue-flow/core/dist/style.css';
+import '@vue-flow/core/dist/theme-default.css';
+import { Background, BackgroundVariant } from '@vue-flow/background';
+import { onMounted } from 'vue';
+import { nanoid } from 'nanoid';
+const theme = useTheme();
 
-import demoGif from '@/assets/howtouse_demo.gif';
-import { ref } from 'vue';
+const patternVariant: Ref<BackgroundVariant> = ref(BackgroundVariant.Lines);
+const patternColor: ComputedRef<string> = computed(() =>
+  theme.global.current.value.dark ? '#818181' : '#828282',
+);
 
-const show = ref(true);
+const {
+  dimensions,
+  nodes,
+  addEdges,
+  onPaneReady,
+  addNodes,
+  removeNodes,
+  removeEdges,
+  getSelectedNodes,
+  getSelectedEdges,
+} = useVueFlow({
+  maxZoom: 4,
+  minZoom: 0.1,
+  defaultViewport: {
+    x: 0,
+    y: 0,
+    zoom: 1,
+  },
+});
+
+const initialNodes = computed(() => [
+  {
+    id: '1',
+    type: 'card',
+    data: {
+      title: 'EASY AI',
+      text: '这是一个基于拖拉拽建模的可视化AI模型开发平台。帮助用户实现“零门槛”建模，让模型的构建、优化、落地应用等各个方面更加高效。',
+    },
+    style: {
+      '--vf-node-text': 'white',
+      '--vf-node-bg': '#42b983',
+      '--vf-node-color': 'black',
+      'border-radius': '10px',
+    },
+    position: {
+      x: dimensions.value.width / 2 - 240,
+      y: dimensions.value.height / 2 - 250,
+    },
+  },
+  {
+    id: '2',
+    type: 'output',
+    label: '样例',
+    style: {
+      width: '14rem',
+      height: '4rem',
+      '--vf-node-text': 'white',
+      '--vf-node-bg': '#ec4899',
+      '--vf-node-color': '#ec4899',
+      'border-radius': '10px',
+      'font-size': '1.6rem',
+    },
+    position: {
+      x: dimensions.value.width / 2 - 385,
+      y: dimensions.value.height / 2 + 60,
+    },
+  },
+  {
+    id: '3',
+    type: 'output',
+    label: '加入我们',
+    style: {
+      width: '14rem',
+      height: '4rem',
+      '--vf-node-text': 'white',
+      '--vf-node-bg': '#0ea5e9',
+      '--vf-node-color': '#0ea5e9',
+      'border-radius': '10px',
+      'font-size': '1.6rem',
+    },
+    position: {
+      x: dimensions.value.width / 2 - 90,
+      y: dimensions.value.height / 2 + 160,
+    },
+  },
+  {
+    id: '4',
+    type: 'output',
+    label: '说明文档',
+    style: {
+      width: '14rem',
+      height: '4rem',
+      '--vf-node-text': 'white',
+      '--vf-node-bg': '#f15a16',
+      '--vf-node-color': '#f15a16',
+      'border-radius': '10px',
+      'font-size': '1.6rem',
+    },
+    position: {
+      x: dimensions.value.width / 2 + 170,
+      y: dimensions.value.height / 2 + 50,
+    },
+  },
+]);
+
+const initialEdges = [
+  {
+    id: 'e1-2',
+    source: '1',
+    target: '2',
+    animated: true,
+    style: {
+      'stroke-width': '5px',
+      stroke: '#ec4899',
+    },
+  },
+  {
+    id: 'e1-3',
+    source: '1',
+    target: '3',
+    animated: true,
+    style: {
+      'stroke-width': '5px',
+      stroke: '#0ea5e9',
+    },
+  },
+  {
+    id: 'e1-4',
+    source: '1',
+    target: '4',
+    animated: true,
+    style: {
+      'stroke-width': '5px',
+      stroke: '#f15a16',
+    },
+  },
+];
+
+const deleteNode = () => {
+  removeNodes(getSelectedNodes.value);
+  removeEdges(getSelectedEdges.value);
+};
+
+const addNode = () => {
+  addNodes({
+    id: nanoid(),
+    type: 'input',
+    position: {
+      x: dimensions.value.width / 2,
+      y: dimensions.value.height / 2,
+    },
+
+    label: 'testnode'+nodes.value.length.toString(),
+  });
+};
 </script>
 
 <style>
-#v-tooltip-1 {
-  --v-theme-surface-variant: 33,33,33
+.card-node {
+  width: 30rem;
+  height: 14rem;
+}
+
+.vue-flow__handle {
+  width: 30px;
+  height: 10px;
+  border-radius: 3px;
+  --vf-handle: #aaaaaa;
 }
 </style>

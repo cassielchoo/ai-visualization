@@ -1,6 +1,5 @@
 import ContextMenu from '@imengyu/vue3-context-menu';
 import { GraphNode, VueFlowStore } from '@vue-flow/core';
-import { handleSaveModel } from '../save-model';
 import './contextMenuTheme.scss';
 import { useProjectStore } from '@/store/project';
 const store = useProjectStore();
@@ -24,10 +23,7 @@ export function onContextMenu(
       onClick: async () => {
         flow.removeNodes(flow.getSelectedNodes.value);
         flow.removeEdges(flow.getSelectedEdges.value);
-        await handleSaveModel(
-          store.modelInfo.modelId,
-          JSON.stringify(flow.toObject()),
-        );
+
       },
     });
   }

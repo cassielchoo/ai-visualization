@@ -63,7 +63,7 @@
     <v-btn variant="text" @click="pred" class="mx-1" density="comfortable">
       <v-icon>mdi-graph</v-icon>
       预测
-      <template v-slot:append v-if="openPred">
+      <template v-slot:append v-if="projStore.modelType">
         <v-icon>mdi-close</v-icon>
       </template>
     </v-btn>
@@ -155,7 +155,6 @@
         :color="cloudStatus.color"
         density="comfortable"
         variant="text"
-        @click="1"
         width="120"
       >
         <v-icon>{{ cloudStatus.icon }}</v-icon>
@@ -187,10 +186,11 @@
 
 <script lang="ts" setup>
 import { getUserInfo } from '@/service/users';
-import { computed, onMounted, ref, Ref } from 'vue';
+import { computed, onDeactivated, onMounted, ref, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useProjectStore } from '@/store/project';
 import { useAppStore } from '@/store/app';
+import { nanoid } from 'nanoid';
 
 import {
   kMeansModel,
@@ -203,9 +203,10 @@ import {
   xgBoostModel,
 } from '@/service/model';
 import { GraphNode, useVueFlow } from '@vue-flow/core';
-import { handleSaveModel } from '@/components/edit/save-model';
+import { handleSaveModel } from './save-model';
 
-const { nodes, toObject, addNodes, findNode } = useVueFlow();
+const { nodes, toObject, addNodes, findNode, removeSelectedElements } =
+  useVueFlow();
 
 const router = useRouter();
 const projStore = useProjectStore();
@@ -220,79 +221,106 @@ const submit = async () => {
   projStore.isReady = false;
   const node: GraphNode = nodes.value.find(
     (n: GraphNode) => n.data.category === 'model',
-  );
+  )!;
 
-  addNodes([
-    {
-      id: nodes.value.length.toString(),
-      type: 'results',
-      position: {
-        x: node.position.x + 500,
-        y: node.position.y - 300,
+  if (node) {
+    const id = nanoid();
+
+    addNodes([
+      {
+        id,
+        type: 'results',
+        position: {
+          x: node.position.x + 500,
+          y: node.position.y - 300,
+        },
+        data: {
+          hasOptions: false,
+          category: 'results',
+
+          results: {},
+        },
+        label: '训练结果',
       },
-      data: {
-        hasOptions: false,
-        category: 'results',
+    ]);
 
-        results: {},
-      },
-      label: '训练结果',
-    },
-  ]);
+    let res;
+    switch (node.label) {
+      case '随机森林':
+        res = await randomForestModel(node.data.options);
 
-  let res;
-  switch (node.label) {
-    case '随机森林':
-      res = await randomForestModel(node.data.options);
+        break;
+      case 'lightGBM':
+        res = await lightGBMModel(node.data.options);
+        break;
+      case 'Xgboost':
+        res = await xgBoostModel(node.data.options);
+        break;
+      case 'Catboost':
+        res = await catBoostModel(node.data.options);
+        break;
+      case 'K-means':
+        res = await kMeansModel(node.data.options);
+        break;
+      case '全连接神经网络':
+        res = await fullConnectModel(node.data.options);
+        break;
+      case '卷积神经网络':
+        res = await CNNModel(node.data.options);
+        break;
+      case '循环神经网络':
+        res = await RNNModel(node.data.options);
+        break;
+    }
 
-      break;
-    case 'lightGBM':
-      res = await lightGBMModel(node.data.options);
-      break;
-    case 'Xgboost':
-      res = await xgBoostModel(node.data.options);
-      break;
-    case 'Catboost':
-      res = await catBoostModel(node.data.options);
-      break;
-    case 'K-means':
-      res = await kMeansModel(node.data.options);
-      break;
-    case '全连接神经网络':
-      res = await fullConnectModel(node.data.options);
-      break;
-    case '卷积神经网络':
-      res = await CNNModel(node.data.options);
-      break;
-    case '循环神经网络':
-      res = await RNNModel(node.data.options);
-      break;
-  }
-
-  if (res?.code === 200) {
-    const node: GraphNode = findNode((nodes.value.length - 1).toString());
-    node.data.results = res?.data;
-    await handleSaveModel(
-      projStore.modelInfo.modelId,
-      JSON.stringify(toObject() ?? {}),
-    );
-    projStore.isReady = true;
+    if (res?.code === 200) {
+      const node: GraphNode = findNode(id)!;
+      node.data.results = res?.data;
+      projStore.isReady = true;
+    }
+  } else {
+    appStore.handleGlobalMessaging('请先选择模型类型');
   }
 };
-
-const openPred = ref(false);
 
 const pred = () => {
-  const node: GraphNode = nodes.value.find(
+  removeSelectedElements();
+  const modelNode: GraphNode | undefined = nodes.value.find(
     (n: GraphNode) => n.data.category === 'model',
   );
-  if (openPred.value) {
-    projStore.modelType = '';
-  } else {
-    projStore.modelType = node.label as string;
+  const resultsNode: GraphNode | undefined = nodes.value.find(
+    (n: GraphNode) => n.data.category === 'results',
+  );
+
+  if (resultsNode && modelNode) {
+    if (projStore.modelType) {
+      projStore.modelType = '';
+    } else {
+      projStore.modelType = modelNode.label as string;
+    }
+  } else if (!modelNode) {
+    appStore.handleGlobalMessaging('请先选择模型类型并训练');
+  } else if (!resultsNode) {
+    appStore.handleGlobalMessaging('请先训练模型');
   }
-  openPred.value = !openPred.value;
 };
+
+let autoSave = setInterval(async () => {
+  const res = await handleSaveModel(
+    projStore.modelInfo.modelId,
+    JSON.stringify(toObject() ?? {}),
+  );
+  if (res.code === 200) {
+    projStore.cloudStatusText = '已保存';
+  } else {
+    projStore.cloudStatusText = '保存失败';
+  }
+
+}, 5000);
+
+onDeactivated(() => {
+  clearInterval(autoSave);
+});
 
 const cloudStatus = computed(() => {
   if (projStore.cloudStatusText === '已保存')
@@ -338,7 +366,7 @@ onMounted(async () => {
 
   // setTimeout(() => {
   //   addNodes({
-  //     id: nodes.value.length.toString(),
+  //     id: nanoid(),
   //     type: 'default',
   //     position: {
   //       x: 134,
